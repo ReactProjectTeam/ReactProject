@@ -14,12 +14,13 @@ class Header extends Component {
         }
     }
 
-  
+ 
+       
 
     render() {
         return (
                 <>
-                <header className="header">
+                <header  className="header">
                     <div className="inner-header">
                         <div className="container">
                             <div className="inside-inner">
@@ -46,7 +47,7 @@ class Header extends Component {
                             </div>
 
                         </div>
-                        <div className="menu">
+                    <div className="menu" id="menu">
                             <div className="container">
                                 <nav>
                                     <ul>
