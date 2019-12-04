@@ -14,7 +14,7 @@ class DemoCarousel extends Component {
     render() {
         return (
             
-            <Carousel infiniteLoop={true} showThumbs={true} transitionTime="1000">
+            <Carousel infiniteLoop={true} showThumbs={true} transitionTime={1000}>
                 <div>
                     <img src={img1} />
                 </div>

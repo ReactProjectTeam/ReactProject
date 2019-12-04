@@ -5,7 +5,41 @@
     margin-bottom: 25px;
 
     .product_details_images {
-        
+        .carousel-slider {
+            height: 320px;
+            .slider-wrapper{
+                height: 100%;
+                ul{
+                    height: 100%;
+                    li{
+                        height: 100%;
+                        div{
+                            height: 100%;
+                            img{
+                                height: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .thumbs-wrapper{
+            margin: 20px 0px;
+            .thumbs{
+                display: flex;
+                justify-content: space-between;
+                padding-left: 0px;
+                .thumb{
+                    margin-right: 0px;
+                    width: 90px;
+                    height: 70px;
+                    cursor: pointer;
+                    img{
+                        height: 100%;
+                    }
+                }
+            }
+        }
     }
 
     .product_details_info {
