@@ -22,7 +22,28 @@ class App extends Component {
       // loading: true
     }
   }
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
 
+ 
+  handleScroll = () =>{
+    var content = document.getElementById("content1")
+    var menu = document.getElementById("menu");
+    var origTopCoordinateMenu = menu.offsetTop;
+
+   
+    if (window.pageYOffset >= 112) {
+        menu.classList.add("sticky");
+        console.log(content);
+        
+        content.classList.add("menu-padding")
+    } else {
+        menu.classList.remove("sticky");
+        content.classList.remove("menu-padding")
+    }
+    
+  }
   // async componentDidMount() {
 
   //   let response = await fetch("https://jsonplaceholder.typicode.com/users");
@@ -47,10 +68,12 @@ class App extends Component {
           <div>
            
             <Header/>
-            <Switch>
-              <Route exact path="/" component={All_products}/>
-              <Route path="/product_details" component={Product_details}/>
-            </Switch>
+            <div id="content1">
+              <Switch>
+                <Route exact path="/" component={All_products}/>
+                <Route path="/product_details" component={Product_details}/>
+              </Switch>
+            </div>
             <Footer/>
             
           </div>
