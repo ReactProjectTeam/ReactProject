@@ -32,8 +32,6 @@ class Footer extends Component {
                                             <p>Yalnız pulsuz paylaşımlar</p>
                                         </div>
                                         <div className="follow-us">
-
-                                            <p className="header-text">Social</p>
                                             <ul>
                                                 <li><a href="/"><img src={facebook} alt="" /></a></li>
                                                 <li><a href="/"><img src={instagram} alt="" /></a></li>
@@ -62,13 +60,7 @@ class Footer extends Component {
                                                 <li><a href="/">+994 50 278 22 68</a></li>
                                             </ul>
                                         </div>
-                                        <div className="subscribe">
-                                            <p className="header-text">Bizə yazın</p>
-                                            <div className="send">
-                                                <input placeholder="email..." type="text" />
-                                                <button><img src={send} alt={send} /></button>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
