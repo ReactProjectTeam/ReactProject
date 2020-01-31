@@ -3,10 +3,13 @@
     padding-bottom: 50px;
     .all_products_header{
         margin-bottom: 20px;
+        h5{
+            color: rgba(49, 69, 106, 0.8);
+        }
     }
     a{
         text-decoration: none;
-        color: black;
+        color: rgba(49, 69, 106, 0.8);
         .products_item {
             margin: 1px;
             // box-shadow: 0px 0px 0px 1px #c9c9c9;
@@ -23,6 +26,7 @@
                 height: 100%;
                 .products_item_top{
                     height: 74%;
+                    // padding: 12px;
                     img {
                         margin-bottom: 25px;
                         width: 100%;

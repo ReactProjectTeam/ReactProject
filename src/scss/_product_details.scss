@@ -56,21 +56,28 @@
     .product_details_info {
         margin-bottom: 30px;
 
-        header {
+        .product_details_info_header {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
-
-            h3 {
-                color: #323232;
+            background: #E3EDF7 !important;
+            h4 {
+                color: #5b5b5b;
             }
 
             button {
-                background: purple;
-                color: white;
                 margin-left: 12px;
-                height: 35px;
+                height: 50px;
+                width: 50px;
                 font-size: 14px;
+                color: rgba(49, 69, 106, 0.8);
+                cursor: default;
+                box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+                    inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
+                    -0.5px -0.5px 0 rgba(255, 255, 255, 1),
+                    0.5px 0.5px 0 rgba(0, 0, 0, 0.15),
+                    0px 12px 10px -10px rgba(0, 0, 0, 0.05);
+                border: 1px solid rgba(0, 0, 0, 0.01);
             }
         }
 
@@ -79,7 +86,7 @@
             justify-content: flex-start;
             flex-wrap: wrap;
             margin-bottom: 20px;
-            color: #777;
+            color: rgba(49, 69, 106, 0.8);
 
             .product_number_of_views {
                 display: flex;
@@ -121,7 +128,7 @@
                 padding-left: 0px;
                 margin-right: 50px;
                 font-weight: 600;
-
+                color: #5b5b5b;
                 li {
                     padding-bottom: 10px;
 
@@ -134,7 +141,7 @@
             .product_details_categories_right {
                 list-style: none;
                 padding-left: 0px;
-
+                color: rgba(49, 69, 106, 0.8);
                 li {
                     padding-bottom: 10px;
 
@@ -147,6 +154,8 @@
 
         .product_details_description {
             margin-bottom: 30px;
+            color: rgba(49, 69, 106, 0.8);
+            font-size: 15px;
         }
 
         .product_details_author_and_change {
@@ -158,17 +167,19 @@
                 align-items: center;
                 height: 100px;
                 padding: 15px 15px;
-                border: 1px solid purple;
-                border-radius: 6px;
+                border-radius: 15px;
                 margin-bottom: 20px;
+                border: 1px solid rgba(255, 255, 255, 0.7);
+                box-shadow: 15px 5px 20px -10px rgba(0, 0, 0, 0.15), -15px -5px 20px -10px rgba(255, 255, 255, 0.8);
+                background-color: #dce6ef;
 
                 .product_details_author_left {
                     .product_details_author_phone_number {
                         margin-bottom: 10px;
 
-                        p {
+                        a{
                             margin-bottom: 0px;
-                            color: #333;
+                            color: rgba(49, 69, 106, 0.8);
                             font-weight: bold;
                         }
                     }
@@ -176,8 +187,10 @@
                     .product_details_author_name {
                         p {
                             margin-bottom: 0px;
-                            color: #333;
+                            color: rgba(49, 69, 106, 0.8);
                             font-size: 17px;
+                            font-weight: 600;
+
                         }
                     }
                 }
@@ -200,8 +213,10 @@
                 flex-direction: column;
                 justify-content: center;
                 padding: 15px 15px;
-                border: 1px solid #49155f;
-                border-radius: 6px;
+                border-radius: 15px;
+                border: 1px solid rgba(255, 255, 255, 0.7);
+                box-shadow: 15px 5px 20px -10px rgba(0, 0, 0, 0.15), -15px -5px 20px -10px rgba(255, 255, 255, 0.8);
+                background-color: #dce6ef;
 
 
                 .product_details_change_edit {
@@ -214,8 +229,8 @@
                         display: flex;
 
                         img {
-                            width: 25px;
-                            height: 25px;
+                            width: 20px;
+                            height: 20px;
                             margin-right: 15px;
                         }
 
@@ -236,8 +251,8 @@
                         display: flex;
 
                         img {
-                            width: 25px;
-                            height: 25px;
+                            width: 20px;
+                            height: 20px;
                             margin-right: 15px;
                         }
 

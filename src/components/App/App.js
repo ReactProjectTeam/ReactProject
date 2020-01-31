@@ -36,9 +36,9 @@ class App extends Component {
     var origTopCoordinateMenu = menu.offsetTop;
 
    
-    if (window.pageYOffset >= 112) {
+    if (window.pageYOffset >= 154) {
         menu.classList.add("sticky");
-        console.log(content);
+        // console.log(content);
         
         content.classList.add("menu-padding")
     } else {
