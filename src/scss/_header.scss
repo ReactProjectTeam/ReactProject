@@ -24,7 +24,7 @@ header {
 
     .center-header {
         padding: 10px 0;
-        background-color: #e9e9e9;
+        background-color: #e3edf7;
 
         .wrapper {
             display: flex;
@@ -108,11 +108,11 @@ header {
 
                 .buttons {
                     .neo-btn {
-                        color: rgba(49, 69, 106, 0.55);
+                        color: rgba(49, 69, 106, 0.35);
                         background-color: transparent;
                         box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
                             -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
-                        
+
                         border: 1px solid rgba(0, 0, 0, 0.0);
                         border-radius: 8px;
                         outline: none;
