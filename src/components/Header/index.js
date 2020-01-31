@@ -40,7 +40,7 @@ class Header extends Component {
                                     <div className="right-side-header">
                                         <div className="buttons">
                                             <button className="light-btn">Giriş</button>
-                                            <button className="dark-btn">Elan yerləşdir</button>
+                                            <button className="neo-btn">Elan yerləşdir</button>
                                         </div>
                                     </div>
                                 </div>
