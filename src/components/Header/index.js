@@ -24,7 +24,7 @@ class Header extends Component {
                     <div className="inner-header">
                         <div className="container">
                             <div className="inside-inner">
-                                <Link to="/blog">Blog</Link>
+                                <Link to="/blogs">Blog</Link>
                                 <Link to="/contact">Əlaqə</Link>
                             </div>
                         </div>

@@ -6,10 +6,13 @@ import Footer from "../Footer";
 
 import All_products from "../All_products";
 import Product_details from "../Product_details";
+import Blogs from '../Blogs';
+import Blog_inside from '../Blog_inside';
 
 // import { globalState } from "../../common/globalState";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 // import './variables.scss';
 
 
@@ -72,6 +75,9 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={All_products}/>
                 <Route path="/product_details" component={Product_details}/>
+                <Route path="/blogs" component={Blogs}/>
+                <Route path="/blog_inside" component={Blog_inside}/>
+
               </Switch>
             </div>
             <Footer/>
