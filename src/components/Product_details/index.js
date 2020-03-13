@@ -61,7 +61,7 @@ class Product_details extends Component {
                                 <div className="product_details_info">
                                     <header className="product_details_info_header">
                                         <h4>Ayaqqabi</h4>
-                                        <button className="neo-btn">Yeni</button>
+                                        {/* <button >Yeni</button> */}
                                     </header>
                                     <div className="lot_info">
                                         <div className="product_number_of_views">

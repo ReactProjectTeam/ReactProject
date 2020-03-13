@@ -60,24 +60,19 @@
             display: flex;
             align-items: center;
             margin-bottom: 10px;
-            background: #E3EDF7 !important;
+            // background: #F7F8F9 !important;
             h4 {
                 color: #5b5b5b;
             }
 
             button {
                 margin-left: 12px;
-                height: 50px;
                 width: 50px;
-                font-size: 14px;
-                color: rgba(49, 69, 106, 0.8);
+                font-size: 17px;
+                color: #ff9466;
                 cursor: default;
-                box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
-                    inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
-                    -0.5px -0.5px 0 rgba(255, 255, 255, 1),
-                    0.5px 0.5px 0 rgba(0, 0, 0, 0.15),
-                    0px 12px 10px -10px rgba(0, 0, 0, 0.05);
-                border: 1px solid rgba(0, 0, 0, 0.01);
+                background: none;
+                border: none;
             }
         }
 
@@ -170,8 +165,7 @@
                 border-radius: 15px;
                 margin-bottom: 20px;
                 border: 1px solid rgba(255, 255, 255, 0.7);
-                box-shadow: 15px 5px 20px -10px rgba(0, 0, 0, 0.15), -15px -5px 20px -10px rgba(255, 255, 255, 0.8);
-                background-color: #dce6ef;
+                background-color: #F7F8F9;
 
                 .product_details_author_left {
                     .product_details_author_phone_number {
@@ -215,8 +209,7 @@
                 padding: 15px 15px;
                 border-radius: 15px;
                 border: 1px solid rgba(255, 255, 255, 0.7);
-                box-shadow: 15px 5px 20px -10px rgba(0, 0, 0, 0.15), -15px -5px 20px -10px rgba(255, 255, 255, 0.8);
-                background-color: #dce6ef;
+                background-color: #F7F8F9;
 
 
                 .product_details_change_edit {

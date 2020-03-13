@@ -77,7 +77,7 @@ class App extends Component {
                 <Route path="/product_details" component={Product_details}/>
                 <Route path="/blogs" component={Blogs}/>
                 <Route path="/blog_inside" component={Blog_inside}/>
-
+                {/* <Route path="/add_product" component={Blog_inside}/> */}
               </Switch>
             </div>
             <Footer/>

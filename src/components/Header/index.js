@@ -38,6 +38,7 @@ class Header extends Component {
                         <span>
                           <span className="temp-data">
                             <img src={logo} alt="Logo" />
+                            {/* <p>Sənin olsun</p> */}
                           </span>
                         </span>
                       </span>
@@ -46,11 +47,13 @@ class Header extends Component {
                 </div>
                 <div className="right-side-header">
                   <div className="buttons">
-                    <button className="neo-btn">
-                      <img src={login} alt="Login" /> Giriş
+                    <button className="light-btn">
+                      <img src={login} alt="Login" />
+                      Giriş
                     </button>
-                    <button className="neo-btn">
-                      <img src={plus} alt="Plus" /> Elan yerləşdir
+                    <button className="light-btn">
+                      <img src={plus} alt="Plus" />
+                       Elan yerləşdir
                     </button>
                   </div>
                 </div>
