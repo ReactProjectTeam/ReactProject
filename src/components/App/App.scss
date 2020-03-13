@@ -17,6 +17,8 @@ $bg-color: #f7f7f7;
     background: none;
     border: 1px solid #ff9466;
     // min-width: 120px;
+    
+    text-decoration: none;
     padding: 5px 10px;
     border-radius: 3px;
     font-family: Averta;
@@ -31,6 +33,9 @@ $bg-color: #f7f7f7;
     &:hover{
         background: #F7F8F9;
         color: #333;
+    }
+    &:focus{
+        outline: none;
     }
 }
 .dark-btn{
