@@ -3,9 +3,33 @@
     padding-bottom: 50px;
     .all_products_header{
         margin-bottom: 20px;
-        h5{
-            color: rgba(49, 69, 106, 0.8);
+        display: flex;
+        justify-content: space-between;
+        .all_products_header_left{
+            h5{
+                color: rgba(49, 69, 106, 0.8);
+            }
         }
+        .all_products_header_right{
+            .select_date{
+                display: flex;
+                label{
+                    margin-right: 12px;
+                    margin-bottom: 0px;
+                }
+                select{
+                    border-radius: 2px;
+                    padding: 0px 10px;
+                    outline: none;
+                    margin-right: 2px;
+                    option{
+    
+                    }
+                }
+            }
+            
+        }
+        
     }
     a{
         text-decoration: none;

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../img/header/logo1.png";
 import login from "../../img/header/login.png";
 import plus from "../../img/header/plus.png";
-import "./index.scss"
+import "./index.scss";
 
 class Header extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class Header extends Component {
           <div className="inner-header">
             <div className="container">
               <div className="inside-inner">
-                <Link to="/index.html">Ana Səhifə</Link>
+                <Link to="/">Ana Səhifə</Link>
                 <Link to="/blogs">Blog</Link>
                 <Link to="/contact">Əlaqə</Link>
               </div>
@@ -28,9 +28,6 @@ class Header extends Component {
             <div className="container">
               <div className="wrapper">
                 <div className="logo">
-                  {/* <Link to="/">
-                                        <img src= {logo} alt="Logo"/>
-                                    </Link> */}
                   <Link to="/">
                     <div id="sha_temp_body">
                       <span className="sha_temp">
@@ -46,16 +43,18 @@ class Header extends Component {
                 </div>
                 <div className="right-side-header">
                   <div className="buttons">
-                    <button className="light-btn">
-                      <img src={login} alt="Login" />
-                      Giriş
-                    </button>
-                    <Link to="/add_product"> 
-                     <button className="light-btn">
-                      <img src={plus} alt="Plus" />
-                       Elan yerləşdir
-                    </button></Link>
-                  
+                    <Link to="/add_product">
+                      <button className="light-btn">
+                        <img src={login} alt="Login" />
+                        Giriş
+                      </button>
+                    </Link>
+                    <Link to="/add_product">
+                      <button className="light-btn">
+                        <img src={plus} alt="Plus" />
+                        Elan yerləşdir
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -49,10 +49,15 @@ header {
                     display: flex;
                     justify-content: space-evenly;
                     width: 100%;
-                    img{
-                        width: 20px;
-                        margin-right: 7px;
+                    a{
+                        outline: none;
+                        text-decoration: none;
+                        img{
+                            width: 20px;
+                            margin-right: 7px;
+                        }
                     }
+                    
                 }
             }
         }

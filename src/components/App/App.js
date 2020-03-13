@@ -30,12 +30,9 @@ class App extends Component {
   handleScroll = () =>{
     var content = document.getElementById("content1")
     var menu = document.getElementById("menu");
-    var origTopCoordinateMenu = menu.offsetTop;
 
-   
     if (window.pageYOffset >= 154) {
         menu.classList.add("sticky");
-        // console.log(content);
         
         content.classList.add("menu-padding")
     } else {
