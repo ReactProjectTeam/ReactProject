@@ -1,0 +1,215 @@
+.contact {
+    @media (max-width:767.9px) {
+        h3 {
+            font-size: 20px;
+        }
+    }
+    .secondary-section-title{
+        text-align: center;
+    }
+    margin-top: 50px;
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        padding: 0 0 0 136px;
+        .contact-items {
+            width: 100%;
+            display: flex;
+            margin-bottom: 35px;
+
+
+            @media (max-width:767.9px) {
+                margin-bottom: 20px;
+            }
+
+            .contact-image {
+                width: 35px;
+                height: 35px;
+                margin-right: 20px;
+
+                @media (max-width:767.9px) {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 12px;
+                }
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
+
+            .contact-text {
+                h3 {
+                    font-size: 18px;
+                    font-weight: 600;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: normal;
+                    letter-spacing: normal;
+                    color: #1c1c1c;
+
+                    @media (max-width:767.9px) {
+                        font-size: 16px;
+                        margin-bottom: 5px;
+                    }
+
+                }
+
+                p {
+                    font-size: 16px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: 1.5;
+                    letter-spacing: normal;
+                    color: #1c1c1c;
+                    margin: 4px 0;
+
+
+                    @media (max-width:767.9px) {
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            .contact-social-icon {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-top: 20px;
+
+                div {
+                    width: 25px;
+                    height: 21px;
+                    display: flex;
+                    align-items: center;
+                }
+
+                img {
+                    object-fit: contain;
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .input {
+        width: 70%;
+        height: 56px;
+        border-radius: 4px;
+        border: solid 1px #79819b;
+        margin-bottom: 20px;
+        display: flex;
+        input{
+            width: 100%;
+            border: none;
+            outline: none;
+            padding-left: 10px;
+        }
+    }
+
+    textarea {
+        width: 70%;
+        height: 203px;
+        border-radius: 4px;
+        border: solid 1px #79819b;
+        padding: 10px;
+    }
+
+    input[type=submit],
+    button[type=submit] {
+
+        margin-top: 20px;
+        border-radius: 4px;
+        background-color: #ff9466 !important;
+        border: none;
+        padding: 10px;
+        font-size: 22px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: 1px;
+        color: #fff;
+        width: 70%;
+    }
+}
+
+
+.country-selection {
+    padding-bottom: 8px;
+    border-bottom: solid 1px #e7e7e7;
+    .dropdown-holder {
+      min-width: 128px;
+      .dropdown-top {
+        justify-content: flex-end;
+    }
+  }
+  }
+
+  .rate-form {
+    background-color: #fff;
+    display: flex;
+    margin-top: 70px;
+    margin-bottom: 100px;
+    .rate-title {
+      padding-bottom: 20px;
+      border-bottom: solid 1px #ccd7ea;
+      color: black;
+    }
+    .left {
+      .rate-title {
+          margin-bottom: 100px;
+        }
+      
+      padding: 60px;
+      // min-height: 770px;
+      width: 50%;
+      box-shadow: 5px 0 20px 2px rgba(190, 197, 211, 0.3);
+      .form-fieldset {
+        width: 80%;
+        position: relative;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        .input-field {
+          background-color: #fff;
+          border: 1px solid #999999;
+          border-radius: 4px;
+          padding: 18px;
+          input {
+            border: none;
+            width: 100%;
+            background-color: white;
+            outline: none;
+          }
+        }
+      }
+    }
+    .right {
+      .rate-title {
+          margin-bottom: 80px;
+        }
+      
+      width: 50%;
+      padding: 60px 0;
+      padding-left: 24px;
+    }
+  }
+  .checkIsCosmetics{
+    display: flex;
+    align-items: center;
+    label{
+      margin-bottom: 0;
+      margin-left: 5px;
+    }
+  }

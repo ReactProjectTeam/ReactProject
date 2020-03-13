@@ -9,6 +9,7 @@ import Product_details from "../Product_details";
 import Blogs from '../Blogs';
 import Blog_inside from '../Blog_inside';
 import Add_product from '../Add_product';
+import Contact from '../Contact';
 
 
 
@@ -59,6 +60,7 @@ class App extends Component {
                 <Route path="/blogs" component={Blogs}/>
                 <Route path="/blog_inside" component={Blog_inside}/>
                 <Route path="/add_product" component={Add_product}/>
+                <Route path="/contact" component={Contact}/>
               </Switch>
             </div>
             <Footer/>
