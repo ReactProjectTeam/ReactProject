@@ -1,25 +1,46 @@
 header {
     // background-color: #E0EAF4;
     .inner-header {
-        padding: 7px 0;
+        padding: 10px 0;
         border: 1px solid rgba(255,255,255,0.7);
         background-color: #F7F8F9;
         .inside-inner {
             display: flex;
-            justify-content: flex-end;
-
-            a {
-                text-decoration: none;
-                font-family: Averta;
-                font-size: 15px;
-                font-weight: normal;
-                font-stretch: normal;
-                font-style: normal;
-                line-height: normal;
-                letter-spacing: normal;
-                color: #333;
-                margin-left: 2.8%;
+            justify-content: space-between;
+            .social{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 23%;
+                a{
+                    img{
+                        width: 20px;
+                    }
+                }
+                p{
+                    margin-bottom: 0px;
+                    color: #333;
+                }
             }
+            .pages{
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                width: 77%;
+                a {
+                    text-decoration: none;
+                    font-family: Averta;
+                    font-size: 15px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: normal;
+                    letter-spacing: normal;
+                    color: #333;
+                    margin-left: 2.8%;
+                }
+            }
+            
         }
     }
 

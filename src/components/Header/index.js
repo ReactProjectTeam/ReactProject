@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import logo from "../../img/header/logo1.png";
 import login from "../../img/header/login.png";
 import plus from "../../img/header/plus.png";
+import facebook from '../../img/contact/facebook.svg';
+import instagram from '../../img/contact/instagram.svg';
 import "./index.scss";
 
 class Header extends Component {
@@ -18,9 +20,20 @@ class Header extends Component {
           <div className="inner-header">
             <div className="container">
               <div className="inside-inner">
-                <Link to="/">Ana Səhifə</Link>
-                <Link to="/blogs">Blog</Link>
-                <Link to="/contact">Əlaqə</Link>
+                <div className="social">
+                  <Link to="/">
+                  <img src={facebook} alt="" />
+                  </Link>
+                  <Link to="/blogs">
+                  <img src={instagram} alt="" />
+                  </Link>
+                  <p>Dəstək: <span>(+994)502782268</span></p>
+                </div>
+                <div className="pages">
+                  <Link to="/">Ana Səhifə</Link>
+                  <Link to="/blogs">Blog</Link>
+                  <Link to="/contact">Əlaqə</Link>
+                </div>
               </div>
             </div>
           </div>

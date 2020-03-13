@@ -4,7 +4,6 @@ import telephone from '../../img/contact/phone.png';
 import message from '../../img/contact/mail.svg';
 import facebook from '../../img/contact/facebook.svg';
 import instagram from '../../img/contact/instagram.svg';
-import youtube from '../../img/contact/youtube.svg';
 import "./index.scss";
 
 export default class Contact extends Component {
@@ -66,9 +65,6 @@ export default class Contact extends Component {
                                         </div>
                                         <div>
                                             <img src={instagram} alt="" />
-                                        </div>
-                                        <div>
-                                            <img src={youtube} alt="" />
                                         </div>
                                     </div>
                                 </div>
