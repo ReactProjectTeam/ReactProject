@@ -14,7 +14,7 @@ import product_update_date from '../../img/product_details/product_update_date.p
 import phone from '../../img/product_details/phone.png';
 import editImg from '../../img/product_details/edit.png';
 import deleteImg from '../../img/product_details/delete.png';
-
+import "./index.scss";
 
 // import Carousel from '../Product_details/Carousel'
 

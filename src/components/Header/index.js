@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../img/header/logo1.png";
 import login from "../../img/header/login.png";
 import plus from "../../img/header/plus.png";
-
-// import '../../scss/main.scss';
+import "./index.scss"
 
 class Header extends Component {
   constructor(props) {
@@ -51,10 +50,12 @@ class Header extends Component {
                       <img src={login} alt="Login" />
                       Giriş
                     </button>
-                    <button className="light-btn">
+                    <Link to="/add_product"> 
+                     <button className="light-btn">
                       <img src={plus} alt="Plus" />
                        Elan yerləşdir
-                    </button>
+                    </button></Link>
+                  
                   </div>
                 </div>
               </div>

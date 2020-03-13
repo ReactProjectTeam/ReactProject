@@ -1,19 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.scss';
-// import Users from "../Users";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "../Header";
 import Footer from "../Footer";
-
 import All_products from "../All_products";
 import Product_details from "../Product_details";
 import Blogs from '../Blogs';
 import Blog_inside from '../Blog_inside';
+import Add_product from '../Add_product';
 
-// import { globalState } from "../../common/globalState";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-// import './variables.scss';
 
 
 class App extends Component {
@@ -47,26 +43,11 @@ class App extends Component {
     }
     
   }
-  // async componentDidMount() {
 
-  //   let response = await fetch("https://jsonplaceholder.typicode.com/users");
-  //   let resData = await response.json();
-
-  //   globalState.set(resData);
-  //   setTimeout(() => {
-  //     this.setState({
-  //       loading: false
-  //     });
-  //   }, 2000);
-  //   this.setState({
-  //     loading: false
-  //   });
-  // }
 
   render() {
     return (
       <>
-        {/* {this.state.loading ? 'Loading...' : <Users />} */}
         <Router>
           <div>
            
@@ -77,7 +58,7 @@ class App extends Component {
                 <Route path="/product_details" component={Product_details}/>
                 <Route path="/blogs" component={Blogs}/>
                 <Route path="/blog_inside" component={Blog_inside}/>
-                {/* <Route path="/add_product" component={Blog_inside}/> */}
+                <Route path="/add_product" component={Add_product}/>
               </Switch>
             </div>
             <Footer/>

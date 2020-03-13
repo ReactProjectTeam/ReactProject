@@ -8,7 +8,7 @@ import restangle5 from '../../img/popular_location/rectangle5.jpg';
 import restangle6 from '../../img/popular_location/rectangle6.jpg';
 import restangle7 from '../../img/popular_location/rectangle7.jpg';
 import restangle8 from '../../img/popular_location/rectangle8.jpg';
-
+import "./index.scss";
 
 
 

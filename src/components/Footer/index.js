@@ -6,7 +6,7 @@ import instagram from "../../img/footer/instagram.svg";
 import twitter from "../../img/footer/twitter-logo-silhouette.svg";
 import linkedin from "../../img/footer/linkedin-letters.svg";
 import send from "../../img/footer/send.svg";
-
+import "./index.scss"
 // import '../../scss/main.scss';
 
 class Footer extends Component {
