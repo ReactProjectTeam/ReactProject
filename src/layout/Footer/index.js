@@ -43,7 +43,7 @@ class Footer extends Component {
                 </div>
                 <div className="col-md-5 col-sm-6">
                   <div className="contact-subscribe">
-                    <div className="contact">
+                    <div className="contact_footer">
                       <p className="header-text">Əlaqə</p>
                       <ul>
                         <li>

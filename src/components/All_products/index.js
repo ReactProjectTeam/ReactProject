@@ -1,24 +1,37 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import restangle1 from "../../img/popular_location/rectangle1.jpg";
-import restangle2 from "../../img/popular_location/rectangle2.jpg";
-import restangle3 from "../../img/popular_location/rectangle3.jpg";
-import restangle4 from "../../img/popular_location/rectangle4.jpg";
-import restangle5 from "../../img/popular_location/rectangle5.jpg";
-import restangle6 from "../../img/popular_location/rectangle6.jpg";
-import restangle7 from "../../img/popular_location/rectangle7.jpg";
-import restangle8 from "../../img/popular_location/rectangle8.jpg";
+// import restangle1 from "../../img/popular_location/rectangle1.jpg";
+// import restangle2 from "../../img/popular_location/rectangle2.jpg";
+// import restangle3 from "../../img/popular_location/rectangle3.jpg";
+// import restangle4 from "../../img/popular_location/rectangle4.jpg";
+// import restangle5 from "../../img/popular_location/rectangle5.jpg";
+// import restangle6 from "../../img/popular_location/rectangle6.jpg";
+// import restangle7 from "../../img/popular_location/rectangle7.jpg";
+// import restangle8 from "../../img/popular_location/rectangle8.jpg";
 import "./index.scss";
+import { allProductsList } from "../../API/all_products";
 
 class All_products extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      products: [],
+    };
   }
-
+  componentDidMount = async () => {
+    let res = await allProductsList();
+    if (res.status === 200) {
+      this.setState({
+        products: res.data
+      });
+    }
+  };
   render() {
+    let { products } = this.state;
+
     return (
       <>
+        {/*<h1>All Products</h1>*/}
         <section id="all_products">
           <div className="container">
             <div className="all_products_header">
@@ -36,150 +49,28 @@ class All_products extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-3">
-                <Link to="/product_details">
-                  <div className="products_item">
+              {products.map((row, index) => (
+                <div key={index} className="col-md-3">
+                  <Link to={`/product_details/${row.id}`}>
+                  <div
+                    className="products_item"
+                  >
                     <div className="item">
                       <div className="products_item_top">
-                        <img src={restangle1} alt="" />
+                        <img src={row.img[0]} alt="" />
                       </div>
                       <div className="products_item_name">
-                        <p>Riyaziyyat Kitabı</p>
+                        <p>{row.title}</p>
                       </div>
                       <div className="products_item_bottom">
-                        <p>Bakı şəhəri</p>
-                        <p>27 noyabr 2019</p>
+                        <p>{row.city} şəhəri</p>
+                        <p>{row.date}</p>
                       </div>
                     </div>
                   </div>
-                </Link>
-              </div>
-              <div className="col-md-3">
-                <Link to="/product_details">
-                  <div className="products_item">
-                    <div className="item">
-                      <div className="products_item_top">
-                        <img src={restangle2} alt="" />
-                      </div>
-                      <div className="products_item_name">
-                        <p>Uşaq paltarları</p>
-                      </div>
-                      <div className="products_item_bottom">
-                        <p>Bakı şəhəri</p>
-                        <p>25 noyabr 2019</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-md-3">
-                <Link to="/product_details">
-                  <div className="products_item">
-                    <div className="item">
-                      <div className="products_item_top">
-                        <img src={restangle3} alt="" />
-                      </div>
-                      <div className="products_item_name">
-                        <p>Toyuğ</p>
-                      </div>
-                      <div className="products_item_bottom">
-                        <p>Sumqayıt şəhəri</p>
-                        <p>22 noyabr 2019</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-md-3">
-                <Link to="/product_details">
-                  <div className="products_item">
-                    <div className="item">
-                      <div className="products_item_top">
-                        <img src={restangle4} alt="" />
-                      </div>
-                      <div className="products_item_name">
-                        <p>Gödəkcə</p>
-                      </div>
-                      <div className="products_item_bottom">
-                        <p>Bakı şəhəri</p>
-                        <p>20 noyabr 2019</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-md-3">
-                <Link to="/product_details">
-                  <div className="products_item">
-                    <div className="item">
-                      <div className="products_item_top">
-                        <img src={restangle5} alt="" />
-                      </div>
-                      <div className="products_item_name">
-                        <p>Uşaq Kurtkası</p>
-                      </div>
-                      <div className="products_item_bottom">
-                        <p>Bakı şəhəri</p>
-                        <p>19 noyabr 2019</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-md-3">
-                <Link to="/product_details">
-                  <div className="products_item">
-                    <div className="item">
-                      <div className="products_item_top">
-                        <img src={restangle6} alt="" />
-                      </div>
-                      <div className="products_item_name">
-                        <p>Ayaqqabı</p>
-                      </div>
-                      <div className="products_item_bottom">
-                        <p>Bakı şəhəri</p>
-                        <p>17 noyabr 2019</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-md-3">
-                <Link to="/product_details">
-                  <div className="products_item">
-                    <div className="item">
-                      <div className="products_item_top">
-                        <img src={restangle7} alt="" />
-                      </div>
-                      <div className="products_item_name">
-                        <p>Saat</p>
-                      </div>
-                      <div className="products_item_bottom">
-                        <p>Sumqayıt şəhəri</p>
-                        <p>15 noyabr 2019</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-md-3">
-                <Link to="/product_details">
-                  <div className="products_item">
-                    <div className="item">
-                      <div className="products_item_top">
-                        <img src={restangle8} alt="" />
-                      </div>
-                      <div className="products_item_name">
-                        <p>Pulsuz yemək</p>
-                      </div>
-                      <div className="products_item_bottom">
-                        <p>Bakı şəhəri</p>
-                        <p>20 noyabr 2019</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+                  </Link>
+                </div>
+              ))}
             </div>
           </div>
         </section>

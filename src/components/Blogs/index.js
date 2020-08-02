@@ -5,6 +5,7 @@ import img2 from "../../img/032.jpg"
 import img3 from "../../img/033.jpg"
 import "./index.scss"
 import date from "../../img/blog/date.png"
+import {allBlogsList} from "../../API/all_blogs";
 
 
 
@@ -13,11 +14,22 @@ class Blogs extends Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            blogs: [],
         }
     }
 
+    componentDidMount = async () => {
+        let res = await allBlogsList();
+        if (res.status === 200) {
+            this.setState({
+                blogs: res.data
+            });
+        }
+    };
+
     render() {
+        console.log("this.state.blogs",this.state.blogs)
+        let { blogs } = this.state;
         return (
             <>
                 <section id="blogs">
@@ -25,88 +37,35 @@ class Blogs extends Component {
                         <div className="blogs_header">
                             <h5>Bütün Bloglar</h5>
                         </div>
-                        <div className="blog">
-                            <div className="row">
-                                <div className="col-md-5">
-                                    <div className="blog_left">
-                                        <img src={img1} alt="" />
-                                    </div>
-                                </div>
-                                <div className="col-md-7">
-                                    <div className="blog_right">
-                                        <div className="blog_header">
-                                            <h3>First Blog</h3>
-                                        </div>
-                                        <div className="blog_date">
-                                            <p><img src={date} alt="" /> 03 dekabr 2019</p>
-                                        </div>
-                                        <div className="blog_description">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                        </div>
-                                        <div className="blog_button">
-                                            <Link to="/blog_inside">
-                                                <button className="btn">Davamını oxu</button>
-                                            </Link>
+                        {blogs.map((blog,index)=>(
+                            <div className="blog" key={index}>
+                                <div className="row">
+                                    <div className="col-md-5">
+                                        <div className="blog_left">
+                                            <img src={blog.img} alt="" />
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="blog">
-                            <div className="row">
-                                <div className="col-md-5">
-                                    <div className="blog_left">
-                                        <img src={img2} alt="" />
-                                    </div>
-                                </div>
-                                <div className="col-md-7">
-                                    <div className="blog_right">
-                                        <div className="blog_header">
-                                            <h3>Second Blog</h3>
-                                        </div>
-                                        <div className="blog_date">
-                                            <p><img src={date} alt="" /> 29 noyabr 2019</p>
-                                        </div>
-                                        <div className="blog_description">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
-                                        </div>
-                                        <div className="blog_button">
-                                            <Link to="/blog_inside">
-                                                <button className="btn">Davamını oxu</button>
-                                            </Link>
+                                    <div className="col-md-7">
+                                        <div className="blog_right">
+                                            <div className="blog_header">
+                                                <h3>{blog.title}</h3>
+                                            </div>
+                                            <div className="blog_date">
+                                                <p><img src={date} alt="" /> {blog.date}</p>
+                                            </div>
+                                            <div className="blog_description">
+                                                <p>{blog.description}</p>
+                                            </div>
+                                            <div className="blog_button">
+                                                <Link to={`/blog_inside/${blog.id}`}>
+                                                    <button className="btn">Davamını oxu</button>
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="blog">
-                            <div className="row">
-                                <div className="col-md-5">
-                                    <div className="blog_left">
-                                        <img src={img3} alt="" />
-                                    </div>
-                                </div>
-                                <div className="col-md-7">
-                                    <div className="blog_right">
-                                        <div className="blog_header">
-                                            <h3>Third Blog</h3>
-                                        </div>
-                                        <div className="blog_date">
-                                            <p><img src={date} alt="" /> 22 noyabr 2019</p>
-                                        </div>
-                                        <div className="blog_description">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
-                                        </div>
-                                        <div className="blog_button">
-                                            <Link to="/blog_inside">
-                                                <button className="btn">Davamını oxu</button>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </section>
             </>

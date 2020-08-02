@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from "../Header";
-import Footer from "../Footer";
+// import Header from "../../layout/Header";
+// import Footer from "../../layout/Footer";
+import Layout from "../../layout";
+import Signup from "../Signup/Signup";
+import Signin from "../Signin/Signin";
 import All_products from "../All_products";
 import Product_details from "../Product_details";
 import Blogs from '../Blogs';
 import Blog_inside from '../Blog_inside';
 import Add_product from '../Add_product';
 import Contact from '../Contact';
+import NotFound from '../NotFound';
+
+
 
 
 
@@ -22,8 +28,9 @@ class App extends Component {
       // loading: true
     }
   }
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+  componentDidMount = async()=> {
+    // window.addEventListener('scroll', this.handleScroll);
+    
   }
 
  
@@ -48,19 +55,24 @@ class App extends Component {
       <>
         <Router>
           <div>
-           
-            <Header/>
+
             <div id="content1">
+              <Layout>
               <Switch>
+                <Route path="/signup" component={Signup}/>
+                <Route path="/signin" component={Signin}/>
                 <Route exact path="/" component={All_products}/>
-                <Route path="/product_details" component={Product_details}/>
+                <Route path="/product_details/:id" component={Product_details}/>
                 <Route path="/blogs" component={Blogs}/>
-                <Route path="/blog_inside" component={Blog_inside}/>
+                <Route path="/blog_inside/:id" component={Blog_inside}/>
                 <Route path="/add_product" component={Add_product}/>
                 <Route path="/contact" component={Contact}/>
+                <Route component={NotFound}>
+              </Route>
               </Switch>
+              </Layout>
             </div>
-            <Footer/>
+
             
           </div>
         </Router>
