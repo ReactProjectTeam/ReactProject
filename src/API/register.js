@@ -2,13 +2,15 @@ import React from 'react';
 import axios from 'axios'
 import {baseURL} from './baseURL'
 
-function register({name,surname,phonenumber,password}) {
+function register({email,password,name,surname,phonenumber,address}) {
 
     const newData = {
+        email,
+        password,
         name,
         surname,
         phonenumber,
-        password
+        address
     }
 
     console.log("newData",newData)
