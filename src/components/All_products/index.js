@@ -1,82 +1,102 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import restangle1 from "../../img/popular_location/rectangle1.jpg";
-// import restangle2 from "../../img/popular_location/rectangle2.jpg";
-// import restangle3 from "../../img/popular_location/rectangle3.jpg";
-// import restangle4 from "../../img/popular_location/rectangle4.jpg";
-// import restangle5 from "../../img/popular_location/rectangle5.jpg";
-// import restangle6 from "../../img/popular_location/rectangle6.jpg";
-// import restangle7 from "../../img/popular_location/rectangle7.jpg";
-// import restangle8 from "../../img/popular_location/rectangle8.jpg";
 import "./index.scss";
-import { allProductsList } from "../../API/all_products";
+import getAllProducts from "../../API/getAllProducts";
+import getCities from "../../API/getCities";
+// import { allProductsList } from "../../API/all_products";
 
-class All_products extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: [],
-    };
-  }
-  componentDidMount = async () => {
-    let res = await allProductsList();
-    if (res.status === 200) {
-      this.setState({
-        products: res.data
+const All_products = (props) => {
+  const [products, setProducts] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    getAllProducts()
+      .then((response) => {
+        if (response.status === 200) {
+          setProducts(response.data.data);
+        }
+      })
+      .finally((response) => {
+        setIsLoading(false)
       });
-    }
-  };
-  render() {
-    let { products } = this.state;
-
-    return (
-      <>
-        {/*<h1>All Products</h1>*/}
-        <section id="all_products">
-          <div className="container">
-            <div className="all_products_header">
-              <div className="all_products_header_left">
-                <h5>Bütün elanlar</h5>
-              </div>
-              <div className="all_products_header_right">
-                <div className="select_date">
-                  <label htmlFor="exampleFormControlSelect1">Tarixə görə</label>
-                  <select id="exampleFormControlSelect1">
-                    <option value="date_asc">A-Z</option>
-                    <option value="date_desc">Z-A</option>
-                  </select>
-                </div>
-              </div>
+    getCities().then((response) => {
+      if (response.status === 200) {
+        // const city = response.data.data.find(city=>city.id == response.data.data.cityId)
+        setCities(response.data.data);
+      }
+    });
+  }, []);
+  return (
+    <>
+      <section id="all_products">
+        <div className="container">
+          <div className="all_products_header">
+            <div className="all_products_header_left">
+              <h5>Bütün elanlar</h5>
             </div>
-            <div className="row">
-              {products.map((row, index) => (
-                <div key={index} className="col-md-3">
-                  <Link to={`/product_details/${row.id}`}>
-                  <div
-                    className="products_item"
-                  >
-                    <div className="item">
-                      <div className="products_item_top">
-                        <img src={row.img[0]} alt="" />
-                      </div>
-                      <div className="products_item_name">
-                        <p>{row.title}</p>
-                      </div>
-                      <div className="products_item_bottom">
-                        <p>{row.city} şəhəri</p>
-                        <p>{row.date}</p>
-                      </div>
-                    </div>
-                  </div>
-                  </Link>
-                </div>
-              ))}
+            <div className="all_products_header_right">
+              <div className="select_date">
+                <label htmlFor="exampleFormControlSelect1">Tarixə görə</label>
+                <select id="exampleFormControlSelect1">
+                  <option value="date_asc">A-Z</option>
+                  <option value="date_desc">Z-A</option>
+                </select>
+              </div>
             </div>
           </div>
-        </section>
-      </>
-    );
-  }
-}
+          <div className="row">
+            {isLoading === true ? (
+              <div className="col-md-12 d-flex justify-content-center align-items-center">
+                <div className="spinner-border" style={{color: "#ff9466"}} role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              products.map((row, index) => (
+                <div key={index} className="col-md-3">
+                  <Link to={`/product_details/${row.id}`}>
+                    <div className="products_item">
+                      <div className="item">
+                        <div className="products_item_top">
+                          {row.photos.length > 0 && (
+                            <img
+                              src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
+                              alt=""
+                            />
+                          )}
+                        </div>
+                        <div className="products_item_name">
+                          <p>{row.title}</p>
+                        </div>
+                        <div className="products_item_bottom">
+                          {cities.map(
+                            (city, index) =>
+                              city.id === row.cityId && (
+                                <p>
+                                  <span>{city.name}</span> şəhəri
+                                </p>
+                              )
+                          )}
+
+                          <p>
+                            {new Date(row.addedDate).toLocaleDateString()}
+                            <span className="ml-2">
+                              {new Date(row.addedDate).toLocaleTimeString()}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
 
 export default All_products;

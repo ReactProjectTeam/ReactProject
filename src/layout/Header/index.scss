@@ -9,10 +9,11 @@ header {
             justify-content: space-between;
             .social{
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
                 align-items: center;
                 width: 23%;
                 a{
+                    margin-right: 20px;
                     img{
                         width: 20px;
                     }
@@ -80,7 +81,114 @@ header {
                             margin-right: 7px;
                         }
                     }
-                    
+                    .head {
+                        display: flex;
+                        align-items: center;
+                        color: #ff9466;
+                        height: 88px;
+                        .head-logo {
+                            width: 160px;
+                            height: 56px;
+                            margin-right: 48px;
+                        }
+                        .head-contact {
+                            margin-right: 40px;
+                            display: flex;
+                            align-items: center;
+
+                            img {
+                                margin-right: 6px;
+                            }
+                        }
+                        .lang {
+                            color: #212121;
+                            font-size: 16px;
+                        }
+
+                        .user-info-header{
+                            cursor: pointer;
+                            margin-right: 10px;
+                            img{
+                                width: 20px;
+                                margin-right: 5px;
+                            }
+                            span{
+                                font-size: 15px;
+                                color: #ff9466;
+                            }
+                        }
+                        .logout{
+                            cursor: pointer;
+                            margin-right: 10px;
+                            img{
+                                width: 20px !important;
+                                margin-right: 5px;
+                            }
+                            span{
+                                font-size: 15px;
+                                color: #ff9466;
+                            }
+                        }
+
+                        .add_product{
+                            cursor: pointer;
+                            margin-right: 10px;
+                            a{
+                                display: flex;
+                                align-items: center;
+                                img{
+                                    width: 20px !important;
+                                    margin-right: 5px;
+                                }
+                                span{
+                                    font-size: 15px;
+                                    color: #ff9466;
+                                }
+                            }
+
+                        }
+
+                        .signin {
+                            padding: 0 10px;
+                            display: flex;
+                            align-items: center;
+                            span {
+                                font-size: 16px;
+                                font-weight: normal;
+                                font-stretch: normal;
+                                font-style: normal;
+                                line-height: normal;
+                                letter-spacing: normal;
+                                color: #ff9466;
+                            }
+
+                            &:first-child {
+                                border-right: 1px solid #ff9466;
+                            }
+
+                            img {
+                                margin-right: 6px;
+                            }
+                        }
+                        .signup {
+                            padding: 0 10px;
+                            display: flex;
+                            align-items: center;
+                            span {
+                                font-size: 16px;
+                                font-weight: normal;
+                                font-stretch: normal;
+                                font-style: normal;
+                                line-height: normal;
+                                letter-spacing: normal;
+                                color: #ff9466;
+                            }
+
+                            img {
+                                margin-right: 6px;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -245,94 +353,3 @@ header {
 }
 
 
-.head {
-    display: flex;
-    align-items: center;
-
-    height: 88px;
-
-    .head-logo {
-        width: 160px;
-        height: 56px;
-        margin-right: 48px;
-    }
-
-    .head-contact {
-        margin-right: 40px;
-        display: flex;
-        align-items: center;
-
-        img {
-            margin-right: 6px;
-        }
-    }
-
-    .lang {
-        color: #212121;
-        font-size: 16px;
-    }
-
-    .signin {
-        padding: 0 10px;
-
-        a {
-            font-size: 16px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: normal;
-            color: #212121;
-        }
-
-        p {
-            display: inline-block;
-            margin-bottom: 0;
-            font-size: 16px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: normal;
-            color: #212121;
-        }
-
-        &:first-child {
-            border-right: 1px solid #212121;
-        }
-
-        img {
-            margin-right: 6px;
-        }
-    }
-    .signup {
-        padding: 0 10px;
-
-        a {
-            font-size: 16px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: normal;
-            color: #212121;
-        }
-
-        p {
-            display: inline-block;
-            margin-bottom: 0;
-            font-size: 16px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: normal;
-            color: #212121;
-        }
-
-
-        img {
-            margin-right: 6px;
-        }
-    }
-}
