@@ -7,53 +7,22 @@ import deleteImg from "../../img/product_details/delete.png";
 import "./index.scss";
 import ReactCarousel from "./ReactCarousel";
 import getProductById from "../../API/getProductById";
-import getCities from "../../API/getCities";
 import isEmpty from "lodash/isEmpty";
-import getCategories from "../../API/getCategories";
-import getSubCategories from "../../API/getSubCategories";
 import { useCookies } from "react-cookie";
 
 const Product_details = (props) => {
   const [data, setData] = useState({});
-  const [city, setCity] = useState([]);
-  const [category, setCategory] = useState([]);
-  const [subCategory, setSubCategory] = useState([]);
   const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
     getProductById(props.match.params.id).then((response) => {
       if (response.status === 200) {
         setData(response.data.data);
-        getCategories().then((response2) => {
-          if (response2.status === 200) {
-            const category = response2.data.data.find(
-              (category) => category.id == response.data.data.categoryId
-            );
-            setCategory(category);
-          }
-        });
-        getSubCategories().then((response2) => {
-          if (response2.status === 200) {
-            const subCategory = response2.data.data.find(
-              (subCategory) =>
-                subCategory.id == response.data.data.subCategoryId
-            );
-            setSubCategory(subCategory);
-          }
-        });
-        getCities().then((response2) => {
-          if (response2.status === 200) {
-            const city = response2.data.data.find(
-              (city) => city.id == response.data.data.cityId
-            );
-            setCity(city);
-          }
-        });
       }
     });
   }, []);
 
-  console.log("wwwwwwww",data.city)
+
   return (
     <>
       <section id="product_details">
@@ -106,9 +75,9 @@ const Product_details = (props) => {
                     <li>Alt kateqoriya</li>
                   </ul>
                   <ul className="product_details_categories_right">
-                    <li>{city.name}</li>
-                    <li>{category.name}</li>
-                    <li>{subCategory.name}</li>
+                    <li>{data.city !== undefined && ( data.city.name)}</li>
+                    <li>{data.category !== undefined && ( data.category.name)}</li>
+                    <li>{data.subCategory !== undefined && ( data.subCategory.name)}</li>
                   </ul>
                 </div>
                 <div className="product_details_description">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-import logo from "../../img/header/logo1.png";
+import payverLogo from "../../img/header/payverLogo.jpg";
 import login from "../../img/header/login.png";
 import register from "../../img/header/register.png";
 import plus from "../../img/header/plus.png";
@@ -8,25 +8,51 @@ import facebook from "../../img/contact/facebook.svg";
 import instagram from "../../img/contact/instagram.svg";
 import logout from "../../img/header/logout.png";
 import userLogo from "../../img/header/user.png";
+import subCategoryLogo from "../../img/header/subCategory.png";
 import "./index.scss";
 import { useCookies } from "react-cookie";
 import getUserByToken from "../../API/getUserByToken";
+import getCategories from "../../API/getCategories";
+import getSubCategories from "../../API/getSubCategories";
 
 const Header = (props) => {
   const [cookies, removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
 
   const handleSignOut = () => {
     removeCookie("token");
   };
 
   useEffect(() => {
-    getUserByToken(cookies.token).then((responseUser) => {
-      if (responseUser.status === 200) {
-        setUser(responseUser.data.data);
-      }
-    });
+    if(cookies.token !== undefined && cookies.token !== "undefined"){
+      getUserByToken(cookies.token)
+          .then((responseUser) => {
+            if (responseUser.status === 200) {
+              setUser(responseUser.data.data);
+            }
+          });
+    }
+    getCategories()
+        .then((response) => {
+          if (response.status === 200) {
+            setCategories(response.data.data);
+          }
+        });
+    getSubCategories()
+        .then((response) => {
+          if (response.status === 200) {
+            setSubCategories(response.data.data);
+          }
+        });
   }, [cookies.token]);
+
+  const handleGetProductBySubcategory =(subCategoryId)=>{
+    console.log("subCategoryId",subCategoryId)
+  }
+  // console.log("categories",categories)
+  // console.log("subCategories",subCategories)
 
   return (
     <>
@@ -64,7 +90,7 @@ const Header = (props) => {
                     <span className="sha_temp">
                       <span>
                         <span className="temp-data">
-                          <img src={logo} alt="Logo" />
+                          <img src={payverLogo} alt="Logo" />
                           {/* <p>Sənin olsun</p> */}
                         </span>
                       </span>
@@ -129,36 +155,25 @@ const Header = (props) => {
                 <li className="active">
                   <Link to="/">Xüsusi yardım</Link>
                 </li>
-                <li className="dropdown">
-                  <Link to="/" className="dropbtn">
-                    Geyim
-                  </Link>
-                  <div className="dropdown-content">
-                    <Link to="/">Papaq</Link>
-                    <Link to="/">Kurtka</Link>
-                    <Link to="/">Şalvar</Link>
-                    <Link to="/">Ayaqqabı</Link>
-                    <Link to="/">Köynək</Link>
-                    <Link to="/">Aksesuar</Link>
-                    <Link to="/">Digər</Link>
-                  </div>
-                </li>
-                <li className="dropdown">
-                  <Link to="/" className="dropbtn">
-                    Ev üçün
-                  </Link>
-                  <div className="dropdown-content">
-                    <Link to="/">Mebel</Link>
-                    <Link to="/">Elektronika</Link>
-                    <Link to="/">Mətbəx ləvazimatı</Link>
-                    <Link to="/">Digər</Link>
-                    <Link to="/">Köynək</Link>
-                  </div>
-                </li>
-
-                <li>
-                  <Link to="/">Heyvanlar</Link>
-                </li>
+                {categories.map((item,index)=>(
+                    <li key={index} className="dropdown">
+                      <Link to="/" className="dropbtn">
+                        {item.name}
+                      </Link>
+                      <div className="dropdown-content">
+                        {subCategories.map((subCategory, index) => {
+                          if (subCategory.categoryId === item.id) {
+                            return (
+                                <Link key={index} id={subCategory.id} to="/" onClick={()=>handleGetProductBySubcategory(subCategory.id)}>
+                                  <img src={subCategoryLogo} alt=""/>
+                                  <span>{subCategory.name}</span>
+                                </Link>
+                          );
+                          }
+                        })}
+                      </div>
+                    </li>
+                ))}
               </ul>
             </nav>
           </div>

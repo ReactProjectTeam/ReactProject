@@ -6,7 +6,6 @@ import viewCopy from "../../img/login/view-copy.svg";
 import {useCookies} from "react-cookie";
 import getUserByToken from "../../API/getUserByToken";
 import {useFormik} from "formik";
-import putUserInfo from "../../API/putUserInfo";
 
 const UserInfo = (props) => {
 
@@ -51,7 +50,7 @@ const UserInfo = (props) => {
         onSubmit: (values) => {
 
             const formData = { ...values, userId: user.id,  };
-            putUserInfo(cookies.token,formData)
+
             console.log(user)
         },
     });

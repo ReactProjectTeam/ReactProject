@@ -5,7 +5,6 @@ import {baseURL} from './baseURL'
 function postAddProduct(token,data) {
 
     let formData = new FormData();
-    console.log("data",data)
     for(const item in data){
         if (item === "files"){
             data[item].map(itemImg=>{

@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./index.scss";
 import getAllProducts from "../../API/getAllProducts";
-import getCities from "../../API/getCities";
-// import { allProductsList } from "../../API/all_products";
 
 const All_products = (props) => {
   const [products, setProducts] = useState([]);
-  const [cities, setCities] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -20,12 +17,6 @@ const All_products = (props) => {
       .finally((response) => {
         setIsLoading(false)
       });
-    getCities().then((response) => {
-      if (response.status === 200) {
-        // const city = response.data.data.find(city=>city.id == response.data.data.cityId)
-        setCities(response.data.data);
-      }
-    });
   }, []);
   return (
     <>
@@ -70,14 +61,7 @@ const All_products = (props) => {
                           <p>{row.title}</p>
                         </div>
                         <div className="products_item_bottom">
-                          {cities.map(
-                            (city, index) =>
-                              city.id === row.cityId && (
-                                <p>
-                                  <span>{city.name}</span> şəhəri
-                                </p>
-                              )
-                          )}
+                          <p>{row.city !== undefined && ( row.city.name)}</p>
 
                           <p>
                             {new Date(row.addedDate).toLocaleDateString()}

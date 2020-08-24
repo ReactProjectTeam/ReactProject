@@ -10,7 +10,6 @@ const Signup = (props) => {
   const [checkUser, setCheckUser] = useState(false);
   const { history } = props;
   const [cookies, setCookie] = useCookies(['token']);
-
   const {
     handleSubmit,
     handleChange,

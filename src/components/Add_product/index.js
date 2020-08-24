@@ -11,6 +11,8 @@ import { useCookies } from "react-cookie";
 import { Alert } from "react-bootstrap";
 import deleteIcon from "../../img/add_product/delete.png";
 import postAddProduct from "../../API/postAddProduct";
+import { useHistory } from "react-router-dom";
+
 
 const Add_product = (props) => {
   const [cookies] = useCookies(["token"]);
@@ -20,6 +22,7 @@ const Add_product = (props) => {
   const [cities, setCities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [file, setFile] = useState([]);
+  const history = useHistory()
 
   useEffect(() => {
     getCategories().then((response) => setCategories(response.data.data));
@@ -63,23 +66,22 @@ const Add_product = (props) => {
       ownerPhoneNumber: "",
       ownerAddress: "",
     },
-    // validationSchema: validateAddProduct,
+    validationSchema: validateAddProduct,
     onSubmit: (values) => {
-
       const formData = { ...values, userId: user.id, files: file.map(item=> item.file) };
       postAddProduct(cookies.token,formData)
+      .then(()=>{
+        history.push("/")
+      })
     },
   });
 
   const handleChangeImg = (event) => {
-
-
     const filesArr = [...file];
     for (const item of event.target.files) {
       filesArr.push({urlFront: URL.createObjectURL(item), file: item});
     }
     setFile(filesArr);
-    console.log("fasgsagas",file)
   };
 
   const handleProductItemDelete = (index) => {
@@ -162,43 +164,48 @@ const Add_product = (props) => {
                   <label className="required" htmlFor="">
                     Elanın adı
                   </label>
+                  <div className="inputs_inside">
+                    <input
+                        className="input"
+                        type="text"
+                        placeholder="elanın adını qeyd edin"
+                        name="title"
+                        onChange={handleChange}
+                        value={title}
+                    />
+                    {errors.title && (
+                        <Alert
+                            variant="warning"
+                            style={{ fontSize: "11px" }}
+                            className="mb-0"
+                        >
+                          {errors.title}
+                        </Alert>
+                    )}
+                  </div>
 
-                  <input
-                    className="input"
-                    type="text"
-                    placeholder="elanın adını qeyd edin"
-                    name="title"
-                    onChange={handleChange}
-                    value={title}
-                  />
-                  {errors.title && (
-                    <Alert
-                      variant="warning"
-                      style={{ fontSize: "11px" }}
-                      className="mb-0"
-                    >
-                      {errors.title}
-                    </Alert>
-                  )}
                 </div>
                 <div className="inputs">
                   <label className="required" htmlFor="">
                     Məzmun
                   </label>
-                  <textarea
-                    name="description"
-                    onChange={handleChange}
-                    value={description}
-                  ></textarea>
-                  {errors.description && (
-                    <Alert
-                      variant="warning"
-                      style={{ fontSize: "11px" }}
-                      className="mb-0"
-                    >
-                      {errors.description}
-                    </Alert>
-                  )}
+                  <div className="inputs_inside">
+                    <textarea
+                        name="description"
+                        onChange={handleChange}
+                        value={description}
+                    ></textarea>
+                    {errors.description && (
+                        <Alert
+                            variant="warning"
+                            style={{ fontSize: "11px" }}
+                            className="mb-0"
+                        >
+                          {errors.description}
+                        </Alert>
+                    )}
+                  </div>
+
                 </div>
                 <div className="inputs">
                   <label className="required" htmlFor="">
@@ -242,70 +249,76 @@ const Add_product = (props) => {
                   <label className="required" htmlFor="">
                     Adınız
                   </label>
+                  <div className="inputs_inside">
+                    <input
+                        className="input"
+                        type="text"
+                        placeholder="adınızı qeyd edin"
+                        name="ownerName"
+                        onChange={handleChange}
+                        value={ownerName}
+                    />
+                    {errors.ownerName && (
+                        <Alert
+                            variant="warning"
+                            style={{ fontSize: "11px" }}
+                            className="mb-0"
+                        >
+                          {errors.ownerName}
+                        </Alert>
+                    )}
+                  </div>
 
-                  <input
-                    className="input"
-                    type="text"
-                    placeholder="adınızı qeyd edin"
-                    name="ownerName"
-                    onChange={handleChange}
-                    value={ownerName}
-                  />
-                  {errors.ownerName && (
-                    <Alert
-                      variant="warning"
-                      style={{ fontSize: "11px" }}
-                      className="mb-0"
-                    >
-                      {errors.ownerName}
-                    </Alert>
-                  )}
                 </div>
                 <div className="inputs">
                   <label className="required" htmlFor="">
                     Nömrə
                   </label>
+                  <div className="inputs_inside">
+                    <input
+                        className="input"
+                        type="text"
+                        name="ownerPhoneNumber"
+                        onChange={handleChange}
+                        value={ownerPhoneNumber}
+                        placeholder="nömrənizi qeyd edin"
+                    />
+                    {errors.ownerPhoneNumber && (
+                        <Alert
+                            variant="warning"
+                            style={{ fontSize: "11px" }}
+                            className="mb-0"
+                        >
+                          {errors.ownerPhoneNumber}
+                        </Alert>
+                    )}
+                  </div>
 
-                  <input
-                    className="input"
-                    type="text"
-                    name="ownerPhoneNumber"
-                    onChange={handleChange}
-                    value={ownerPhoneNumber}
-                    placeholder="nömrənizi qeyd edin"
-                  />
-                  {errors.ownerPhoneNumber && (
-                    <Alert
-                      variant="warning"
-                      style={{ fontSize: "11px" }}
-                      className="mb-0"
-                    >
-                      {errors.ownerPhoneNumber}
-                    </Alert>
-                  )}
                 </div>
                 <div className="inputs">
                   <label className="required" htmlFor="">
                     Adress
                   </label>
+                  <div className="inputs_inside">
+                    <input
+                        className="input"
+                        type="text"
+                        name="ownerAddress"
+                        onChange={handleChange}
+                        value={ownerAddress}
+                        placeholder="adress qeyd edin"
+                    />
+                    {errors.ownerAddress && (
+                        <Alert
+                            variant="warning"
+                            style={{ fontSize: "11px" }}
+                            className="mb-0"
+                        >
+                          {errors.ownerAddress}
+                        </Alert>
+                    )}
+                  </div>
 
-                  <input
-                      className="input"
-                      type="text"
-                      name="ownerAddress"
-                      onChange={handleChange}
-                      value={ownerAddress}
-                      placeholder="adress qeyd edin"
-                  />
-                  {errors.ownerAddress && (
-                      <Alert
-                          variant="warning"
-                          style={{ fontSize: "11px" }}
-                          className="mb-0"
-                      >
-                        {errors.ownerAddress}
-                      </Alert>
-                  )}
                 </div>
 
                 <button className="light-btn">Əlavə et</button>

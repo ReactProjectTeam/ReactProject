@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 
 const validateAddProduct = yup.object({
-    productName: yup
+    title: yup
         .string()
         .min(3, "Product Name length minimum 3 symbols")
         .max(50, "too long Product Name")

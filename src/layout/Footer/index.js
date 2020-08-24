@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import logo from "../../img/header/logo1.png";
-
+import payverLogo from "../../img/header/payverLogo.jpg";
 import facebook from "../../img/footer/facebook-letter-logo.svg";
 import instagram from "../../img/footer/instagram.svg";
 import twitter from "../../img/footer/twitter-logo-silhouette.svg";
 import linkedin from "../../img/footer/linkedin-letters.svg";
-import send from "../../img/footer/send.svg";
+// import send from "../../img/footer/send.svg";
 import "./index.scss"
 // import '../../scss/main.scss';
 
@@ -30,7 +29,7 @@ class Footer extends Component {
                         <span className="sha_temp">
                           <span>
                             <span className="temp-data">
-                              <img src={logo} alt="Logo" />
+                              <img src={payverLogo} alt="Logo" />
                             </span>
                           </span>
                         </span>
