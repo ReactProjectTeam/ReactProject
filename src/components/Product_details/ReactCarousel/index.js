@@ -4,7 +4,7 @@ import { Carousel } from 'react-responsive-carousel';
 
 
 const ProductCarousel =(props)=> {
-    
+
         const {img} = props;
         return (
             <Carousel infiniteLoop={true} showThumbs={true} transitionTime={1000}>

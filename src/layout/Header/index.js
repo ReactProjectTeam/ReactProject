@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
 import payverLogo from "../../img/header/payverLogo.jpg";
 import login from "../../img/header/login.png";
@@ -14,13 +14,16 @@ import { useCookies } from "react-cookie";
 import getUserByToken from "../../API/getUserByToken";
 import getCategories from "../../API/getCategories";
 import getSubCategories from "../../API/getSubCategories";
+import Context from "../../Context/context";
 
 const Header = (props) => {
   const [cookies, removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState({});
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+  const [clickedSubcategory, setClickedSubcategory] = useState(false);
 
+  const {getProductsByCategoryId, getProductsBySubcategoryId} = useContext(Context)
   const handleSignOut = () => {
     removeCookie("token");
   };
@@ -48,11 +51,33 @@ const Header = (props) => {
         });
   }, [cookies.token]);
 
-  const handleGetProductBySubcategory =(subCategoryId)=>{
-    console.log("subCategoryId",subCategoryId)
+
+  const addActiveClassCategory =(id)=>{
+    setCategories(categories.map((category)=>{
+      category.active = false;
+      if (category.id === id){
+        category.active = true;
+      }
+      return category;
+    }))
+    getProductsByCategoryId(id)
+    console.log("addActiveClassCategory",id)
   }
-  // console.log("categories",categories)
-  // console.log("subCategories",subCategories)
+
+  const addActiveClassSubcategory =(id)=>{
+      setSubCategories(subCategories.map((subCategory)=>{
+        subCategory.active = false;
+        if (subCategory.id === id){
+          subCategory.active = true;
+        }
+        return subCategory;
+      }))
+    getProductsBySubcategoryId(id)
+    console.log("addActiveClassSubcategory",id)
+
+  }
+
+
 
   return (
     <>
@@ -142,7 +167,6 @@ const Header = (props) => {
                       </Link>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -152,19 +176,19 @@ const Header = (props) => {
           <div className="container">
             <nav>
               <ul>
-                <li className="active">
+                <li >
                   <Link to="/">Xüsusi yardım</Link>
                 </li>
-                {categories.map((item,index)=>(
-                    <li key={index} className="dropdown">
+                {categories.map((category,index)=>(
+                    <li key={index} className={`dropdown ${category.active ? "active" : ""}`} onClick={()=>addActiveClassCategory(category.id)}>
                       <Link to="/" className="dropbtn">
-                        {item.name}
+                        {category.name}
                       </Link>
                       <div className="dropdown-content">
                         {subCategories.map((subCategory, index) => {
-                          if (subCategory.categoryId === item.id) {
+                          if (subCategory.categoryId === category.id) {
                             return (
-                                <Link key={index} id={subCategory.id} to="/" onClick={()=>handleGetProductBySubcategory(subCategory.id)}>
+                                <Link key={index} id={subCategory.id} className={subCategory.active ? "active" : ""} to="/" onClick={()=>addActiveClassSubcategory(subCategory.id)}>
                                   <img src={subCategoryLogo} alt=""/>
                                   <span>{subCategory.name}</span>
                                 </Link>

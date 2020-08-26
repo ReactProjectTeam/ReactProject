@@ -18,11 +18,16 @@ import NotFound from "../NotFound";
 import { useCookies } from "react-cookie";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import UserInfo from "../UserInfo";
+import Context from "../../Context/context";
 
 const App = () => {
   const [cookies] = useCookies(["token"]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const isAuth =
     cookies.token === "undefined" || cookies.token === undefined ? false : true;
+
+
 
   const handleScroll = () => {
     let content = document.getElementById("content1");
@@ -38,44 +43,50 @@ const App = () => {
     }
   };
 
+  const getProductsByCategoryId =(id)=>{
+      setSelectedCategory(id)
+  }
 
+  const getProductsBySubcategoryId =(id)=>{
+      setSelectedSubcategory(id)
+  }
 
   return (
-    <>
-      <Router>
-        <div>
-          <div id="content1">
-            <Layout>
-              <Switch>
-                <Route path="/signup" component={Signup} />
-                <Route path="/signin" component={Signin} />
-                <Route exact path="/">
-                  <All_products />
-                </Route>
-                <Route
-                  path="/product_details/:id"
-                  component={Product_details}
-                />
-                <Route path="/blogs" component={Blogs} />
-                <Route path="/blog_inside/:id" component={Blog_inside} />
-                <Route path="/user_info">
-                  <PrivateRoute isAuth={isAuth}>
-                    <UserInfo />
-                  </PrivateRoute>
-                </Route>
-                <Route path="/add_product">
-                  <PrivateRoute isAuth={isAuth}>
-                    <Add_product />
-                  </PrivateRoute>
-                </Route>
-                <Route path="/contact" component={Contact} />
-                <Route component={NotFound}></Route>
-              </Switch>
-            </Layout>
-          </div>
-        </div>
-      </Router>
-    </>
+      <Context.Provider value={{getProductsByCategoryId,getProductsBySubcategoryId}}>
+        <>
+        <Router>
+            <div id="content1">
+              <Layout>
+                <Switch>
+                  <Route path="/signup" component={Signup} />
+                  <Route path="/signin" component={Signin} />
+                  <Route exact path="/">
+                    <All_products selectedCategory={selectedCategory} selectedSubcategory={selectedSubcategory}/>
+                  </Route>
+                  <Route
+                      path="/product_details/:id"
+                      component={Product_details}
+                  />
+                  <Route path="/blogs" component={Blogs} />
+                  <Route path="/blog_inside/:id" component={Blog_inside} />
+                  <Route path="/user_info">
+                    <PrivateRoute isAuth={isAuth}>
+                      <UserInfo />
+                    </PrivateRoute>
+                  </Route>
+                  <Route path="/add_product">
+                    <PrivateRoute isAuth={isAuth}>
+                      <Add_product />
+                    </PrivateRoute>
+                  </Route>
+                  <Route path="/contact" component={Contact} />
+                  <Route component={NotFound}></Route>
+                </Switch>
+              </Layout>
+            </div>
+        </Router>
+        </>
+      </Context.Provider>
   );
 };
 

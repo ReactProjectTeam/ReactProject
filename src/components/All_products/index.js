@@ -6,18 +6,27 @@ import getAllProducts from "../../API/getAllProducts";
 const All_products = (props) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
 
   useEffect(() => {
     getAllProducts()
       .then((response) => {
         if (response.status === 200) {
           setProducts(response.data.data);
+          setSelectedCategory(props.selectedCategory)
+          setSelectedSubcategory(props.selectedSubcategory)
         }
       })
       .finally((response) => {
         setIsLoading(false)
       });
-  }, []);
+  }, [props]);
+
+  // console.log("selectedCategory",selectedCategory)
+  // console.log("selectedSubcategory",selectedSubcategory)
+  // console.log("products",products)
+
   return (
     <>
       <section id="all_products">
@@ -44,37 +53,78 @@ const All_products = (props) => {
                 </div>
               </div>
             ) : (
-              products.map((row, index) => (
-                <div key={index} className="col-md-3">
-                  <Link to={`/product_details/${row.id}`}>
-                    <div className="products_item">
-                      <div className="item">
-                        <div className="products_item_top">
-                          {row.photos.length > 0 && (
-                            <img
-                              src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
-                              alt=""
-                            />
-                          )}
-                        </div>
-                        <div className="products_item_name">
-                          <p>{row.title}</p>
-                        </div>
-                        <div className="products_item_bottom">
-                          <p>{row.city !== undefined && ( row.city.name)}</p>
+              products.map((row, index) => {
+                if (selectedSubcategory > 0){
+                  if(row.subCategoryId === selectedSubcategory){
+                    return(
+                        <div key={index} className="col-md-3">
+                          <Link to={`/product_details/${row.id}`}>
+                            <div className="products_item">
+                              <div className="item">
+                                <div className="products_item_top">
+                                  {row.photos.length > 0 && (
+                                      <img
+                                          src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
+                                          alt=""
+                                      />
+                                  )}
+                                </div>
+                                <div className="products_item_name">
+                                  <p>{row.title}</p>
+                                </div>
+                                <div className="products_item_bottom">
+                                  <p>{row.city !== undefined && ( row.city.name)}</p>
 
-                          <p>
-                            {new Date(row.addedDate).toLocaleDateString()}
-                            <span className="ml-2">
+                                  <p>
+                                    {new Date(row.addedDate).toLocaleDateString()}
+                                    <span className="ml-2">
                               {new Date(row.addedDate).toLocaleTimeString()}
                             </span>
-                          </p>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
                         </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              ))
+                    )
+                  }
+                }else {
+                  if (row.categoryId === selectedCategory){
+                    return(
+                        <div key={index} className="col-md-3">
+                          <Link to={`/product_details/${row.id}`}>
+                            <div className="products_item">
+                              <div className="item">
+                                <div className="products_item_top">
+                                  {row.photos.length > 0 && (
+                                      <img
+                                          src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
+                                          alt=""
+                                      />
+                                  )}
+                                </div>
+                                <div className="products_item_name">
+                                  <p>{row.title}</p>
+                                </div>
+                                <div className="products_item_bottom">
+                                  <p>{row.city !== undefined && ( row.city.name)}</p>
+
+                                  <p>
+                                    {new Date(row.addedDate).toLocaleDateString()}
+                                    <span className="ml-2">
+                              {new Date(row.addedDate).toLocaleTimeString()}
+                            </span>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
+                    )
+                  }
+
+                }
+            })
             )}
           </div>
         </div>
@@ -82,5 +132,4 @@ const All_products = (props) => {
     </>
   );
 };
-
 export default All_products;
