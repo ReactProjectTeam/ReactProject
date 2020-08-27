@@ -84,9 +84,8 @@ const All_products = (props) => {
                             </Link>
                           </div>
                       )
-
                   }
-                }else {
+                }else if(selectedCategoryOrSubcategory.type==="subCategory") {
                   if (row.subCategoryId === selectedCategoryOrSubcategory.id){
                     return(
                         <div key={index} className="col-md-3">
@@ -120,6 +119,39 @@ const All_products = (props) => {
                         </div>
                     )
                   }
+                }
+                else {
+                  return(
+                      <div key={index} className="col-md-3">
+                        <Link to={`/product_details/${row.id}`}>
+                          <div className="products_item">
+                            <div className="item">
+                              <div className="products_item_top">
+                                {row.photos.length > 0 && (
+                                    <img
+                                        src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
+                                        alt=""
+                                    />
+                                )}
+                              </div>
+                              <div className="products_item_name">
+                                <p>{row.title}</p>
+                              </div>
+                              <div className="products_item_bottom">
+                                <p>{row.city !== undefined && ( row.city.name)}</p>
+
+                                <p>
+                                  {new Date(row.addedDate).toLocaleDateString()}
+                                  <span className="ml-2">
+                              {new Date(row.addedDate).toLocaleTimeString()}
+                            </span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                  )
                 }
             })
             )}
