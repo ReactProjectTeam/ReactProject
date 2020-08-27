@@ -21,9 +21,8 @@ const Header = (props) => {
   const [user, setUser] = useState({});
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
-  const [clickedSubcategory, setClickedSubcategory] = useState(false);
 
-  const {getProductsByCategoryId, getProductsBySubcategoryId} = useContext(Context)
+  const {getProductsById} = useContext(Context)
   const handleSignOut = () => {
     removeCookie("token");
   };
@@ -52,19 +51,18 @@ const Header = (props) => {
   }, [cookies.token]);
 
 
-  const addActiveClassCategory =(id)=>{
-    setCategories(categories.map((category)=>{
-      category.active = false;
-      if (category.id === id){
-        category.active = true;
-      }
-      return category;
-    }))
-    getProductsByCategoryId(id)
-    console.log("addActiveClassCategory",id)
-  }
+  const addClickedCategoryOrSubcategory =(id,type,event)=>{
+    event.stopPropagation();
 
-  const addActiveClassSubcategory =(id)=>{
+    if (type === "category"){
+      setCategories(categories.map((category)=>{
+        category.active = false;
+        if (category.id === id){
+          category.active = true;
+        }
+        return category;
+      }))
+    }else {
       setSubCategories(subCategories.map((subCategory)=>{
         subCategory.active = false;
         if (subCategory.id === id){
@@ -72,9 +70,8 @@ const Header = (props) => {
         }
         return subCategory;
       }))
-    getProductsBySubcategoryId(id)
-    console.log("addActiveClassSubcategory",id)
-
+    }
+    getProductsById(id,type)
   }
 
 
@@ -180,7 +177,7 @@ const Header = (props) => {
                   <Link to="/">Xüsusi yardım</Link>
                 </li>
                 {categories.map((category,index)=>(
-                    <li key={index} className={`dropdown ${category.active ? "active" : ""}`} onClick={()=>addActiveClassCategory(category.id)}>
+                    <li key={index} className={`dropdown ${category.active ? "active" : ""}`} onClick={(event)=>addClickedCategoryOrSubcategory(category.id,"category",event)}>
                       <Link to="/" className="dropbtn">
                         {category.name}
                       </Link>
@@ -188,7 +185,7 @@ const Header = (props) => {
                         {subCategories.map((subCategory, index) => {
                           if (subCategory.categoryId === category.id) {
                             return (
-                                <Link key={index} id={subCategory.id} className={subCategory.active ? "active" : ""} to="/" onClick={()=>addActiveClassSubcategory(subCategory.id)}>
+                                <Link key={index} id={subCategory.id} className={subCategory.active ? "active" : ""} to="/" onClick={(event)=>addClickedCategoryOrSubcategory(subCategory.id,"subCategory",event)}>
                                   <img src={subCategoryLogo} alt=""/>
                                   <span>{subCategory.name}</span>
                                 </Link>

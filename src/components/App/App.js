@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import Header from "../../layout/Header";
-// import Footer from "../../layout/Footer";
 import Layout from "../../layout";
 import Signup from "../Signup/Signup";
 import Signin from "../Signin/Signin";
@@ -22,11 +20,13 @@ import Context from "../../Context/context";
 
 const App = () => {
   const [cookies] = useCookies(["token"]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedSubcategory, setSelectedSubcategory] = useState("");
+  const [selectedCategoryOrSubcategory, setSelectedCategoryOrSubcategory] = useState({});
+
   const isAuth =
     cookies.token === "undefined" || cookies.token === undefined ? false : true;
 
+  useEffect(() => {
+  }, []);
 
 
   const handleScroll = () => {
@@ -43,16 +43,13 @@ const App = () => {
     }
   };
 
-  const getProductsByCategoryId =(id)=>{
-      setSelectedCategory(id)
-  }
-
-  const getProductsBySubcategoryId =(id)=>{
-      setSelectedSubcategory(id)
+  const getProductsById =(id,type)=>{
+    const newObj = {id,type}
+    setSelectedCategoryOrSubcategory(newObj)
   }
 
   return (
-      <Context.Provider value={{getProductsByCategoryId,getProductsBySubcategoryId}}>
+      <Context.Provider value={{getProductsById}}>
         <>
         <Router>
             <div id="content1">
@@ -61,7 +58,7 @@ const App = () => {
                   <Route path="/signup" component={Signup} />
                   <Route path="/signin" component={Signin} />
                   <Route exact path="/">
-                    <All_products selectedCategory={selectedCategory} selectedSubcategory={selectedSubcategory}/>
+                    <All_products selectedCategoryOrSubcategory={selectedCategoryOrSubcategory} />
                   </Route>
                   <Route
                       path="/product_details/:id"
