@@ -9,11 +9,14 @@ import ReactCarousel from "./ReactCarousel";
 import getProductById from "../../API/getProductById";
 import isEmpty from "lodash/isEmpty";
 import { useCookies } from "react-cookie";
+import deleteProductById from "../../API/deleteProductById";
+import { Redirect, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Product_details = (props) => {
   const [data, setData] = useState({});
   const [cookies] = useCookies(["token"]);
-
+  const history = useHistory();
   useEffect(() => {
     getProductById(props.match.params.id).then((response) => {
       if (response.status === 200) {
@@ -21,7 +24,6 @@ const Product_details = (props) => {
       }
     });
   }, []);
-
 
   return (
     <>
@@ -63,7 +65,10 @@ const Product_details = (props) => {
                   <div className="product_update_date">
                     <img src={product_update_date} alt="" />
                     <p>
-                      Yeniləndi: <span>{data.date}</span>
+                      Yeniləndi: <span>{new Date(data.publishDate).toLocaleDateString()}</span>
+                      <span className="ml-2">
+                              {new Date(data.publishDate).toLocaleTimeString()}
+                            </span>
                     </p>
                   </div>
                 </div>
@@ -75,9 +80,11 @@ const Product_details = (props) => {
                     <li>Alt kateqoriya</li>
                   </ul>
                   <ul className="product_details_categories_right">
-                    <li>{data.city !== undefined && ( data.city.name)}</li>
-                    <li>{data.category !== undefined && ( data.category.name)}</li>
-                    <li>{data.subCategory !== undefined && ( data.subCategory.name)}</li>
+                    <li>{data.city !== undefined && data.city.name}</li>
+                    <li>{data.category !== undefined && data.category.name}</li>
+                    <li>
+                      {data.subCategory !== undefined && data.subCategory.name}
+                    </li>
                   </ul>
                 </div>
                 <div className="product_details_description">
@@ -103,22 +110,36 @@ const Product_details = (props) => {
                       </div>
                     </div>
                     <div className="col-md-6">
-                      {(cookies.token !== undefined && cookies.token !== "undefined") && (
-                        <div className="product_details_change">
-                          <div className="product_details_change_edit">
-                            <a href="/">
-                              <img src={editImg} alt="" />
-                              <p>Düzəliş et</p>
-                            </a>
+                      {cookies.token !== undefined &&
+                        cookies.token !== "undefined" && (
+                          <div className="product_details_change">
+                            <div className="product_details_change_edit">
+                              <a href="/">
+                                <img src={editImg} alt="" />
+                                <p>Düzəliş et</p>
+                              </a>
+                            </div>
+                            <div className="product_details_change_delete">
+                              <Link
+                                to="/"
+                                onClick={() =>
+                                  deleteProductById(
+                                    cookies.token,
+                                    data.id
+                                  ).then(() => {
+                                    history.go(0)
+                                  })
+                                }
+                                //   onClick={()=>{
+                                //     return Redirect("/")
+                                //   }}
+                              >
+                                <img src={deleteImg} alt="" />
+                                <p>Elanı sil</p>
+                              </Link>
+                            </div>
                           </div>
-                          <div className="product_details_change_delete">
-                            <a href="/">
-                              <img src={deleteImg} alt="" />
-                              <p>Elanı sil</p>
-                            </a>
-                          </div>
-                        </div>
-                      )}
+                        )}
                     </div>
                   </div>
                 </div>

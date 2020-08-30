@@ -204,7 +204,7 @@ header {
     }
 
     .menu {
-        padding: 15px 0;
+        padding: 10px 0 10px 0;
         border: 1px solid rgba(255,255,255,0.7);
         background-color: #F7F8F9;
         nav {
@@ -216,12 +216,23 @@ header {
                 margin-bottom: 0;
 
                 li {
-                    display: inline-block;
+                    display: flex;
+                    align-items: center;
                     list-style: none;
                     margin-right: 30px;
                     flex: 0 0 auto;
-
+                    cursor: pointer;
+                    .categoryLogo{
+                        margin-right: 7px;
+                        background: white;
+                        border-radius: 100%;
+                        img{
+                            width: 45px;
+                            padding: 6px;
+                        }
+                    }
                     a {
+                        margin-bottom: 2px;
                         display: flex;
                         align-items: baseline;
                         text-decoration: none;
@@ -245,6 +256,19 @@ header {
                     .dropbtn {
                         color: #ff9466;
                     }
+                }
+            }
+        }
+    }
+    .breadcrumbNav{
+        background: #F7F8F9;
+        margin-top: 5px;
+        .breadcrumb{
+            background: none;
+            padding: 10px 0px;
+            .breadcrumb-item{
+                a{
+                    color: gray;
                 }
             }
         }
@@ -336,7 +360,7 @@ header {
     min-width: 250px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 99;
-    top: 18px;
+    top: 46px;
 }
 
 .dropdown-content a {

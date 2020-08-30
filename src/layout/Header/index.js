@@ -9,6 +9,10 @@ import instagram from "../../img/contact/instagram.svg";
 import logout from "../../img/header/logout.png";
 import userLogo from "../../img/header/user.png";
 import subCategoryLogo from "../../img/header/subCategory.png";
+import clothes from "../../img/header/clothes.png";
+import home from "../../img/header/home.png";
+import cat from "../../img/header/cat.png";
+import help from "../../img/header/help.png";
 import "./index.scss";
 import { useCookies } from "react-cookie";
 import getUserByToken from "../../API/getUserByToken";
@@ -20,61 +24,68 @@ const Header = (props) => {
   const [cookies, removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState({});
   const [categories, setCategories] = useState([]);
+  const [categoriesLogo, setCategoriesLogo] = useState([clothes, home, cat, help]);
   const [subCategories, setSubCategories] = useState([]);
+  const [selected, setSelected] = useState({});
 
-  const {getProductsById} = useContext(Context)
+  const { getProductsById,selectedProduct } = useContext(Context);
+
   const handleSignOut = () => {
     removeCookie("token");
   };
 
   useEffect(() => {
-    if(cookies.token !== undefined && cookies.token !== "undefined"){
-      getUserByToken(cookies.token)
-          .then((responseUser) => {
-            if (responseUser.status === 200) {
-              setUser(responseUser.data.data);
-            }
-          });
+    if (cookies.token !== undefined && cookies.token !== "undefined") {
+      getUserByToken(cookies.token).then((responseUser) => {
+        if (responseUser.status === 200) {
+          setUser(responseUser.data.data);
+        }
+      });
     }
-    getCategories()
-        .then((response) => {
-          if (response.status === 200) {
-            setCategories(response.data.data);
-          }
-        });
-    getSubCategories()
-        .then((response) => {
-          if (response.status === 200) {
-            setSubCategories(response.data.data);
-          }
-        });
-  }, [cookies.token]);
+    getCategories().then((response) => {
+      if (response.status === 200) {
+        setCategories(
+          response.data.data.map((category, index) => {
+            category.img = categoriesLogo[index];
+            return category;
+          })
+        );
+        // setCategories(response.data.data);
+      }
+    });
+    getSubCategories().then((response) => {
+      if (response.status === 200) {
+        setSubCategories(response.data.data);
+      }
+    });
+    setSelected(selectedProduct)
+  }, [selectedProduct,cookies.token]);
 
-
-  const addClickedCategoryOrSubcategory =(id,type,event)=>{
+  const addClickedCategoryOrSubcategory = (id, type, event) => {
     event.stopPropagation();
-
-    if (type === "category"){
-      setCategories(categories.map((category)=>{
-        category.active = false;
-        if (category.id === id){
-          category.active = true;
-        }
-        return category;
-      }))
-    }else {
-      setSubCategories(subCategories.map((subCategory)=>{
-        subCategory.active = false;
-        if (subCategory.id === id){
-          subCategory.active = true;
-        }
-        return subCategory;
-      }))
+    if (type === "category") {
+      setCategories(
+        categories.map((category) => {
+          category.active = false;
+          if (category.id === id) {
+            category.active = true;
+          }
+          return category;
+        })
+      );
+    } else {
+      setSubCategories(
+        subCategories.map((subCategory) => {
+          subCategory.active = false;
+          if (subCategory.id === id) {
+            subCategory.active = true;
+          }
+          return subCategory;
+        })
+      );
     }
-    getProductsById(id,type)
-  }
-
-
+    getProductsById(id, type);
+  };
 
   return (
     <>
@@ -158,9 +169,7 @@ const Header = (props) => {
                     <div className="add_product light-btn d-flex align-items-center">
                       <Link to="/add_product">
                         <img src={plus} alt="Plus" />
-                        <span>
-                          Elan yerləşdir
-                        </span>
+                        <span>Elan yerləşdir</span>
                       </Link>
                     </div>
                   </div>
@@ -173,32 +182,151 @@ const Header = (props) => {
           <div className="container">
             <nav>
               <ul>
-                <li >
-                  <Link to="/">Xüsusi yardım</Link>
-                </li>
-                {categories.map((category,index)=>(
-                    <li key={index} className={`dropdown ${category.active ? "active" : ""}`} onClick={(event)=>addClickedCategoryOrSubcategory(category.id,"category",event)}>
-                      <Link to="/" className="dropbtn">
-                        {category.name}
-                      </Link>
-                      <div className="dropdown-content">
-                        {subCategories.map((subCategory, index) => {
-                          if (subCategory.categoryId === category.id) {
-                            return (
-                                <Link key={index} id={subCategory.id} className={subCategory.active ? "active" : ""} to="/" onClick={(event)=>addClickedCategoryOrSubcategory(subCategory.id,"subCategory",event)}>
-                                  <img src={subCategoryLogo} alt=""/>
-                                  <span>{subCategory.name}</span>
-                                </Link>
+                {categories.map((category, index) => (
+                  <li
+                    key={index}
+                    className={` dropdown ${category.active ? "active" : ""}`}
+                    onClick={(event) => {
+                      addClickedCategoryOrSubcategory(
+                        category.id,
+                        "category",
+                        event
+                      );
+                      setSelected({
+                        categoryId: category.id,
+                        type: "category",
+                      });
+                    }}
+                  >
+                    <div className="categoryLogo">
+                      <img src={category.img} alt="" />
+                    </div>
+                    <Link to="/" className="dropbtn">
+                      {category.name}
+                    </Link>
+                    <div className="dropdown-content">
+                      {subCategories.map((subCategory, index) => {
+                        if (subCategory.categoryId === category.id) {
+                          return (
+                            <Link
+                              key={index}
+                              id={subCategory.id}
+                              className={subCategory.active ? "active" : ""}
+                              to="/"
+                              onClick={(event) => {
+                                addClickedCategoryOrSubcategory(
+                                  subCategory.id,
+                                  "subCategory",
+                                  event
+                                );
+                                setSelected({
+                                  categoryId: category.id,
+                                  subCategoryId: subCategory.id,
+                                  type: "subCategory",
+                                });
+                              }}
+                            >
+                              <img src={subCategoryLogo} alt="" />
+                              <span>{subCategory.name}</span>
+                            </Link>
                           );
-                          }
-                        })}
-                      </div>
-                    </li>
+                        }
+                      })}
+                    </div>
+                  </li>
                 ))}
               </ul>
             </nav>
           </div>
         </div>
+        <nav aria-label="breadcrumb" className="breadcrumbNav">
+          <div className="container">
+            <ol className="breadcrumb">
+              <li
+                className="breadcrumb-item"
+                onClick={(event) => {
+                  addClickedCategoryOrSubcategory(null, "", event);
+                  setSelected({
+                    categoryId: null,
+                    type: "",
+                  });
+                }}
+              >
+                <Link to="/">Bütün elanlar</Link>
+              </li>
+              {selected.type === "category" && (
+                <li
+                  className="breadcrumb-item"
+                  onClick={(event) => {
+                    addClickedCategoryOrSubcategory(
+                      selected.categoryId,
+                      "category",
+                      event
+                    );
+                    setSelected({
+                      categoryId: selected.categoryId,
+                      type: "category",
+                    });
+                  }}
+                >
+                  <Link to="/">
+                    {categories.map(
+                      (category) =>
+                        category.id === selected.categoryId && category.name
+                    )}
+                  </Link>
+                </li>
+              )}
+              {selected.type === "subCategory" && (
+                <>
+                  <li
+                    className="breadcrumb-item"
+                    onClick={(event) => {
+                      addClickedCategoryOrSubcategory(
+                        selected.categoryId,
+                        "category",
+                        event
+                      );
+                      setSelected({
+                        categoryId: selected.categoryId,
+                        type: "category",
+                      });
+                    }}
+                  >
+                    <Link to="/">
+                      {categories.map(
+                        (item) => item.id === selected.categoryId && item.name
+                      )}
+                    </Link>
+                  </li>
+                  <li
+                    className="breadcrumb-item"
+                    onClick={(event) => {
+                      addClickedCategoryOrSubcategory(
+                        selected.subCategoryId,
+                        "subCategory",
+                        event
+                      );
+                      setSelected({
+                        categoryId: selected.categoryId,
+                        subCategoryId: selected.subCategoryId,
+                        type: "subCategory",
+                      });
+                    }}
+                  >
+                    <Link to="/">
+                      {subCategories.map(
+                        (subCategory) =>
+                          subCategory.id === selected.subCategoryId &&
+                          subCategory.name
+                      )}
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ol>
+          </div>
+        </nav>
       </header>
     </>
   );

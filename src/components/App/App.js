@@ -21,6 +21,7 @@ import Context from "../../Context/context";
 const App = () => {
   const [cookies] = useCookies(["token"]);
   const [selectedCategoryOrSubcategory, setSelectedCategoryOrSubcategory] = useState({});
+  const [selectedProduct, setSelectedProduct] = useState({});
 
   const isAuth =
     cookies.token === "undefined" || cookies.token === undefined ? false : true;
@@ -48,8 +49,16 @@ const App = () => {
     setSelectedCategoryOrSubcategory(newObj)
   }
 
+  const getProductCategoryAndSubcategory =(categoryId,subCategoryId,type)=>{
+    const newObj = {categoryId,subCategoryId,type}
+    setSelectedProduct(newObj)
+  }
+
+
+
+
   return (
-      <Context.Provider value={{getProductsById}}>
+      <Context.Provider value={{getProductsById,getProductCategoryAndSubcategory,selectedProduct}}>
         <>
         <Router>
             <div id="content1">

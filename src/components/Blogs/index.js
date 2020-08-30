@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import img1 from "../../img/031.jpg";
-import img2 from "../../img/032.jpg";
-import img3 from "../../img/033.jpg";
 import "./index.scss";
 import date from "../../img/blog/date.png";
 import { allBlogsList } from "../../API/all_blogs";
