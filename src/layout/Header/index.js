@@ -24,11 +24,16 @@ const Header = (props) => {
   const [cookies, removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState({});
   const [categories, setCategories] = useState([]);
-  const [categoriesLogo, setCategoriesLogo] = useState([clothes, home, cat, help]);
+  const [categoriesLogo, setCategoriesLogo] = useState([
+    clothes,
+    home,
+    cat,
+    help,
+  ]);
   const [subCategories, setSubCategories] = useState([]);
   const [selected, setSelected] = useState({});
   // console.log("linki goturmek",props.match)
-  const { getProductsById,selectedProduct } = useContext(Context);
+  const { getProductsById, selectedProduct } = useContext(Context);
 
   const handleSignOut = () => {
     removeCookie("token");
@@ -58,8 +63,8 @@ const Header = (props) => {
         setSubCategories(response.data.data);
       }
     });
-    setSelected(selectedProduct)
-  }, [selectedProduct,cookies.token]);
+    setSelected(selectedProduct);
+  }, [selectedProduct, cookies.token]);
 
   const addClickedCategoryOrSubcategory = (id, type, event) => {
     event.stopPropagation();
@@ -123,8 +128,17 @@ const Header = (props) => {
                     <span className="sha_temp">
                       <span>
                         <span className="temp-data">
-                          <img src={payverLogo} alt="Logo" />
-                          {/* <p>Sənin olsun</p> */}
+                          <img
+                            src={payverLogo}
+                            alt="Logo"
+                            onClick={(event) => {
+                              addClickedCategoryOrSubcategory(null, "", event);
+                              setSelected({
+                                categoryId: null,
+                                type: "",
+                              });
+                            }}
+                          />
                         </span>
                       </span>
                     </span>
