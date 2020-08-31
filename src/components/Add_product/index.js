@@ -5,14 +5,14 @@ import getSubCategories from "../../API/getSubCategories";
 import getCities from "../../API/getCities";
 import { useFormik } from "formik";
 import validateAddProduct from "../../utils/yup/validateAddProduct";
-import login from "../../API/login";
 import getUserByToken from "../../API/getUserByToken";
 import { useCookies } from "react-cookie";
 import { Alert } from "react-bootstrap";
 import deleteIcon from "../../img/add_product/delete.png";
+import profileImg from "../../img/add_product/profileImg.png";
 import postAddProduct from "../../API/postAddProduct";
-import { useHistory } from "react-router-dom";
 
+import { useHistory } from "react-router-dom";
 
 const Add_product = (props) => {
   const [cookies] = useCookies(["token"]);
@@ -22,7 +22,7 @@ const Add_product = (props) => {
   const [cities, setCities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [file, setFile] = useState([]);
-  const history = useHistory()
+  const history = useHistory();
 
   useEffect(() => {
     getCategories().then((response) => setCategories(response.data.data));
@@ -55,7 +55,7 @@ const Add_product = (props) => {
     },
     errors,
   } = useFormik({
-      initialValues: {
+    initialValues: {
       userId: user.id,
       categoryId: "",
       subCategoryId: "",
@@ -68,18 +68,24 @@ const Add_product = (props) => {
     },
     validationSchema: validateAddProduct,
     onSubmit: (values) => {
-      const formData = { ...values, userId: user.id, files: file.map(item=> item.file) };
-      postAddProduct(cookies.token,formData)
-      .then(()=>{
-        history.push("/")
-      })
+      const formData = {
+        ...values,
+        userId: user.id,
+        files: file.map((item) => item.file),
+      };
+      postAddProduct(cookies.token, formData).then(() => {
+        history.push("/");
+      });
     },
   });
 
-  const handleChangeImg = (event) => {
+  const handleChangeImg = (event, date) => {
     const filesArr = [...file];
     for (const item of event.target.files) {
-      filesArr.push({urlFront: URL.createObjectURL(item), file: item});
+      filesArr.push({
+        urlFront: URL.createObjectURL(item),
+        file: item,
+      });
     }
     setFile(filesArr);
   };
@@ -89,7 +95,7 @@ const Add_product = (props) => {
     const newArray = file.filter((value) => value != deletedItemImg);
     setFile(newArray);
   };
-
+  console.log("file", file);
   return (
     <section id="add_product">
       <div className="container">
@@ -166,24 +172,23 @@ const Add_product = (props) => {
                   </label>
                   <div className="inputs_inside">
                     <input
-                        className="input"
-                        type="text"
-                        placeholder="elanın adını qeyd edin"
-                        name="title"
-                        onChange={handleChange}
-                        value={title}
+                      className="input"
+                      type="text"
+                      placeholder="elanın adını qeyd edin"
+                      name="title"
+                      onChange={handleChange}
+                      value={title}
                     />
                     {errors.title && (
-                        <Alert
-                            variant="warning"
-                            style={{ fontSize: "11px" }}
-                            className="mb-0"
-                        >
-                          {errors.title}
-                        </Alert>
+                      <Alert
+                        variant="warning"
+                        style={{ fontSize: "11px" }}
+                        className="mb-0"
+                      >
+                        {errors.title}
+                      </Alert>
                     )}
                   </div>
-
                 </div>
                 <div className="inputs">
                   <label className="required" htmlFor="">
@@ -191,21 +196,20 @@ const Add_product = (props) => {
                   </label>
                   <div className="inputs_inside">
                     <textarea
-                        name="description"
-                        onChange={handleChange}
-                        value={description}
+                      name="description"
+                      onChange={handleChange}
+                      value={description}
                     ></textarea>
                     {errors.description && (
-                        <Alert
-                            variant="warning"
-                            style={{ fontSize: "11px" }}
-                            className="mb-0"
-                        >
-                          {errors.description}
-                        </Alert>
+                      <Alert
+                        variant="warning"
+                        style={{ fontSize: "11px" }}
+                        className="mb-0"
+                      >
+                        {errors.description}
+                      </Alert>
                     )}
                   </div>
-
                 </div>
                 <div className="inputs">
                   <label className="required" htmlFor="">
@@ -218,21 +222,34 @@ const Add_product = (props) => {
                         className="input"
                         id="imageUpload"
                         multiple={true}
-                        onChange={handleChangeImg}
+                        onChange={(event) => handleChangeImg(event, new Date())}
+                        onClick={(event) => {
+                          event.target.value = null;
+                        }}
                         style={{ display: "none" }}
                       />
-                      <label htmlFor="imageUpload" className="btn btn-large" className="inputFile">
+                      <label
+                        htmlFor="imageUpload"
+                        className="btn btn-large"
+                        className="inputFile"
+                      >
                         Şəkil seçin
-                        {(file.length !== 0) && (<span className="ml-2">{file.length}</span>) }
-
+                        {file.length !== 0 && (
+                          <span className="ml-2">{file.length}</span>
+                        )}
                       </label>
                     </div>
-                    {console.log("file", file)}
                     <div className="uploadedImg">
                       {file.map((item, index) => (
                         <div className="productItem" key={index} id={index}>
                           <div className="productItemImg">
                             <img src={item.urlFront} className="mt-2" />
+                            {index === 0 && (
+                              <div className="d-flex justify-content-center align-items-center">
+                                <img className="profileImg" src={profileImg} alt="" />
+                                <span>Esas şəkil</span>
+                              </div>
+                            )}
                           </div>
                           <div
                             className="productItemImgDelete"
@@ -251,24 +268,23 @@ const Add_product = (props) => {
                   </label>
                   <div className="inputs_inside">
                     <input
-                        className="input"
-                        type="text"
-                        placeholder="adınızı qeyd edin"
-                        name="ownerName"
-                        onChange={handleChange}
-                        value={ownerName}
+                      className="input"
+                      type="text"
+                      placeholder="adınızı qeyd edin"
+                      name="ownerName"
+                      onChange={handleChange}
+                      value={ownerName}
                     />
                     {errors.ownerName && (
-                        <Alert
-                            variant="warning"
-                            style={{ fontSize: "11px" }}
-                            className="mb-0"
-                        >
-                          {errors.ownerName}
-                        </Alert>
+                      <Alert
+                        variant="warning"
+                        style={{ fontSize: "11px" }}
+                        className="mb-0"
+                      >
+                        {errors.ownerName}
+                      </Alert>
                     )}
                   </div>
-
                 </div>
                 <div className="inputs">
                   <label className="required" htmlFor="">
@@ -276,24 +292,23 @@ const Add_product = (props) => {
                   </label>
                   <div className="inputs_inside">
                     <input
-                        className="input"
-                        type="text"
-                        name="ownerPhoneNumber"
-                        onChange={handleChange}
-                        value={ownerPhoneNumber}
-                        placeholder="nömrənizi qeyd edin"
+                      className="input"
+                      type="text"
+                      name="ownerPhoneNumber"
+                      onChange={handleChange}
+                      value={ownerPhoneNumber}
+                      placeholder="nömrənizi qeyd edin"
                     />
                     {errors.ownerPhoneNumber && (
-                        <Alert
-                            variant="warning"
-                            style={{ fontSize: "11px" }}
-                            className="mb-0"
-                        >
-                          {errors.ownerPhoneNumber}
-                        </Alert>
+                      <Alert
+                        variant="warning"
+                        style={{ fontSize: "11px" }}
+                        className="mb-0"
+                      >
+                        {errors.ownerPhoneNumber}
+                      </Alert>
                     )}
                   </div>
-
                 </div>
                 <div className="inputs">
                   <label className="required" htmlFor="">
@@ -301,24 +316,23 @@ const Add_product = (props) => {
                   </label>
                   <div className="inputs_inside">
                     <input
-                        className="input"
-                        type="text"
-                        name="ownerAddress"
-                        onChange={handleChange}
-                        value={ownerAddress}
-                        placeholder="adress qeyd edin"
+                      className="input"
+                      type="text"
+                      name="ownerAddress"
+                      onChange={handleChange}
+                      value={ownerAddress}
+                      placeholder="adress qeyd edin"
                     />
                     {errors.ownerAddress && (
-                        <Alert
-                            variant="warning"
-                            style={{ fontSize: "11px" }}
-                            className="mb-0"
-                        >
-                          {errors.ownerAddress}
-                        </Alert>
+                      <Alert
+                        variant="warning"
+                        style={{ fontSize: "11px" }}
+                        className="mb-0"
+                      >
+                        {errors.ownerAddress}
+                      </Alert>
                     )}
                   </div>
-
                 </div>
 
                 <button className="light-btn">Əlavə et</button>

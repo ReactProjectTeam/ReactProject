@@ -10,13 +10,14 @@ import getProductById from "../../API/getProductById";
 import isEmpty from "lodash/isEmpty";
 import { useCookies } from "react-cookie";
 import deleteProductById from "../../API/deleteProductById";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const Product_details = (props) => {
   const [data, setData] = useState({});
   const [cookies] = useCookies(["token"]);
   const history = useHistory();
+
   useEffect(() => {
     getProductById(props.match.params.id).then((response) => {
       if (response.status === 200) {
@@ -130,9 +131,6 @@ const Product_details = (props) => {
                                     history.go(0)
                                   })
                                 }
-                                //   onClick={()=>{
-                                //     return Redirect("/")
-                                //   }}
                               >
                                 <img src={deleteImg} alt="" />
                                 <p>Elanı sil</p>

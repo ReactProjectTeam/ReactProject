@@ -27,7 +27,7 @@ const Header = (props) => {
   const [categoriesLogo, setCategoriesLogo] = useState([clothes, home, cat, help]);
   const [subCategories, setSubCategories] = useState([]);
   const [selected, setSelected] = useState({});
-
+  // console.log("linki goturmek",props.match)
   const { getProductsById,selectedProduct } = useContext(Context);
 
   const handleSignOut = () => {
