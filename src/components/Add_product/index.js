@@ -95,7 +95,7 @@ const Add_product = (props) => {
     const newArray = file.filter((value) => value != deletedItemImg);
     setFile(newArray);
   };
-  console.log("file", file);
+  // console.log("file", file);
   return (
     <section id="add_product">
       <div className="container">
@@ -133,6 +133,7 @@ const Add_product = (props) => {
                     value={subCategoryId}
                     name="subCategoryId"
                     onChange={handleChange}
+                    disabled={Number(selectedCategory) === 12 && true}
                   >
                     <option value="0">Sub kateqoriya seçin</option>
                     {subCategories.map((subCategory, index) => {
@@ -182,8 +183,7 @@ const Add_product = (props) => {
                     {errors.title && (
                       <Alert
                         variant="warning"
-                        style={{ fontSize: "11px" }}
-                        className="mb-0"
+
                       >
                         {errors.title}
                       </Alert>
@@ -203,8 +203,7 @@ const Add_product = (props) => {
                     {errors.description && (
                       <Alert
                         variant="warning"
-                        style={{ fontSize: "11px" }}
-                        className="mb-0"
+
                       >
                         {errors.description}
                       </Alert>
@@ -278,8 +277,7 @@ const Add_product = (props) => {
                     {errors.ownerName && (
                       <Alert
                         variant="warning"
-                        style={{ fontSize: "11px" }}
-                        className="mb-0"
+
                       >
                         {errors.ownerName}
                       </Alert>
@@ -302,8 +300,7 @@ const Add_product = (props) => {
                     {errors.ownerPhoneNumber && (
                       <Alert
                         variant="warning"
-                        style={{ fontSize: "11px" }}
-                        className="mb-0"
+
                       >
                         {errors.ownerPhoneNumber}
                       </Alert>
@@ -326,8 +323,7 @@ const Add_product = (props) => {
                     {errors.ownerAddress && (
                       <Alert
                         variant="warning"
-                        style={{ fontSize: "11px" }}
-                        className="mb-0"
+
                       >
                         {errors.ownerAddress}
                       </Alert>
@@ -335,7 +331,7 @@ const Add_product = (props) => {
                   </div>
                 </div>
 
-                <button className="light-btn">Əlavə et</button>
+                <button className="light-btn" style={{float:"right"}}>Əlavə et</button>
               </form>
             </div>
             <div className="col-md-4"></div>

@@ -169,13 +169,13 @@ const Header = (props) => {
                         <Link to="/signin">
                           <div className="signin">
                             <img src={login} alt={login} />
-                            <span>Login</span>
+                            <span>Daxil ol</span>
                           </div>
                         </Link>
                         <Link to="/signup">
                           <div className="signup">
                             <img src={register} alt={register} />
-                            <span>Register</span>
+                            <span>Qeydiyyat</span>
                           </div>
                         </Link>
                       </>

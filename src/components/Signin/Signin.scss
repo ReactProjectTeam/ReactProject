@@ -102,6 +102,17 @@
             top: 18px;
           }
         }
+        .alert{
+          margin-top: 5px;
+          font-family: Averta;
+          font-size: 13px;
+          font-weight: 400;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          color: #666;
+        }
         .select-arrow-active{
           &::after{
             top: 12px !important;
@@ -125,13 +136,13 @@
           border-radius: 4px;
           border: solid 1px #dfdfdf;
           font-family: Averta;
-          font-size: 16px;
-          font-weight: normal;
+          font-size: 13px;
+          font-weight: 400;
           font-stretch: normal;
           font-style: normal;
           line-height: normal;
           letter-spacing: normal;
-          color: #666666;
+          color: #666;
           outline: none;
         }
         .password{

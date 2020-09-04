@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 
-const validateRegister = yup.object({
+const validateUserInfo = yup.object({
     email: yup.string().email("Email düzgün deyil").required("Email qeyd olunmayıb"),
     password: yup
         .string()
@@ -25,7 +25,7 @@ const validateRegister = yup.object({
     phoneNumber: yup
         .string()
         .min(9, "9 simvoldan az olmamalıdır")
-        .max(20, "20 simvoldan çox olmamalıdır")
+        .max(9, "9 simvoldan çox olmamalıdır")
         .required("Telefon nömrəsi qeyd olunmayıb"),
     address: yup
         .string()
@@ -34,4 +34,4 @@ const validateRegister = yup.object({
         .required("Ünvan qeyd olunmayıb"),
 });
 
-export default validateRegister;
+export default validateUserInfo;

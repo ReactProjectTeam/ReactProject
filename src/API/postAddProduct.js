@@ -3,7 +3,7 @@ import axios from 'axios'
 import {baseURL} from './baseURL'
 
 function postAddProduct(token,data) {
-
+    console.log("dataAddProduct",data)
     let formData = new FormData();
     for(const item in data){
         if (item === "files"){
@@ -14,19 +14,18 @@ function postAddProduct(token,data) {
             formData.append(item, data[item])
         }
     }
-
-    const response =  axios({
-        method: 'post',
-        url: `${baseURL}/api/createproduct`,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Accept': '*/*',
-        },
-        data: formData
-    });
-
-    return (response);
+    // const response =  axios({
+    //     method: 'post',
+    //     url: `${baseURL}/api/createproduct`,
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${token}`,
+    //         'Accept': '*/*',
+    //     },
+    //     data: formData
+    // });
+    //
+    // return (response);
 }
 
 export default postAddProduct;
