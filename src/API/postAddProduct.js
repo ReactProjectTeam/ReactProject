@@ -3,7 +3,6 @@ import axios from 'axios'
 import {baseURL} from './baseURL'
 
 function postAddProduct(token,data) {
-
     let formData = new FormData();
     for(const item in data){
         if (item === "files"){
@@ -14,7 +13,6 @@ function postAddProduct(token,data) {
             formData.append(item, data[item])
         }
     }
-
     const response =  axios({
         method: 'post',
         url: `${baseURL}/api/createproduct`,

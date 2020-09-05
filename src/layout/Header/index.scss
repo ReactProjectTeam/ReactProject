@@ -64,11 +64,11 @@ header {
             .right-side-header {
                 display: flex;
                 align-items: center;
-                width: 35%;
+                width: 50%;
 
                 .buttons {
                     display: flex;
-                    justify-content: space-evenly;
+                    justify-content: flex-end;
                     align-items: center;
                     width: 100%;
                     a{

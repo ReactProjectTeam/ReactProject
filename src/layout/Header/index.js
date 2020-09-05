@@ -67,10 +67,15 @@ const Header = (props) => {
   const [cookies, removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState({});
   const [categories, setCategories] = useState([]);
-  const [categoriesLogo, setCategoriesLogo] = useState([clothes, home, cat, help]);
+  const [categoriesLogo, setCategoriesLogo] = useState([
+    clothes,
+    home,
+    cat,
+    help,
+  ]);
   const [subCategories, setSubCategories] = useState([]);
   const [selected, setSelected] = useState({});
-
+  // console.log("linki goturmek",props.match)
   const { getProductsById, selectedProduct } = useContext(Context);
 
   const handleSignOut = () => {
@@ -101,7 +106,7 @@ const Header = (props) => {
         setSubCategories(response.data.data);
       }
     });
-    setSelected(selectedProduct)
+    setSelected(selectedProduct);
   }, [selectedProduct, cookies.token]);
 
   const addClickedCategoryOrSubcategory = (id, type, event) => {
@@ -213,8 +218,17 @@ const Header = (props) => {
                     <span className="sha_temp">
                       <span>
                         <span className="temp-data">
-                          <img src={payverLogo} alt="Logo" />
-                          {/* <p>Sənin olsun</p> */}
+                          <img
+                            src={payverLogo}
+                            alt="Logo"
+                            onClick={(event) => {
+                              addClickedCategoryOrSubcategory(null, "", event);
+                              setSelected({
+                                categoryId: null,
+                                type: "",
+                              });
+                            }}
+                          />
                         </span>
                       </span>
                     </span>
@@ -224,35 +238,34 @@ const Header = (props) => {
               <div className="right-side-header">
                 <div className="buttons">
                   <div className="head right profile">
-                    {cookies.token !== "undefined" &&
-                      cookies.token !== undefined ? (
-                        <>
-                          <div className="user-info-header light-btn d-flex align-items-center">
-                            <Link to="/user_info">
-                              <img src={userLogo} alt={userLogo} />
-                              <span>{user.name}</span>
-                            </Link>
-                          </div>
-                          <div className="logout light-btn d-flex align-items-center">
-                            <Link to="/" onClick={() => handleSignOut()}>
-                              <img src={logout} alt={logout} />
-                              <span>Çixiş</span>
-                            </Link>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <Link to="/signin">
-                            <div className="signin">
-                              <img src={login} alt={login} />
-                              <span>Login</span>
-                            </div>
+                    {cookies.token !== "undefined" && cookies.token !== undefined ? (
+                      <>
+                        <div className="user-info-header light-btn d-flex align-items-center">
+                          <Link to="/user_info">
+                            <img src={userLogo} alt={userLogo} />
+                            <span>{user.name}</span>
                           </Link>
-                          <Link to="/signup">
-                            <div className="signup">
-                              <img src={register} alt={register} />
-                              <span>Register</span>
-                            </div>
+                        </div>
+                        <div className="logout light-btn d-flex align-items-center">
+                          <Link to="/" onClick={() => handleSignOut()}>
+                            <img src={logout} alt={logout} />
+                            <span>Çixiş</span>
+                          </Link>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Link to="/signin">
+                          <div className="signin">
+                            <img src={login} alt={login} />
+                            <span>Daxil ol</span>
+                          </div>
+                        </Link>
+                        <Link to="/signup">
+                          <div className="signup">
+                            <img src={register} alt={register} />
+                            <span>Qeydiyyat</span>
+                          </div>
                           </Link>
                         </>
                       )}

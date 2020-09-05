@@ -10,19 +10,24 @@ import getProductById from "../../API/getProductById";
 import isEmpty from "lodash/isEmpty";
 import { useCookies } from "react-cookie";
 import deleteProductById from "../../API/deleteProductById";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import getUserByToken from "../../API/getUserByToken";
 
 const Product_details = (props) => {
   const [data, setData] = useState({});
+  const [user, setUser] = useState({});
   const [cookies] = useCookies(["token"]);
   const history = useHistory();
+
   useEffect(() => {
     getProductById(props.match.params.id).then((response) => {
       if (response.status === 200) {
         setData(response.data.data);
       }
     });
+    getUserByToken(cookies.token)
+        .then(res=>setUser(res.data.data))
   }, []);
 
   return (
@@ -110,36 +115,30 @@ const Product_details = (props) => {
                       </div>
                     </div>
                     <div className="col-md-6">
-                      {cookies.token !== undefined &&
-                        cookies.token !== "undefined" && (
-                          <div className="product_details_change">
-                            <div className="product_details_change_edit">
-                              <a href="/">
-                                <img src={editImg} alt="" />
-                                <p>Düzəliş et</p>
-                              </a>
-                            </div>
-                            <div className="product_details_change_delete">
-                              <Link
-                                to="/"
-                                onClick={() =>
+                      {!isEmpty(data) && user.id === data.userId ? (<div className="product_details_change">
+                        <div className="product_details_change_edit">
+                          <a href="/">
+                            <img src={editImg} alt="" />
+                            <p>Düzəliş et</p>
+                          </a>
+                        </div>
+                        <div className="product_details_change_delete">
+                          <Link
+                              to="/"
+                              onClick={() =>
                                   deleteProductById(
-                                    cookies.token,
-                                    data.id
+                                      cookies.token,
+                                      data.id
                                   ).then(() => {
                                     history.go(0)
                                   })
-                                }
-                                //   onClick={()=>{
-                                //     return Redirect("/")
-                                //   }}
-                              >
-                                <img src={deleteImg} alt="" />
-                                <p>Elanı sil</p>
-                              </Link>
-                            </div>
-                          </div>
-                        )}
+                              }
+                          >
+                            <img src={deleteImg} alt="" />
+                            <p>Elanı sil</p>
+                          </Link>
+                        </div>
+                      </div>): ""}
                     </div>
                   </div>
                 </div>

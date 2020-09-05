@@ -11,6 +11,19 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
+
+      .alert{
+        margin-top: 5px;
+        font-family: Averta;
+        font-size: 13px;
+        font-weight: 400;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #666;
+      }
+
       label {
         margin-bottom: 0;
       }
@@ -50,7 +63,7 @@
           width: 100%;
           background-color: #fff;
           font-family: Averta;
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 400;
           font-stretch: normal;
           font-style: normal;
@@ -118,6 +131,10 @@
             img {
               width: 100px;
               height: 100px;
+            }
+            .profileImg{
+              width: 24px;
+              height: 24px;
             }
           }
           .productItemImgDelete {

@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
-const validateRegister = yup.object({
+const validateUserInfo = yup.object({
     email: yup.string().email("Email düzgün deyil").required("Email qeyd olunmayıb"),
     password: yup
         .string()
@@ -27,7 +27,7 @@ const validateRegister = yup.object({
         .string()
         .matches(phoneRegExp, 'Yalnız rəqəm daxil olunmalıdır')
         .min(9, "9 simvoldan az olmamalıdır")
-        .max(20, "20 simvoldan çox olmamalıdır")
+        .max(9, "9 simvoldan çox olmamalıdır")
         .required("Telefon nömrəsi qeyd olunmayıb"),
     address: yup
         .string()
@@ -36,4 +36,4 @@ const validateRegister = yup.object({
         .required("Ünvan qeyd olunmayıb"),
 });
 
-export default validateRegister;
+export default validateUserInfo;

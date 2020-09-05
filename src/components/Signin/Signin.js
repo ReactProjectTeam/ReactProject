@@ -41,7 +41,7 @@ const Signup = (props) => {
           <div className="col-md-8">
             <div className="wrapper">
               <div className="header">
-                <h3>Login</h3>
+                <h3>Daxil ol</h3>
               </div>
               <div className="form">
                 <form onSubmit={handleSubmit}>
@@ -49,7 +49,7 @@ const Signup = (props) => {
                     <label htmlFor="email">Email</label>
                     <input
                       type="text"
-                      placeholder="Your email"
+                      placeholder="Emailinizi qeyd edin"
                       name="email"
                       id="email"
                       onChange={handleChange}
@@ -62,12 +62,12 @@ const Signup = (props) => {
                     )}
                   </div>
                   <div className="inputs">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Şifrə</label>
                     <div className="password">
                       <input
                         id="password"
                         type="password"
-                        placeholder="Your password"
+                        placeholder="Şifrənizi qeyd edin"
                         name="password"
                         onChange={handleChange}
                         value={password}
@@ -87,7 +87,7 @@ const Signup = (props) => {
 
                   <div className="remember_forgot" style={{marginTop: "15px"}}>
                     <label className="checkbox_container">
-                      Remember me
+                      Yadda saxla
                       <input type="checkbox" defaultChecked={true} />
                       <span className="checkmark"></span>
                     </label>
@@ -102,7 +102,7 @@ const Signup = (props) => {
                         Email və ya parolda səhvlik var
                       </Alert>
                   )}
-                  <input className="submit" type="submit" value="Login" />
+                  <input className="submit" type="submit" value="Daxil ol" />
                   <div className="have_acc">
                     {/*<a href="">Don’t have an Account? Register</a>*/}
                   </div>
