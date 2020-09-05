@@ -8,8 +8,8 @@ import getUserByToken from "../../API/getUserByToken";
 import { useFormik } from "formik";
 import validateUserInfo from "../../utils/yup/validateUserInfo";
 import putUpdateUser from "../../API/putUpdateUser";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import isEmpty from "lodash/isEmpty";
 import login from "../../API/login";
 
@@ -26,9 +26,21 @@ const UserInfo = (props) => {
       .then((responseUser) => {
         if (responseUser.status === 200) {
           setUser(responseUser.data.data);
-          setPublished(responseUser.data.data.productResponses.filter(item=>item.status === "Published"))
-          setDeleted(responseUser.data.data.productResponses.filter(item=>item.status === "Deleted"))
-          setCreated(responseUser.data.data.productResponses.filter(item=>item.status === "Created"))
+          setPublished(
+            responseUser.data.data.productResponses.filter(
+              (item) => item.status === "Published"
+            )
+          );
+          setDeleted(
+            responseUser.data.data.productResponses.filter(
+              (item) => item.status === "Deleted"
+            )
+          );
+          setCreated(
+            responseUser.data.data.productResponses.filter(
+              (item) => item.status === "Created"
+            )
+          );
         }
       })
       .finally((response) => {
@@ -230,196 +242,192 @@ const UserInfo = (props) => {
               <div className="container">
                 <div className="row">
                   {!isEmpty(user.productResponses) && (
-                      <Tabs className="w-100">
-                        <TabList>
-                          <Tab>{!isEmpty(published) && "Dərc olunmuş"}</Tab>
-                          <Tab>{!isEmpty(deleted) && "Silinmiş"}</Tab>
-                          <Tab>{!isEmpty(created) && "Yoxlanılır"}</Tab>
-                        </TabList>
-                        <TabPanel>
-                          <div className="row">
-                            {isLoading === true ? (
-                                <div className="col-md-12 d-flex justify-content-center align-items-center">
-                                  <div
-                                      className="spinner-border"
-                                      style={{ color: "#ff9466" }}
-                                      role="status"
-                                  >
-                                    <span className="sr-only">Loading...</span>
-                                  </div>
-                                </div>
-                            ) : (
-                                 published.map((row, index) => {
-                                  return (
-                                      <div key={index} className="col-md-3">
-                                        <Link to={`/product_details/${row.id}`}>
-                                          <div
-                                              className="products_item"
+                    <Tabs className="w-100">
+                      <TabList>
+                        <Tab>Dərc olunmuş</Tab>
+                        <Tab>Silinmiş</Tab>
+                        <Tab>Yoxlanılır</Tab>
+                      </TabList>
+                      <TabPanel>
+                        <div className="row">
+                          {isLoading === true ? (
+                            <div className="col-md-12 d-flex justify-content-center align-items-center">
+                              <div
+                                className="spinner-border"
+                                style={{ color: "#ff9466" }}
+                                role="status"
+                              >
+                                <span className="sr-only">Loading...</span>
+                              </div>
+                            </div>
+                          ) : !isEmpty(published) ? (
+                            published.map((row, index) => {
+                              return (
+                                <div key={index} className="col-md-3">
+                                  <Link to={`/product_details/${row.id}`}>
+                                    <div className="products_item">
+                                      <div className="item">
+                                        <div className="products_item_top">
+                                          {row.photos.length > 0 && (
+                                            <img
+                                              src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
+                                              alt=""
+                                            />
+                                          )}
+                                        </div>
+                                        <div className="products_item_name">
+                                          <p>{row.title}</p>
+                                        </div>
+                                        <div className="products_item_bottom">
+                                          {/*<p>*/}
+                                          {/*  {row.city !== undefined &&*/}
+                                          {/*    row.city.name}*/}
+                                          {/*</p>*/}
 
-                                          >
-                                            <div className="item">
-                                              <div className="products_item_top">
-                                                {row.photos.length > 0 && (
-                                                    <img
-                                                        src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
-                                                        alt=""
-                                                    />
-                                                )}
-                                              </div>
-                                              <div className="products_item_name">
-                                                <p>{row.title}</p>
-                                              </div>
-                                              <div className="products_item_bottom">
-                                                {/*<p>*/}
-                                                {/*  {row.city !== undefined &&*/}
-                                                {/*    row.city.name}*/}
-                                                {/*</p>*/}
-
-                                                <p>
-                                                  {new Date(
-                                                      row.addedDate
-                                                  ).toLocaleDateString()}
-                                                  <span className="ml-2">
+                                          <p>
                                             {new Date(
+                                              row.addedDate
+                                            ).toLocaleDateString()}
+                                            <span className="ml-2">
+                                              {new Date(
                                                 row.addedDate
-                                            ).toLocaleTimeString()}
-                                          </span>
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </Link>
+                                              ).toLocaleTimeString()}
+                                            </span>
+                                          </p>
+                                        </div>
                                       </div>
-                                  );
-                                })
-                            )}
-                          </div>
-                        </TabPanel>
-                        <TabPanel>
-                          <div className="row">
-                            {isLoading === true ? (
-                                <div className="col-md-12 d-flex justify-content-center align-items-center">
-                                  <div
-                                      className="spinner-border"
-                                      style={{ color: "#ff9466" }}
-                                      role="status"
-                                  >
-                                    <span className="sr-only">Loading...</span>
-                                  </div>
+                                    </div>
+                                  </Link>
                                 </div>
-                            ) : (
-                                deleted.map((row, index) => {
-                                  return (
-                                      <div key={index} className="col-md-3">
-                                        <Link to={`/product_details/${row.id}`}>
-                                          <div
-                                              className="products_item"
+                              );
+                            })
+                          ) : (
+                            <p>Dərc olunmuş elanınız yoxdur</p>
+                          )}
+                        </div>
+                      </TabPanel>
+                      <TabPanel>
+                        <div className="row">
+                          {isLoading === true ? (
+                            <div className="col-md-12 d-flex justify-content-center align-items-center">
+                              <div
+                                className="spinner-border"
+                                style={{ color: "#ff9466" }}
+                                role="status"
+                              >
+                                <span className="sr-only">Loading...</span>
+                              </div>
+                            </div>
+                          ) : !isEmpty(deleted) ? (
+                            deleted.map((row, index) => {
+                              return (
+                                <div key={index} className="col-md-3">
+                                  <Link to={`/product_details/${row.id}`}>
+                                    <div className="products_item">
+                                      <div className="item">
+                                        <div className="products_item_top">
+                                          {row.photos.length > 0 && (
+                                            <img
+                                              src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
+                                              alt=""
+                                            />
+                                          )}
+                                        </div>
+                                        <div className="products_item_name">
+                                          <p>{row.title}</p>
+                                        </div>
+                                        <div className="products_item_bottom">
+                                          {/*<p>*/}
+                                          {/*  {row.city !== undefined &&*/}
+                                          {/*    row.city.name}*/}
+                                          {/*</p>*/}
 
-                                          >
-                                            <div className="item">
-                                              <div className="products_item_top">
-                                                {row.photos.length > 0 && (
-                                                    <img
-                                                        src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
-                                                        alt=""
-                                                    />
-                                                )}
-                                              </div>
-                                              <div className="products_item_name">
-                                                <p>{row.title}</p>
-                                              </div>
-                                              <div className="products_item_bottom">
-                                                {/*<p>*/}
-                                                {/*  {row.city !== undefined &&*/}
-                                                {/*    row.city.name}*/}
-                                                {/*</p>*/}
-
-                                                <p>
-                                                  {new Date(
-                                                      row.addedDate
-                                                  ).toLocaleDateString()}
-                                                  <span className="ml-2">
+                                          <p>
                                             {new Date(
+                                              row.addedDate
+                                            ).toLocaleDateString()}
+                                            <span className="ml-2">
+                                              {new Date(
                                                 row.addedDate
-                                            ).toLocaleTimeString()}
-                                          </span>
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </Link>
+                                              ).toLocaleTimeString()}
+                                            </span>
+                                          </p>
+                                        </div>
                                       </div>
-                                  );
-                                })
-                            )}
-                          </div>
-                        </TabPanel>
-                        <TabPanel>
-                          <div className="row">
-                            {isLoading === true ? (
-                                <div className="col-md-12 d-flex justify-content-center align-items-center">
-                                  <div
-                                      className="spinner-border"
-                                      style={{ color: "#ff9466" }}
-                                      role="status"
-                                  >
-                                    <span className="sr-only">Loading...</span>
-                                  </div>
+                                    </div>
+                                  </Link>
                                 </div>
-                            ) : (
-                                created.map((row, index) => {
-                                  return (
-                                      <div key={index} className="col-md-3">
-                                        <Link to={`/product_details/${row.id}`}>
-                                          <div
-                                              className="products_item"
+                              );
+                            })
+                          ) : (
+                            <p>Silinmiş elanınız yoxdur</p>
+                          )}
+                        </div>
+                      </TabPanel>
+                      <TabPanel>
+                        <div className="row">
+                          {isLoading === true ? (
+                            <div className="col-md-12 d-flex justify-content-center align-items-center">
+                              <div
+                                className="spinner-border"
+                                style={{ color: "#ff9466" }}
+                                role="status"
+                              >
+                                <span className="sr-only">Loading...</span>
+                              </div>
+                            </div>
+                          ) : !isEmpty(created) ? (
+                            created.map((row, index) => {
+                              return (
+                                <div key={index} className="col-md-3">
+                                  <Link to={`/product_details/${row.id}`}>
+                                    <div className="products_item">
+                                      <div className="item">
+                                        <div className="products_item_top">
+                                          {row.photos.length > 0 && (
+                                            <img
+                                              src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
+                                              alt=""
+                                            />
+                                          )}
+                                        </div>
+                                        <div className="products_item_name">
+                                          <p>{row.title}</p>
+                                        </div>
+                                        <div className="products_item_bottom">
+                                          {/*<p>*/}
+                                          {/*  {row.city !== undefined &&*/}
+                                          {/*    row.city.name}*/}
+                                          {/*</p>*/}
 
-                                          >
-                                            <div className="item">
-                                              <div className="products_item_top">
-                                                {row.photos.length > 0 && (
-                                                    <img
-                                                        src={`http://aanar028-001-site3.dtempurl.com/api/productimage/${row.photos[0].path}`}
-                                                        alt=""
-                                                    />
-                                                )}
-                                              </div>
-                                              <div className="products_item_name">
-                                                <p>{row.title}</p>
-                                              </div>
-                                              <div className="products_item_bottom">
-                                                {/*<p>*/}
-                                                {/*  {row.city !== undefined &&*/}
-                                                {/*    row.city.name}*/}
-                                                {/*</p>*/}
-
-                                                <p>
-                                                  {new Date(
-                                                      row.addedDate
-                                                  ).toLocaleDateString()}
-                                                  <span className="ml-2">
+                                          <p>
                                             {new Date(
+                                              row.addedDate
+                                            ).toLocaleDateString()}
+                                            <span className="ml-2">
+                                              {new Date(
                                                 row.addedDate
-                                            ).toLocaleTimeString()}
-                                          </span>
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </Link>
+                                              ).toLocaleTimeString()}
+                                            </span>
+                                          </p>
+                                        </div>
                                       </div>
-                                  );
-                                })
-                            )}
-                          </div>
-                        </TabPanel>
-                      </Tabs>
+                                    </div>
+                                  </Link>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <p>Yoxlamada olan elanınız yoxdur</p>
+                          )}
+                        </div>
+                      </TabPanel>
+                    </Tabs>
                   )}
                 </div>
               </div>
             </section>
           </div>
-
         </div>
       </section>
     </>

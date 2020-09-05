@@ -68,6 +68,7 @@ const Add_product = (props) => {
     },
     validationSchema: validateAddProduct,
     onSubmit: (values) => {
+      console.log("values",values)
       const formData = {
         ...values,
         userId: user.id,
@@ -300,7 +301,6 @@ const Add_product = (props) => {
                     {errors.ownerPhoneNumber && (
                       <Alert
                         variant="warning"
-
                       >
                         {errors.ownerPhoneNumber}
                       </Alert>
@@ -331,7 +331,7 @@ const Add_product = (props) => {
                   </div>
                 </div>
 
-                <button className="light-btn" style={{float:"right"}}>Əlavə et</button>
+                <button type="submit" className="light-btn" style={{float:"right"}}>Əlavə et</button>
               </form>
             </div>
             <div className="col-md-4"></div>
