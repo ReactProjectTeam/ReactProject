@@ -61,7 +61,7 @@ const All_products = (props) => {
                   if (row.status === "Published") {
                     if (row.categoryId === selectedCategoryOrSubcategory.id) {
                       return (
-                        <div key={index} className="col-md-3">
+                        <div key={index} className="col-md-3 col-sm-6 col-6">
                           <Link to={`/product_details/${row.id}`}>
                             <div className="products_item" onClick={()=>getProductCategoryAndSubcategory(row.categoryId, row.subCategoryId,"subCategory")}>
                               <div className="item">
@@ -107,7 +107,7 @@ const All_products = (props) => {
                       row.subCategoryId === selectedCategoryOrSubcategory.id
                     ) {
                       return (
-                        <div key={index} className="col-md-3">
+                        <div key={index} className="col-md-3 col-sm-6 col-6">
                           <Link to={`/product_details/${row.id}`}>
                             <div className="products_item" onClick={()=>getProductCategoryAndSubcategory(row.categoryId, row.subCategoryId,"subCategory")}>
                               <div className="item">
@@ -148,7 +148,7 @@ const All_products = (props) => {
                 } else {
                   if (row.status === "Published") {
                     return (
-                      <div key={index} className="col-md-3">
+                      <div key={index} className="col-md-3 col-sm-6 col-6">
                         <Link to={`/product_details/${row.id}`}>
                           <div className="products_item" onClick={()=>getProductCategoryAndSubcategory(row.categoryId, row.subCategoryId,"subCategory")}>
                             <div className="item">

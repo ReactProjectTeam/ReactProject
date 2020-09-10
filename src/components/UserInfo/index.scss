@@ -228,3 +228,61 @@
         }
     }
 }
+
+@media only screen and (max-width:768px) {
+    #userInfo{
+        margin-top: 65px;
+        .userInfoHeader{
+            margin-bottom: 0px;
+            h5{
+                font-size: 16px;
+            }
+        }
+        .information{
+            padding: 0px;
+            .information_left{
+
+            }
+            .information_right{
+                .form{
+                    width: 100%;
+                    form{
+                        width: 100%;
+                        .inputs{
+                            label{
+                                font-size: 14px;
+                            }
+                            input{
+                                width: 100%;
+                                font-size: 13px;
+                            }
+                            .password{
+                                width: 100%;
+                                input{
+                                    width: 100%;
+                                    font-size: 13px;
+                                }
+                                .view{
+                                    right: 0px;
+                                }
+                            }
+                        }
+                        .submit{
+                            width: 100%;
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+        .ownerProducts{
+            #all_products{
+                ul{
+                    li{
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}

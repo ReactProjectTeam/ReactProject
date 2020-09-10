@@ -12,6 +12,7 @@ import logout from "../../img/header/logout.png";
 import userLogo from "../../img/header/user.png";
 import subCategoryLogo from "../../img/header/subCategory.png";
 import down from "../../img/header/down.png";
+import up from "../../img/header/up.png";
 import clothes from "../../img/header/clothes.png";
 import home from "../../img/header/home.png";
 import cat from "../../img/header/cat.png";
@@ -38,7 +39,6 @@ let resize;
 const openMobile = () => {
   const topMenuWrapper = document.querySelector(".top-menu-wrapper");
   topMenuWrapper.classList.add(showOffCanvas);
-  console.log(topMenuWrapper);
 };
 
 // Closing Mobile Menu
@@ -137,32 +137,35 @@ const Header = (props) => {
     getProductsById(id, type);
   };
 
+
+
   return (
     <>
       <div className="mobile">
         <nav className="navbar">
-          <div className="menuAndLogo">
-            <img
-                src={menu}
-                aria-label="Open Mobile Menu"
-                onClick={() => openMobile()}
-                className="open-mobile-menu"
-                alt=""
-            />
-            <Link to="/" className="mobile-logo">
-              <img src={payverLogo} alt="Logo" />
-            </Link>
-          </div>
-
-          <div className="add_product light-btn d-flex align-items-center">
-            <Link to="/add_product">
-              <img src={plus} alt="Plus" />
-              <span>Yeni elan</span>
-            </Link>
+          <div className="mobileNavbarInside">
+            <div className="menuAndLogo">
+              <img
+                  src={menu}
+                  aria-label="Open Mobile Menu"
+                  onClick={() => openMobile()}
+                  className="open-mobile-menu"
+                  alt=""
+              />
+              <Link to="/" className="mobile-logo">
+                <img src={payverLogo} alt="Logo" />
+              </Link>
+            </div>
+            <div className="add_product light-btn d-flex align-items-center">
+              <Link to="/add_product">
+                <img src={plus} alt="Plus" />
+                <span>Yeni elan</span>
+              </Link>
+            </div>
           </div>
           <div className="top-menu-wrapper">
-            <ul className="top-menu">
-              <li className="mob-block">
+            <div className="top-menu">
+              <div className="mob-block">
                 <Link to="/" className="mobile-logo">
                   <img src={payverLogo} alt="Logo" />
                 </Link>
@@ -173,7 +176,43 @@ const Header = (props) => {
                   src={close}
                   alt=""
                 />
-              </li>
+              </div>
+              <div className="mobileUserInfo">
+                <div className="head right profile">
+                  {cookies.token !== "undefined" &&
+                  cookies.token !== undefined ? (
+                      <>
+                        <div className="user-info-header light-btn d-flex align-items-center" onClick={()=>closeMobile()}>
+                          <Link to="/user_info">
+                            <img src={userLogo} alt={userLogo} />
+                            <span>{user.name}</span>
+                          </Link>
+                        </div>
+                        <div className="logout light-btn d-flex align-items-center" onClick={()=>closeMobile()}>
+                          <Link to="/" onClick={() => handleSignOut()}>
+                            <img src={logout} alt={logout} />
+                            <span>Çixiş</span>
+                          </Link>
+                        </div>
+                      </>
+                  ) : (
+                      <>
+                        <Link to="/signin">
+                          <div className="signin" onClick={()=>closeMobile()}>
+                            <img src={login} alt={login} />
+                            <span>Daxil ol</span>
+                          </div>
+                        </Link>
+                        <Link to="/signup">
+                          <div className="signup" onClick={()=>closeMobile()}>
+                            <img src={register} alt={register} />
+                            <span>Qeydiyyat</span>
+                          </div>
+                        </Link>
+                      </>
+                  )}
+                </div>
+              </div>
               <Accordion>
                 {categories.map((category, index) => (
                   <Card
@@ -181,20 +220,15 @@ const Header = (props) => {
                     // className={` dropdown ${category.active ? "active" : ""}`}
                   >
                     <Card.Header>
+                      <Accordion.Toggle
+                          className="accardionCardBtn"
+                          as={Button}
+                          variant="link"
+                          eventKey={index + 1}
+
+                      >
                       <div
                         className="categoryMobile"
-                        onClick={(event) => {
-                          addClickedCategoryOrSubcategory(
-                            category.id,
-                            "category",
-                            event
-                          );
-                          closeMobile();
-                          setSelected({
-                            categoryId: category.id,
-                            type: "category",
-                          });
-                        }}
                       >
                         <div className="categoryLogo">
                           <img src={category.img} alt="" />
@@ -202,18 +236,36 @@ const Header = (props) => {
                         <span>{category.name}</span>
                       </div>
                       <div className="categoryDown">
-                        <Accordion.Toggle
-                          className="accardionCardBtn"
-                          as={Button}
-                          variant="link"
-                          eventKey={index + 1}
-                        >
                           <img src={down} alt="" />
-                        </Accordion.Toggle>
                       </div>
+                        <div className="categoryUp">
+                          <img src={up} alt="" />
+                        </div>
+                      </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey={index + 1}>
                       <Card.Body>
+                        <div
+                            key={index}
+                            // id={subCategory.id}
+                            // className={subCategory.active ? "active" : ""}
+                            className="subCategoryMobile"
+                            onClick={(event) => {
+                              addClickedCategoryOrSubcategory(
+                                category.id,
+                                "category",
+                                event
+                              );
+                              closeMobile();
+                              setSelected({
+                                categoryId: category.id,
+                                type: "category",
+                              });
+                            }}
+                        >
+                          <img src={subCategoryLogo} alt="" />
+                          <span>Bütün elanlar</span>
+                        </div>
                         {subCategories.map((subCategory, index) => {
                           if (subCategory.categoryId === category.id) {
                             return (
@@ -248,7 +300,7 @@ const Header = (props) => {
                   </Card>
                 ))}
               </Accordion>
-            </ul>
+            </div>
           </div>
         </nav>
       </div>

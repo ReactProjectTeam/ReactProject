@@ -263,7 +263,7 @@ const UserInfo = (props) => {
                           ) : !isEmpty(published) ? (
                             published.map((row, index) => {
                               return (
-                                <div key={index} className="col-md-3">
+                                <div key={index} className="col-md-3 col-sm-3 col-6">
                                   <Link to={`/product_details/${row.id}`}>
                                     <div className="products_item">
                                       <div className="item">
@@ -321,7 +321,7 @@ const UserInfo = (props) => {
                           ) : !isEmpty(deleted) ? (
                             deleted.map((row, index) => {
                               return (
-                                <div key={index} className="col-md-3">
+                                <div key={index} className="col-md-3 col-md-3 col-sm-3 col-6">
                                   <Link to={`/product_details/${row.id}`}>
                                     <div className="products_item">
                                       <div className="item">
@@ -379,7 +379,7 @@ const UserInfo = (props) => {
                           ) : !isEmpty(created) ? (
                             created.map((row, index) => {
                               return (
-                                <div key={index} className="col-md-3">
+                                <div key={index} className="col-md-3 col-md-3 col-sm-3 col-6">
                                   <Link to={`/product_details/${row.id}`}>
                                     <div className="products_item">
                                       <div className="item">
