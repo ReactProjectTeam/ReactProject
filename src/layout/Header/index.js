@@ -11,6 +11,7 @@ import instagram from "../../img/contact/instagram.svg";
 import logout from "../../img/header/logout.png";
 import userLogo from "../../img/header/user.png";
 import subCategoryLogo from "../../img/header/subCategory.png";
+import down from "../../img/header/down.png";
 import clothes from "../../img/header/clothes.png";
 import home from "../../img/header/home.png";
 import cat from "../../img/header/cat.png";
@@ -21,7 +22,7 @@ import getUserByToken from "../../API/getUserByToken";
 import getCategories from "../../API/getCategories";
 import getSubCategories from "../../API/getSubCategories";
 import Context from "../../Context/context";
-import { Accordion, Card, Button } from 'react-bootstrap';
+import { Accordion, Card, Button } from "react-bootstrap";
 
 const pageHeader = document.querySelector(".mobile");
 const openMobMenu = document.querySelector(".open-mobile-menu");
@@ -49,19 +50,20 @@ const closeMobile = () => {
 
 // Resizing Screen
 window.addEventListener("resize", () => {
-  pageHeader && pageHeader.querySelectorAll("*").forEach(function (el) {
-    el.classList.add(noTransition);
-  });
+  pageHeader &&
+    pageHeader.querySelectorAll("*").forEach(function (el) {
+      el.classList.add(noTransition);
+    });
   clearTimeout(resize);
   resize = setTimeout(resizingComplete, 500);
 });
 
 function resizingComplete() {
-  pageHeader && pageHeader.querySelectorAll("*").forEach(function (el) {
-    el.classList.remove(noTransition);
-  });
+  pageHeader &&
+    pageHeader.querySelectorAll("*").forEach(function (el) {
+      el.classList.remove(noTransition);
+    });
 }
-
 
 const Header = (props) => {
   const [cookies, removeCookie] = useCookies(["token"]);
@@ -139,10 +141,19 @@ const Header = (props) => {
     <>
       <div className="mobile">
         <nav className="navbar">
-          <img src={menu} aria-label="Open Mobile Menu" onClick={() => openMobile()} className="open-mobile-menu" alt="" />
-          <Link to="/" className="mobile-logo">
-            <img src={payverLogo} alt="Logo" />
-          </Link>
+          <div className="menuAndLogo">
+            <img
+                src={menu}
+                aria-label="Open Mobile Menu"
+                onClick={() => openMobile()}
+                className="open-mobile-menu"
+                alt=""
+            />
+            <Link to="/" className="mobile-logo">
+              <img src={payverLogo} alt="Logo" />
+            </Link>
+          </div>
+
           <div className="add_product light-btn d-flex align-items-center">
             <Link to="/add_product">
               <img src={plus} alt="Plus" />
@@ -155,30 +166,88 @@ const Header = (props) => {
                 <Link to="/" className="mobile-logo">
                   <img src={payverLogo} alt="Logo" />
                 </Link>
-                <img aria-label="Close Mobile Menu" onClick={() => closeMobile()} className="close-mobile-menu" src={close} alt="" />
+                <img
+                  aria-label="Close Mobile Menu"
+                  onClick={() => closeMobile()}
+                  className="close-mobile-menu"
+                  src={close}
+                  alt=""
+                />
               </li>
               <Accordion>
-  <Card>
-    <Card.Header>
-      <Accordion.Toggle as={Button} variant="link" eventKey="0">
-        Click me!
-      </Accordion.Toggle>
-    </Card.Header>
-    <Accordion.Collapse eventKey="0">
-      <Card.Body>Hello! I'm the body</Card.Body>
-    </Accordion.Collapse>
-  </Card>
-  <Card>
-    <Card.Header>
-      <Accordion.Toggle as={Button} variant="link" eventKey="1">
-        Click me!
-      </Accordion.Toggle>
-    </Card.Header>
-    <Accordion.Collapse eventKey="1">
-      <Card.Body>Hello! I'm another body</Card.Body>
-    </Accordion.Collapse>
-  </Card>
-</Accordion>
+                {categories.map((category, index) => (
+                  <Card
+                    key={index}
+                    // className={` dropdown ${category.active ? "active" : ""}`}
+                  >
+                    <Card.Header>
+                      <div
+                        className="categoryMobile"
+                        onClick={(event) => {
+                          addClickedCategoryOrSubcategory(
+                            category.id,
+                            "category",
+                            event
+                          );
+                          closeMobile();
+                          setSelected({
+                            categoryId: category.id,
+                            type: "category",
+                          });
+                        }}
+                      >
+                        <div className="categoryLogo">
+                          <img src={category.img} alt="" />
+                        </div>
+                        <span>{category.name}</span>
+                      </div>
+                      <div className="categoryDown">
+                        <Accordion.Toggle
+                          className="accardionCardBtn"
+                          as={Button}
+                          variant="link"
+                          eventKey={index + 1}
+                        >
+                          <img src={down} alt="" />
+                        </Accordion.Toggle>
+                      </div>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey={index + 1}>
+                      <Card.Body>
+                        {subCategories.map((subCategory, index) => {
+                          if (subCategory.categoryId === category.id) {
+                            return (
+                              <div
+                                key={index}
+                                id={subCategory.id}
+                                // className={subCategory.active ? "active" : ""}
+                                className="subCategoryMobile"
+                                // onClick={() => closeMobile()}
+                                onClick={(event) => {
+                                  addClickedCategoryOrSubcategory(
+                                    subCategory.id,
+                                    "subCategory",
+                                    event
+                                  );
+                                  closeMobile();
+                                  setSelected({
+                                    categoryId: category.id,
+                                    subCategoryId: subCategory.id,
+                                    type: "subCategory",
+                                  });
+                                }}
+                              >
+                                <img src={subCategoryLogo} alt="" />
+                                <span>{subCategory.name}</span>
+                              </div>
+                            );
+                          }
+                        })}
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                ))}
+              </Accordion>
             </ul>
           </div>
         </nav>
@@ -238,7 +307,8 @@ const Header = (props) => {
               <div className="right-side-header">
                 <div className="buttons">
                   <div className="head right profile">
-                    {cookies.token !== "undefined" && cookies.token !== undefined ? (
+                    {cookies.token !== "undefined" &&
+                    cookies.token !== undefined ? (
                       <>
                         <div className="user-info-header light-btn d-flex align-items-center">
                           <Link to="/user_info">
@@ -266,9 +336,9 @@ const Header = (props) => {
                             <img src={register} alt={register} />
                             <span>Qeydiyyat</span>
                           </div>
-                          </Link>
-                        </>
-                      )}
+                        </Link>
+                      </>
+                    )}
                     <div className="add_product light-btn d-flex align-items-center">
                       <Link to="/add_product">
                         <img src={plus} alt="Plus" />

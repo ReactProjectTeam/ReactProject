@@ -11,6 +11,13 @@
             }
         }
         .all_products_header_right{
+            width: 50%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            span{
+                margin-right: 10px;
+            }
             .select_date{
                 display: flex;
                 label{

@@ -34,9 +34,10 @@ const All_products = (props) => {
               {/*<h5>Elanlar</h5>*/}
             </div>
             <div className="all_products_header_right">
+              <span>Tarixə görə</span>
               <div className="select_date">
-                <label htmlFor="exampleFormControlSelect1">Tarixə görə</label>
-                <select id="exampleFormControlSelect1">
+                {/*<label htmlFor="exampleFormControlSelect1">Tarixə görə</label>*/}
+                <select id="exampleFormControlSelect1" className="form-control">
                   <option value="date_asc">A-Z</option>
                   <option value="date_desc">Z-A</option>
                 </select>
