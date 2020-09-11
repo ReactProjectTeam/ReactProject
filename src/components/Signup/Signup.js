@@ -7,8 +7,9 @@ import validateRegister from "../../utils/yup/validateRegister";
 import {Alert} from "react-bootstrap";
 import profileImg from "../../img/add_product/profileImg.png";
 import deleteIcon from "../../img/add_product/delete.png";
-// import Index from "../../utils/Index";
+import InputMask from 'react-input-mask';
 import swal from 'sweetalert';
+import { useHistory } from "react-router-dom";
 
 const Signup = (props) => {
   const [inputTypePassword, setInputTypePassword] = useState("password");
@@ -30,9 +31,8 @@ const Signup = (props) => {
       : setInputTypeConfirmPassword("password");
   };
 
-
-
-  const { history } = props;
+  // const { history } = props;
+  const history = useHistory();
 
   const {
     handleSubmit,
@@ -59,13 +59,18 @@ const Signup = (props) => {
     },
     validationSchema: validateRegister,
     onSubmit: (values) => {
+      const phone = values.phoneNumber.split("-").join("").split(" ").join("").split("(").join("").split(")").join("");
       const formData = {
         ...values,
         photo: file.map((item) => item.file),
+        phoneNumber: phone
       };
       register(formData)
-        .then(() => {
-          history.push("/swal");
+        .then((response) => {
+          console.log(response);
+          if (response.data.codeName === "SendConfirmEmail") {
+            history.push("/swal");
+          } 
         })
         .catch(() => {
           setCheckUser(true);
@@ -93,6 +98,8 @@ const Signup = (props) => {
     setFile(newArray);
   };
 
+
+  
   return (
     <section id="login_register">
       <div className="container">
@@ -210,14 +217,14 @@ const Signup = (props) => {
                   </div>
                   <div className="inputs">
                     <label htmlFor="phoneNumber">Telefon nömrəsi</label>
-                    <input
-                      type="text"
+                   
+                    <InputMask  
                       placeholder="Telefon nomrənizi qeyd edin"
                       name="phoneNumber"
                       id="phoneNumber"
                       onChange={handleChange}
                       value={phoneNumber}
-                    />
+                      mask="+\9\94 (99) 999-99-99" />
                     {errors.phoneNumber && (
                         <Alert variant="warning">
                           {errors.phoneNumber}

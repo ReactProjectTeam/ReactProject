@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+// const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validateAddProduct = yup.object({
     title: yup
@@ -20,7 +20,7 @@ const validateAddProduct = yup.object({
         .required("Ad qeyd olunmayıb"),
     ownerPhoneNumber: yup
         .string()
-        .matches(phoneRegExp, 'Yalnız rəqəm daxil olunmalıdır')
+        // .matches(phoneRegExp, 'Yalnız rəqəm daxil olunmalıdır')
         .min(9, "9 simvoldan az olmamalıdır")
         .max(20, "20 simvoldan çox olmamalıdır")
         .required("Telefon nömrəsi qeyd olunmayıb"),
