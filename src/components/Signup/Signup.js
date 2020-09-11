@@ -7,6 +7,8 @@ import validateRegister from "../../utils/yup/validateRegister";
 import {Alert} from "react-bootstrap";
 import profileImg from "../../img/add_product/profileImg.png";
 import deleteIcon from "../../img/add_product/delete.png";
+// import Index from "../../utils/Index";
+import swal from 'sweetalert';
 
 const Signup = (props) => {
   const [inputTypePassword, setInputTypePassword] = useState("password");
@@ -63,10 +65,13 @@ const Signup = (props) => {
       };
       register(formData)
         .then(() => {
-          history.push("/signin");
+          history.push("/swal");
         })
         .catch(() => {
           setCheckUser(true);
+          swal("Yenidən cəhd edin", "Bu email ile istifadəçi qeydiyyatdan kechib", "warning",{
+            button: "Təkrar",
+          })
         });
     },
   });

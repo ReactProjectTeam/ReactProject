@@ -24,7 +24,6 @@ const All_products = (props) => {
     setSelectedCategoryOrSubcategory(props.selectedCategoryOrSubcategory);
   }, [props]);
 
-  // console.log("props.selectedCategoryOrSubcategory",props.selectedCategoryOrSubcategory)
   return (
     <>
       <section id="all_products">

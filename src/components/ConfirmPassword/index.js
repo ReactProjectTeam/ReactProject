@@ -7,6 +7,7 @@ import { useCookies } from 'react-cookie';
 import { Link, Redirect } from "react-router-dom";
 import confirmPassword from "../../API/confirmPassword";
 import validateConfirmPassword from "../../utils/yup/validateConfirmPassword";
+import swal from "sweetalert";
 
 const ConfirmPassword = (props) => {
   const [checkUser, setCheckUser] = useState(false);
@@ -26,6 +27,9 @@ const ConfirmPassword = (props) => {
         confirmPassword(values)
         .then((response) => {
           setCheckUser(true);
+          swal("Əməliyyat ugurlu oldu", "Əməliyyatı tamamlamaq üçün emailden təsdiqləyin", "success",{
+            button: false,
+          })
           // history.push("/");
         })
     },
@@ -71,7 +75,7 @@ const ConfirmPassword = (props) => {
                         Emailinizi yoxlayin
                       </Alert>
                   )}
-                  <input className="submit" type="submit" value="Daxil ol" />
+                  <input className="submit" type="submit" value="Təsdiqlə" />
                   <div className="have_acc">
                     {/*<a href="">Don’t have an Account? Register</a>*/}
                   </div>

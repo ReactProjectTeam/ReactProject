@@ -83,14 +83,13 @@ const UserInfo = (props) => {
     },
   });
 
-  console.log("user", user);
 
   return (
     <>
       <section id="userInfo">
         <div className="container">
           <div className="userInfoHeader">
-            <h5>User Info</h5>
+            <h5>Şəxsi kabinet</h5>
           </div>
           <div className="information">
             <div className="row">

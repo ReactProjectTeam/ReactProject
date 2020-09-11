@@ -137,8 +137,6 @@ const Header = (props) => {
     getProductsById(id, type);
   };
 
-
-
   return (
     <>
       <div className="mobile">
@@ -146,11 +144,11 @@ const Header = (props) => {
           <div className="mobileNavbarInside">
             <div className="menuAndLogo">
               <img
-                  src={menu}
-                  aria-label="Open Mobile Menu"
-                  onClick={() => openMobile()}
-                  className="open-mobile-menu"
-                  alt=""
+                src={menu}
+                aria-label="Open Mobile Menu"
+                onClick={() => openMobile()}
+                className="open-mobile-menu"
+                alt=""
               />
               <Link to="/" className="mobile-logo">
                 <img src={payverLogo} alt="Logo" />
@@ -181,35 +179,44 @@ const Header = (props) => {
                 <div className="head right profile">
                   {cookies.token !== "undefined" &&
                   cookies.token !== undefined ? (
-                      <>
-                        <div className="user-info-header light-btn d-flex align-items-center" onClick={()=>closeMobile()}>
-                          <Link to="/user_info">
-                            <img src={userLogo} alt={userLogo} />
-                            <span>{user.name}</span>
-                          </Link>
-                        </div>
-                        <div className="logout light-btn d-flex align-items-center" onClick={()=>closeMobile()}>
-                          <Link to="/" onClick={() => handleSignOut()}>
-                            <img src={logout} alt={logout} />
-                            <span>Çixiş</span>
-                          </Link>
-                        </div>
-                      </>
+                    <>
+                      <div
+                        className="user-info-header light-btn d-flex align-items-center"
+                        onClick={() => closeMobile()}
+                      >
+                        <Link to="/user_info">
+                          <img
+                            src={`http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`}
+                            alt={user.photo}
+                          />
+                          <span>{user.name}</span>
+                        </Link>
+                      </div>
+                      <div
+                        className="logout light-btn d-flex align-items-center"
+                        onClick={() => closeMobile()}
+                      >
+                        <Link to="/" onClick={() => handleSignOut()}>
+                          <img src={logout} alt={logout} />
+                          <span>Çixiş</span>
+                        </Link>
+                      </div>
+                    </>
                   ) : (
-                      <>
-                        <Link to="/signin">
-                          <div className="signin" onClick={()=>closeMobile()}>
-                            <img src={login} alt={login} />
-                            <span>Daxil ol</span>
-                          </div>
-                        </Link>
-                        <Link to="/signup">
-                          <div className="signup" onClick={()=>closeMobile()}>
-                            <img src={register} alt={register} />
-                            <span>Qeydiyyat</span>
-                          </div>
-                        </Link>
-                      </>
+                    <>
+                      <Link to="/signin">
+                        <div className="signin" onClick={() => closeMobile()}>
+                          <img src={login} alt={login} />
+                          <span>Daxil ol</span>
+                        </div>
+                      </Link>
+                      <Link to="/signup">
+                        <div className="signup" onClick={() => closeMobile()}>
+                          <img src={register} alt={register} />
+                          <span>Qeydiyyat</span>
+                        </div>
+                      </Link>
+                    </>
                   )}
                 </div>
               </div>
@@ -221,23 +228,20 @@ const Header = (props) => {
                   >
                     <Card.Header>
                       <Accordion.Toggle
-                          className="accardionCardBtn"
-                          as={Button}
-                          variant="link"
-                          eventKey={index + 1}
-
+                        className="accardionCardBtn"
+                        as={Button}
+                        variant="link"
+                        eventKey={index + 1}
                       >
-                      <div
-                        className="categoryMobile"
-                      >
-                        <div className="categoryLogo">
-                          <img src={category.img} alt="" />
+                        <div className="categoryMobile">
+                          <div className="categoryLogo">
+                            <img src={category.img} alt="" />
+                          </div>
+                          <span>{category.name}</span>
                         </div>
-                        <span>{category.name}</span>
-                      </div>
-                      <div className="categoryDown">
+                        <div className="categoryDown">
                           <img src={down} alt="" />
-                      </div>
+                        </div>
                         <div className="categoryUp">
                           <img src={up} alt="" />
                         </div>
@@ -246,22 +250,22 @@ const Header = (props) => {
                     <Accordion.Collapse eventKey={index + 1}>
                       <Card.Body>
                         <div
-                            key={index}
-                            // id={subCategory.id}
-                            // className={subCategory.active ? "active" : ""}
-                            className="subCategoryMobile"
-                            onClick={(event) => {
-                              addClickedCategoryOrSubcategory(
-                                category.id,
-                                "category",
-                                event
-                              );
-                              closeMobile();
-                              setSelected({
-                                categoryId: category.id,
-                                type: "category",
-                              });
-                            }}
+                          key={index}
+                          // id={subCategory.id}
+                          // className={subCategory.active ? "active" : ""}
+                          className="subCategoryMobile"
+                          onClick={(event) => {
+                            addClickedCategoryOrSubcategory(
+                              category.id,
+                              "category",
+                              event
+                            );
+                            closeMobile();
+                            setSelected({
+                              categoryId: category.id,
+                              type: "category",
+                            });
+                          }}
                         >
                           <img src={subCategoryLogo} alt="" />
                           <span>Bütün elanlar</span>
@@ -333,27 +337,18 @@ const Header = (props) => {
         <div className="center-header">
           <div className="container">
             <div className="wrapper">
-              <div className="logo">
+              <div
+                className="logo"
+                onClick={(event) => {
+                  addClickedCategoryOrSubcategory(null, "", event);
+                  setSelected({
+                    categoryId: null,
+                    type: "",
+                  });
+                }}
+              >
                 <Link to="/">
-                  <div id="sha_temp_body">
-                    <span className="sha_temp">
-                      <span>
-                        <span className="temp-data">
-                          <img
-                            src={payverLogo}
-                            alt="Logo"
-                            onClick={(event) => {
-                              addClickedCategoryOrSubcategory(null, "", event);
-                              setSelected({
-                                categoryId: null,
-                                type: "",
-                              });
-                            }}
-                          />
-                        </span>
-                      </span>
-                    </span>
-                  </div>
+                  <img src={payverLogo} alt="Logo" />
                 </Link>
               </div>
               <div className="right-side-header">
@@ -364,7 +359,10 @@ const Header = (props) => {
                       <>
                         <div className="user-info-header light-btn d-flex align-items-center">
                           <Link to="/user_info">
-                            <img src={userLogo} alt={userLogo} />
+                            <img
+                              src={`http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`}
+                              alt={user.photo}
+                            />
                             <span>{user.name}</span>
                           </Link>
                         </div>

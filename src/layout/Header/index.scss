@@ -106,9 +106,11 @@ header {
                         .user-info-header{
                             cursor: pointer;
                             margin-right: 10px;
+                            border: none;
                             img{
-                                width: 20px;
-                                margin-right: 5px;
+                                width: 30px;
+                                margin-right: 8px;
+                                border-radius: 5px;
                             }
                             span{
                                 font-size: 15px;
@@ -517,8 +519,19 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
                                     }
                                 }
                                 span{
-                                    margin-left: 10px;
+                                    margin-left: 13px;
+                                    margin-bottom: 2px;
+                                    display: flex;
+                                    align-items: baseline;
+                                    text-decoration: none;
+                                    font-family: Averta;
                                     font-size: 14px;
+                                    font-weight: 600;
+                                    font-stretch: normal;
+                                    font-style: normal;
+                                    line-height: normal;
+                                    letter-spacing: normal;
+                                    color: rgba(49, 69, 106, 0.8);
                                 }
                             }
                             .categoryDown{
@@ -648,9 +661,11 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
                 .user-info-header{
                     cursor: pointer;
                     margin-right: 10px;
+                    border: none;
                     img{
-                        width: 20px;
-                        margin-right: 5px;
+                        width: 30px;
+                        margin-right: 8px;
+                        border-radius: 5px;
                     }
                     span{
                         font-size: 15px;

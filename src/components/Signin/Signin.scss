@@ -10,7 +10,7 @@
       margin-bottom: 20px;
       h3{
         font-family: Averta;
-        font-size: 30px;
+        font-size: 25px;
         font-weight: 600;
         font-stretch: normal;
         font-style: normal;
@@ -235,5 +235,50 @@
 
       }
     }
+  }
+}
+
+@media only screen and (max-width:768px) {
+  #login_register{
+    margin-top: 70px;
+      .wrapper{
+        padding: 0px;
+        background: white;
+        .header{
+          margin-bottom: 0px;
+          h3{
+            font-size: 20px;
+          }
+        }
+        .form{
+          width: 100%;
+          form{
+            width: 100%;
+            .inputs{
+              label{
+                font-size: 14px;
+              }
+              input{
+                width: 100%;
+                font-size: 13px;
+              }
+              .password{
+                width: 100%;
+                input{
+                  width: 100%;
+                  font-size: 13px;
+                }
+                .view{
+                  right: 0px;
+                }
+              }
+            }
+            .submit{
+              width: 100%;
+              font-size: 14px;
+            }
+          }
+        }
+      }
   }
 }

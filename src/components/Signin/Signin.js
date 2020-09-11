@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./Signin.scss";
 import viewCopy from "../../img/login/view-copy.svg";
 import { useFormik } from "formik";
@@ -7,6 +7,8 @@ import validateLogin from "../../utils/yup/validateLogin";
 import { Alert } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 import { Link } from "react-router-dom";
+import swal from "sweetalert";
+import confirm from "../../API/confirm";
 
 const Signup = (props) => {
   const [checkUser, setCheckUser] = useState(false);
@@ -33,14 +35,26 @@ const Signup = (props) => {
     onSubmit: (values) => {
       login(values)
         .then((response) => {
-          setCookie('token',response.data.data.token)
-          history.push("/");
+          console.log("response",response)
+          if (response.data.codeName === "SendConfirmEmail"){
+            swal("Yenidən cəhd edin", "Emailinizi təsdiqləyin", "warning",{
+              button: "Təkrar",
+            })
+            setCheckUser(false);
+
+          }else{
+            setCookie('token',response.data.data.token)
+            history.push("/");
+          }
         })
-        .catch(() => {
+        .catch((errorResponse) => {
+          console.log("errorResponseeee",errorResponse)
           setCheckUser(true);
         });
     },
   });
+
+
 
   return (
     <section id="login_register">
@@ -115,6 +129,7 @@ const Signup = (props) => {
                         Email və ya parolda səhvlik var
                       </Alert>
                   )}
+
                   <input className="submit" type="submit" value="Daxil ol" />
                   <div className="have_acc">
                     {/*<a href="">Don’t have an Account? Register</a>*/}

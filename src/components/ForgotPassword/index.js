@@ -130,7 +130,7 @@ const ForgotPassword = (props) => {
                     className="g-recaptcha"
                     data-sitekey="6Ldbdg0TAAAAAI7KAf72Q6uagbWzWecTeBWmrCpJ"
                   ></div>
-                  <input className="submit" type="submit" value="Qeydiyyat" />
+                  <input className="submit" type="submit" value="Şifrəni dəyiş" />
                 </form>
               </div>
             </div>

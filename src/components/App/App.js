@@ -15,22 +15,24 @@ import NotFound from "../NotFound";
 // import getUserByToken from "../../API/getUserByToken";
 import { useCookies } from "react-cookie";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import PrivateRouteSignUpSignIn from "../PrivateRoute/PrivateRouteSignUpSignIn";
 import UserInfo from "../UserInfo";
 import Context from "../../Context/context";
 import Confirm from "../Confirm";
 import ForgotPassword from "../ForgotPassword";
-import ConfirmPassword from '../ConfirmPassword'
+import ConfirmPassword from "../ConfirmPassword";
+import Swal from "../Swal";
+
 const App = () => {
   const [cookies] = useCookies(["token"]);
-  const [selectedCategoryOrSubcategory, setSelectedCategoryOrSubcategory] = useState({});
+  const [
+    selectedCategoryOrSubcategory,
+    setSelectedCategoryOrSubcategory,
+  ] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
 
   const isAuth =
     cookies.token === "undefined" || cookies.token === undefined ? false : true;
-
-  useEffect(() => {
-  }, []);
-
 
   const handleScroll = () => {
     let content = document.getElementById("content1");
@@ -46,60 +48,81 @@ const App = () => {
     }
   };
 
-  const getProductsById =(id,type)=>{
-    const newObj = {id,type}
-    setSelectedCategoryOrSubcategory(newObj)
-  }
+  const getProductsById = (id, type) => {
+    const newObj = { id, type };
+    setSelectedCategoryOrSubcategory(newObj);
+  };
 
-  const getProductCategoryAndSubcategory =(categoryId,subCategoryId,type)=>{
-    const newObj = {categoryId,subCategoryId,type}
-    setSelectedProduct(newObj)
-  }
-
-
-
+  const getProductCategoryAndSubcategory = (
+    categoryId,
+    subCategoryId,
+    type
+  ) => {
+    const newObj = { categoryId, subCategoryId, type };
+    setSelectedProduct(newObj);
+  };
 
   return (
-      <Context.Provider value={{getProductsById,getProductCategoryAndSubcategory,selectedProduct}}>
-        <>
+    <Context.Provider
+      value={{
+        getProductsById,
+        getProductCategoryAndSubcategory,
+        selectedProduct,
+      }}
+    >
+      <>
         <Router>
-            <div id="content1">
-                  <Route path="/confirm" component={Confirm}/>
-              <Layout>
-                 <Switch>
-                 <Route path="/confirmpassword" component={ConfirmPassword} />
-                  <Route path="/forgotpassword" component={ForgotPassword} />
+          <div id="content1">
+            <Route path="/confirm" component={Confirm} />
+            <Layout>
+              <Switch>
+                <Route path="/confirmpassword" component={ConfirmPassword} />
+                <Route path="/forgotpassword" component={ForgotPassword} />
+                <Route path="/swal" component={Swal} />
 
-                  <Route path="/signup" component={Signup} />
-                  <Route path="/signin" component={Signin} />
-                  <Route exact path="/">
-                    <All_products selectedCategoryOrSubcategory={selectedCategoryOrSubcategory} />
-                  </Route>
-                  <Route
-                      path="/product_details/:id"
-                      component={Product_details}
+                <Route path="/signup" component={Signup}>
+                  <PrivateRouteSignUpSignIn isAuth={isAuth}>
+                    <Signup />
+                  </PrivateRouteSignUpSignIn>
+                </Route>
+                <Route path="/signin" component={Signin}>
+                  <PrivateRouteSignUpSignIn isAuth={isAuth}>
+                    <Signin />
+                  </PrivateRouteSignUpSignIn>
+                </Route>
+
+                <Route exact path="/">
+                  <All_products
+                    selectedCategoryOrSubcategory={
+                      selectedCategoryOrSubcategory
+                    }
                   />
-                  <Route path="/blogs" component={Blogs} />
-                  <Route path="/blog_inside/:id" component={Blog_inside} />
-                  <Route path="/user_info">
-                    <PrivateRoute isAuth={isAuth}>
-                      <UserInfo />
-                    </PrivateRoute>
-                  </Route>
-                  <Route path="/add_product">
-                    <PrivateRoute isAuth={isAuth}>
-                      <Add_product />
-                    </PrivateRoute>
-                  </Route>
-                  <Route path="/contact" component={Contact} />
-                  {/* <Route exact component={NotFound}/> */}
-                  </Switch>
-              </Layout>
+                </Route>
+                <Route
+                  path="/product_details/:id"
+                  component={Product_details}
+                />
+                <Route path="/blogs" component={Blogs} />
+                <Route path="/blog_inside/:id" component={Blog_inside} />
+                <Route path="/user_info">
+                  <PrivateRoute isAuth={isAuth}>
+                    <UserInfo />
+                  </PrivateRoute>
+                </Route>
 
-            </div>
+                <Route path="/add_product">
+                  <PrivateRoute isAuth={isAuth}>
+                    <Add_product />
+                  </PrivateRoute>
+                </Route>
+                <Route path="/contact" component={Contact} />
+                <Route component={NotFound} />
+              </Switch>
+            </Layout>
+          </div>
         </Router>
-        </>
-      </Context.Provider>
+      </>
+    </Context.Provider>
   );
 };
 
