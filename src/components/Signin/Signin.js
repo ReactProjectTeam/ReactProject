@@ -41,7 +41,6 @@ const Signup = (props) => {
               button: "Təkrar",
             })
             setCheckUser(false);
-
           }else{
             setCookie('token',response.data.data.token)
             history.push("/");

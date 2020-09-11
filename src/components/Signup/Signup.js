@@ -57,7 +57,7 @@ const Signup = (props) => {
       phoneNumber: "",
       address: "",
     },
-    validationSchema: validateRegister,
+    // validationSchema: validateRegister,
     onSubmit: (values) => {
       const formData = {
         ...values,
@@ -65,6 +65,7 @@ const Signup = (props) => {
       };
       register(formData)
         .then(() => {
+          console.log("elaaaaaaaaaaaa")
           history.push("/swal");
         })
         .catch(() => {
