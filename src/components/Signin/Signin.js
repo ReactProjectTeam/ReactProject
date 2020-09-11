@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import "./Signin.scss";
+import viewCopy from "../../img/login/view-copy.svg";
 import { useFormik } from "formik";
 import login from "../../API/login";
 import validateLogin from "../../utils/yup/validateLogin";
 import { Alert } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
+import { Link } from "react-router-dom";
 
 const Signup = (props) => {
   const [checkUser, setCheckUser] = useState(false);
   const { history } = props;
   const [cookies, setCookie] = useCookies(['token']);
+  const [inputTypePassword, setInputTypePassword] = useState("password");
+
+  const changeTypePassword = (e) => {
+    inputTypePassword === "password"
+      ? setInputTypePassword("text")
+      : setInputTypePassword("password");
+  };
   const {
     handleSubmit,
     handleChange,
@@ -66,7 +75,7 @@ const Signup = (props) => {
                     <div className="password">
                       <input
                         id="password"
-                        type="password"
+                        type={inputTypePassword}
                         placeholder="Şifrənizi qeyd edin"
                         name="password"
                         onChange={handleChange}
@@ -74,8 +83,12 @@ const Signup = (props) => {
                       />
 
 
-                      <button type="button" className="view">
-                        <img src="img/login/view-copy.svg" alt="" />
+                      <button
+                        onClick={changeTypePassword}
+                        type="button"
+                        className="view"
+                      >
+                        <img src={viewCopy} alt="" />
                       </button>
                     </div>
                     {errors.password && (
@@ -91,7 +104,7 @@ const Signup = (props) => {
                       <input type="checkbox" defaultChecked={true} />
                       <span className="checkmark"></span>
                     </label>
-                    {/*<a href="">Forgot password?</a>*/}
+                    <Link to="/confirmPassword">Şifrəni unutdum</Link>
                   </div>
                   <div
                     className="g-recaptcha"

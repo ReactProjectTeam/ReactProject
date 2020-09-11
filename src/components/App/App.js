@@ -17,7 +17,9 @@ import { useCookies } from "react-cookie";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import UserInfo from "../UserInfo";
 import Context from "../../Context/context";
-
+import Confirm from "../Confirm";
+import ForgotPassword from "../ForgotPassword";
+import ConfirmPassword from '../ConfirmPassword'
 const App = () => {
   const [cookies] = useCookies(["token"]);
   const [selectedCategoryOrSubcategory, setSelectedCategoryOrSubcategory] = useState({});
@@ -62,8 +64,12 @@ const App = () => {
         <>
         <Router>
             <div id="content1">
+                  <Route path="/confirm" component={Confirm}/>
               <Layout>
-                <Switch>
+                 <Switch>
+                 <Route path="/confirmpassword" component={ConfirmPassword} />
+                  <Route path="/forgotpassword" component={ForgotPassword} />
+
                   <Route path="/signup" component={Signup} />
                   <Route path="/signin" component={Signin} />
                   <Route exact path="/">
@@ -86,9 +92,10 @@ const App = () => {
                     </PrivateRoute>
                   </Route>
                   <Route path="/contact" component={Contact} />
-                  <Route component={NotFound}></Route>
-                </Switch>
+                  {/* <Route exact component={NotFound}/> */}
+                  </Switch>
               </Layout>
+
             </div>
         </Router>
         </>

@@ -279,10 +279,10 @@ const UserInfo = (props) => {
                                           <p>{row.title}</p>
                                         </div>
                                         <div className="products_item_bottom">
-                                          {/*<p>*/}
-                                          {/*  {row.city !== undefined &&*/}
-                                          {/*    row.city.name}*/}
-                                          {/*</p>*/}
+                                          <p>
+                                           {row.city !== undefined &&
+                                             row.city.name}
+                                          </p>
 
                                           <p>
                                             {new Date(
