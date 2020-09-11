@@ -11,6 +11,10 @@ import { Alert } from "react-bootstrap";
 import deleteIcon from "../../img/add_product/delete.png";
 import profileImg from "../../img/add_product/profileImg.png";
 import postAddProduct from "../../API/postAddProduct";
+import InputMask from 'react-input-mask';
+import swal from 'sweetalert';
+
+
 
 import { useHistory } from "react-router-dom";
 
@@ -68,14 +72,21 @@ const Add_product = (props) => {
     },
     validationSchema: validateAddProduct,
     onSubmit: (values) => {
-      console.log("values",values)
+      const phone = values.ownerPhoneNumber.split("-").join("").split(" ").join("").split("(").join("").split(")").join("");
+      
       const formData = {
         ...values,
         userId: user.id,
         files: file.map((item) => item.file),
+        ownerPhoneNumber: phone
       };
+  
       postAddProduct(cookies.token, formData).then(() => {
-        history.push("/");
+        swal("Elanınız moderatora göndərildi", "Elanınız təsdiqləndikdən sonra paylaşılacaq", "success",{
+          button: "Bağla",
+        }).then(()=>{
+          history.push("/");
+        })
       });
     },
   });
@@ -297,14 +308,22 @@ const Add_product = (props) => {
                           Nömrə
                         </label>
                         <div className="inputs_inside">
-                          <input
+                          {/* <input
                               className="input"
                               type="text"
                               name="ownerPhoneNumber"
                               onChange={handleChange}
                               value={ownerPhoneNumber}
                               placeholder="nömrənizi qeyd edin"
-                          />
+                          /> */}
+                          <InputMask  
+                            placeholder="Telefon nomrənizi qeyd edin"
+                            name="ownerPhoneNumber"
+                            id="phoneNumber"
+                            className="input"
+                            onChange={handleChange}
+                            value={ownerPhoneNumber}
+                            mask="+\9\94 (99) 999-99-99" />
                           {errors.ownerPhoneNumber && (
                               <Alert
                                   variant="warning"
