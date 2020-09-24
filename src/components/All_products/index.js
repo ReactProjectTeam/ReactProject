@@ -11,16 +11,20 @@ const All_products = (props) => {
   const [selectedCategoryOrSubcategory, setSelectedCategoryOrSubcategory] = useState("");
   const { getProductCategoryAndSubcategory } = useContext(Context);
 
+
   useEffect(() => {
     getAllProducts()
-      .then((response) => {
-        if (response.status === 200) {
-          setProducts(response.data.data);
-        }
-      })
-      .finally((response) => {
-        setIsLoading(false);
-      });
+        .then((response) => {
+          if (response.status === 200) {
+            setProducts(response.data.data);
+          }
+        })
+        .finally((response) => {
+          setIsLoading(false);
+        });
+  }, []);
+
+  useEffect(() => {
     setSelectedCategoryOrSubcategory(props.selectedCategoryOrSubcategory);
   }, [props]);
 

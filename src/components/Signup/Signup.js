@@ -31,7 +31,7 @@ const Signup = (props) => {
       : setInputTypeConfirmPassword("password");
   };
 
-  // const { history } = props;
+
   const history = useHistory();
 
   const {
@@ -57,7 +57,7 @@ const Signup = (props) => {
       phoneNumber: "",
       address: "",
     },
-    // validationSchema: validateRegister,
+    validationSchema: validateRegister,
     onSubmit: (values) => {
       const phone = values.phoneNumber.split("-").join("").split(" ").join("").split("(").join("").split(")").join("");
       const formData = {
@@ -217,7 +217,6 @@ const Signup = (props) => {
                   </div>
                   <div className="inputs">
                     <label htmlFor="phoneNumber">Telefon nömrəsi</label>
-                   
                     <InputMask  
                       placeholder="Telefon nomrənizi qeyd edin"
                       name="phoneNumber"
@@ -297,6 +296,7 @@ const Signup = (props) => {
                       </div>
                     </div>
                   </div>
+
                   <div className="remember_forgot">
                     <label className="checkbox_container">
                       Yadda saxla

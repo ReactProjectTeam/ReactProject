@@ -1,0 +1,60 @@
+
+.modal-content{
+
+  .modal-header{
+    .modal-title{
+      font-family: Averta;
+      font-size: 16px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: #ff9466;
+    }
+  }
+  .modal-body{
+
+  }
+  .modal-footer{
+    .modalBtn{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      .closeModal{
+        margin-top: 20px;
+        height: 46px;
+        border-radius: 4px;
+        background-color: gray;
+        border: none;
+        font-family: Averta;
+        font-size: 16px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+      }
+      .submit{
+        margin-top: 20px;
+        height: 46px;
+        border-radius: 4px;
+        border: none;
+        font-family: Averta;
+        font-size: 16px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+        background: #ff9466;
+      }
+    }
+  }
+}
+

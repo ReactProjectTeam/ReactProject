@@ -1,18 +1,18 @@
 import * as yup from "yup";
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+// const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validateUserInfo = yup.object({
-    email: yup.string().email("Email düzgün deyil").required("Email qeyd olunmayıb"),
-    password: yup
-        .string()
-        .min(6, "6 simvoldan az olmamalıdır")
-        .max(20, "20 simvoldan çox olmamalıdır")
-        .required("Şifrə qeyd olunmayıb"),
-    confirmPassword: yup
-        .string()
-        .oneOf([yup.ref("password"), null], "Şifrələr eyni olmalıdır")
-        .required("Şifrə qeyd olunmayıb"),
+    // email: yup.string().email("Email düzgün deyil").required("Email qeyd olunmayıb"),
+    // password: yup
+    //     .string()
+    //     .min(6, "6 simvoldan az olmamalıdır")
+    //     .max(20, "20 simvoldan çox olmamalıdır")
+    //     .required("Şifrə qeyd olunmayıb"),
+    // confirmPassword: yup
+    //     .string()
+    //     .oneOf([yup.ref("password"), null], "Şifrələr eyni olmalıdır")
+    //     .required("Şifrə qeyd olunmayıb"),
     name: yup
         .string()
         .min(3, "3 simvoldan az olmamalıdır")
@@ -25,9 +25,9 @@ const validateUserInfo = yup.object({
         .required("Soyad qeyd olunmayıb"),
     phoneNumber: yup
         .string()
-        .matches(phoneRegExp, 'Yalnız rəqəm daxil olunmalıdır')
+        // .matches(phoneRegExp, 'Yalnız rəqəm daxil olunmalıdır')
         .min(9, "9 simvoldan az olmamalıdır")
-        .max(9, "9 simvoldan çox olmamalıdır")
+        .max(20, "20 simvoldan çox olmamalıdır")
         .required("Telefon nömrəsi qeyd olunmayıb"),
     address: yup
         .string()

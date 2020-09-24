@@ -22,6 +22,10 @@ import Confirm from "../Confirm";
 import ForgotPassword from "../ForgotPassword";
 import ConfirmPassword from "../ConfirmPassword";
 import Swal from "../Swal";
+import getUserByToken from "../../API/getUserByToken";
+import isEmpty from "lodash/isEmpty";
+import Test from "../Test/Test";
+import Update_product from "../Update_product";
 
 const App = () => {
   const [cookies] = useCookies(["token"]);
@@ -30,9 +34,20 @@ const App = () => {
     setSelectedCategoryOrSubcategory,
   ] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
-
   const isAuth =
     cookies.token === "undefined" || cookies.token === undefined ? false : true;
+  const [user, setUser] = useState({});
+  const [rendering, setRendering] = useState(null);
+
+  useEffect(() => {
+    if (cookies.token !== undefined && cookies.token !== "undefined") {
+      getUserByToken(cookies.token).then((responseUser) => {
+        if (responseUser.status === 200) {
+          setUser(responseUser.data.data);
+        }
+      });
+    }
+  }, []);
 
   const handleScroll = () => {
     let content = document.getElementById("content1");
@@ -62,20 +77,26 @@ const App = () => {
     setSelectedProduct(newObj);
   };
 
+  const renderingHandle =(rendering)=>{
+    setRendering(rendering)
+  }
+
   return (
     <Context.Provider
       value={{
         getProductsById,
         getProductCategoryAndSubcategory,
         selectedProduct,
+        renderingHandle,
       }}
     >
       <>
         <Router>
           <div id="content1">
             <Route path="/confirm" component={Confirm} />
-            <Layout>
+            <Layout rendering={rendering}>
               <Switch>
+                <Route path="/test" component={Test} />
                 <Route path="/confirmpassword" component={ConfirmPassword} />
                 <Route path="/forgotpassword" component={ForgotPassword} />
                 <Route path="/swal" component={Swal} />
@@ -106,14 +127,18 @@ const App = () => {
                 <Route path="/blog_inside/:id" component={Blog_inside} />
                 <Route path="/user_info">
                   <PrivateRoute isAuth={isAuth}>
-                    <UserInfo />
+                    <UserInfo user={user} />
                   </PrivateRoute>
                 </Route>
-
                 <Route path="/add_product">
                   <PrivateRoute isAuth={isAuth}>
                     <Add_product />
                   </PrivateRoute>
+                </Route>
+                <Route path="/update_product/:id" component={Update_product}>
+                  {/*<PrivateRoute isAuth={isAuth}>*/}
+                  {/*  <Update_product />*/}
+                  {/*</PrivateRoute>*/}
                 </Route>
                 <Route path="/contact" component={Contact} />
                 <Route component={NotFound} />

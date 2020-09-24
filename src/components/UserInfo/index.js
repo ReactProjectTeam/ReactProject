@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, {Component, useContext, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import "./index.scss";
 import user_info from "../../img/user_info/person.png";
@@ -12,41 +12,51 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import isEmpty from "lodash/isEmpty";
 import login from "../../API/login";
+import swal from "sweetalert";
+import profileImg from "../../img/add_product/profileImg.png";
+import deleteIcon from "../../img/add_product/delete.png";
+import { Alert } from "react-bootstrap";
+import Context from "../../Context/context";
+import Crop from "./Crop";
+import InputMask from "react-input-mask";
 
-const UserInfo = (props) => {
+const UserInfo = () => {
   const [cookies] = useCookies(["token"]);
-  const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [published, setPublished] = useState([]);
   const [deleted, setDeleted] = useState([]);
   const [created, setCreated] = useState([]);
+  const [file, setFile] = useState([]);
+  const [rendering, setRendering] = useState(false);
+  const [user, setUser] = useState({});
+  const { renderingHandle } = useContext(Context);
+
 
   useEffect(() => {
-    getUserByToken(cookies.token)
-      .then((responseUser) => {
-        if (responseUser.status === 200) {
-          setUser(responseUser.data.data);
-          setPublished(
-            responseUser.data.data.productResponses.filter(
-              (item) => item.status === "Published"
-            )
-          );
-          setDeleted(
-            responseUser.data.data.productResponses.filter(
-              (item) => item.status === "Deleted"
-            )
-          );
-          setCreated(
-            responseUser.data.data.productResponses.filter(
-              (item) => item.status === "Created"
-            )
-          );
-        }
-      })
-      .finally((response) => {
-        setIsLoading(false);
-      });
-  }, []);
+    if (!isEmpty(user)) {
+      setPublished(
+        user.productResponses.filter((item) => item.status === "Published")
+      );
+      setDeleted(
+        user.productResponses.filter((item) => item.status === "Deleted")
+      );
+      setCreated(
+        user.productResponses.filter((item) => item.status === "Created")
+      );
+      setIsLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    !isEmpty(cookies) &&
+    getUserByToken(cookies.token).then((responseUser) => {
+      if (responseUser.status === 200) {
+        setUser(responseUser.data.data);
+      }
+    });
+  }, [rendering]);
+
+
 
   const {
     handleSubmit,
@@ -56,7 +66,7 @@ const UserInfo = (props) => {
       email,
       surname,
       name,
-      phonenumber,
+      phoneNumber,
       address,
       photo,
       password,
@@ -65,23 +75,73 @@ const UserInfo = (props) => {
     errors,
   } = useFormik({
     initialValues: {
-      userId: user.id,
-      email: user.email,
+      // userId: user.id,
+      // email: user.email,
       name: user.name,
       surname: user.surname,
       phoneNumber: user.phoneNumber,
       address: user.address,
-      photo: user.photo,
+      // photo: user.photo,
       // password: "050284871878",
       // confirmpassword: "Nizami",
     },
-    // validationSchema: validateUserInfo,
+    validationSchema: validateUserInfo,
+    enableReinitialize: true,
     onSubmit: (values) => {
-      const formData = { ...values, userId: user.id };
-      putUpdateUser(cookies.token, formData);
-      // console.log(user)
+      const phone = values.phoneNumber.split("-").join("").split(" ").join("").split("(").join("").split(")").join("");
+      const formData = {
+        ...values,
+        photo: file.map((item) => item.file),
+        userId: user.id,
+        phoneNumber: phone
+      };
+      putUpdateUser(cookies.token, formData)
+        .then(() => {
+          swal(
+            "Uğurla yeniləndi",
+            "Daxil etdiyiniz melumatlar dəyişdirildi",
+            "success",
+            {
+              button: "Bağla",
+            }
+          );
+        })
+        .then(() => {
+          setRendering(!rendering);
+          renderingHandle(!rendering)
+        });
     },
   });
+
+  const handleChangeImg = (event, date) => {
+    console.log("event.target.files",event.target.files)
+    const filesArr = [];
+    for (const item of event.target.files) {
+      filesArr.push({
+        urlFront: URL.createObjectURL(item),
+        file: item,
+      });
+    }
+    setFile(filesArr);
+  };
+
+  const handleProductItemDelete = (index) => {
+    const deletedItemImg = file.splice(index, 1);
+    const newArray = file.filter((value) => value != deletedItemImg);
+    setFile(newArray);
+  };
+
+  const getFileCropper =(data)=>{
+    console.log("data",data)
+    const filesArr = [];
+    for (const item of data) {
+      filesArr.push({
+        urlFront: URL.createObjectURL(item),
+        file: item,
+      });
+    }
+    setFile(filesArr);
+  }
 
 
   return (
@@ -95,8 +155,13 @@ const UserInfo = (props) => {
             <div className="row">
               <div className="col-md-5">
                 <div className="information_left">
+                  {/*f4a26b26-25b4-448e-834f-eb72c14aa850tebriz.jpg*/}
+                  {/*a284d6da-2283-4744-9559-f89bc6ed23d9tebriz.jpg*/}
                   <img
-                    src={`http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`}
+                    src={
+                      user.photo &&
+                      `http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`
+                    }
                     alt={user.photo}
                   />
                 </div>
@@ -107,26 +172,14 @@ const UserInfo = (props) => {
                     <form onSubmit={handleSubmit}>
                       <div className="inputs">
                         <label htmlFor="email">Email</label>
-                        <input
-                          type="text"
-                          placeholder="Your email"
-                          name="email"
-                          id="email"
-                          onChange={(e) => {
-                            handleChange(e);
-                          }}
-                          defaultValue={user.email}
-                        />
-                        {/*{checkUser === true &&*/}
-                        {/*"Bu email ile user qeydiyyatdan kechib"}*/}
-                        {/*{errors.email ? errors.email : null}*/}
+                        <p>{user.email}</p>
                       </div>
                       <div className="inputs">
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">Şifrə</label>
                         <div className="password">
                           <input
                             // type={inputTypePassword}
-                            placeholder="Your password"
+                            placeholder="Şifrənizi qeyd edin"
                             name="password"
                             id="password"
                             onChange={(e) => {
@@ -134,6 +187,9 @@ const UserInfo = (props) => {
                             }}
                             defaultValue="******"
                           />
+                          {errors.password && (
+                            <Alert variant="warning">{errors.password}</Alert>
+                          )}
                           {/*{errors.password ? errors.password : null}*/}
                           <button
                             // onClick={changeTypePassword}
@@ -146,12 +202,12 @@ const UserInfo = (props) => {
                       </div>
                       <div className="inputs">
                         <label htmlFor="confirmPassword">
-                          Confirm Password
+                          Təkrar şifrə
                         </label>
                         <div className="password">
                           <input
                             // type={inputTypeConfirmPassword}
-                            placeholder="Your confirm password"
+                            placeholder="Təkrar şifrənizi qeyd edin"
                             name="confirmPassword"
                             id="confirmPassword"
                             onChange={(e) => {
@@ -159,6 +215,11 @@ const UserInfo = (props) => {
                             }}
                             defaultValue="******"
                           />
+                          {errors.confirmPassword && (
+                            <Alert variant="warning">
+                              {errors.confirmPassword}
+                            </Alert>
+                          )}
                           {/*{errors.confirmPassword ? errors.confirmPassword : null}*/}
                           <button
                             // onClick={changeTypeConfirmPassword}
@@ -170,61 +231,137 @@ const UserInfo = (props) => {
                         </div>
                       </div>
                       <div className="inputs">
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="name">Ad</label>
                         <input
                           type="text"
-                          placeholder="Your name"
+                          placeholder="Adınızı qeyd edin"
                           name="name"
                           id="name"
-                          onChange={(e) => {
-                            handleChange(e);
-                          }}
+                          onChange={handleChange}
+                          // value={name}
                           defaultValue={user.name}
                         />
-                        {/*{errors.name ? errors.name : null}*/}
+
+                        {errors.name && (
+                          <Alert variant="warning">{errors.name}</Alert>
+                        )}
                       </div>
                       <div className="inputs">
-                        <label htmlFor="surname">Surname</label>
+                        <label htmlFor="surname">Soyad</label>
                         <input
                           type="text"
-                          placeholder="Your surname"
+                          placeholder="Soyadinızı qeyd edin"
                           name="surname"
                           id="surname"
-                          onChange={(e) => {
-                            handleChange(e);
-                          }}
+                          onChange={handleChange}
+                          // value={user.surname}
                           defaultValue={user.surname}
                         />
+                        {errors.surname && (
+                          <Alert variant="warning">{errors.surname}</Alert>
+                        )}
                         {/*{errors.surname ? errors.surname : null}*/}
                       </div>
                       <div className="inputs">
-                        <label htmlFor="phoneNumber">PhoneNumber</label>
-                        <input
-                          type="text"
-                          placeholder="Your phoneNumber"
-                          name="phoneNumber"
-                          id="phoneNumber"
-                          onChange={handleChange}
-                          defaultValue={user.phoneNumber}
-                        />
-                        {/*{errors.phoneNumber ? errors.phoneNumber : null}*/}
+                        <label htmlFor="phoneNumber">Telefon nömrəsi</label>
+                        <InputMask
+                            placeholder="Telefon nomrənizi qeyd edin"
+                            name="phoneNumber"
+                            id="phoneNumber"
+                            onChange={handleChange}
+                            value={phoneNumber}
+                            mask="+\9\94 (99) 999-99-99" />
+                          {errors.phoneNumber && (
+                              <Alert variant="warning">
+                                {errors.phoneNumber}
+                              </Alert>
+                          )}
                       </div>
                       <div className="inputs">
-                        <label htmlFor="address">Address</label>
+                        <label htmlFor="address">Ünvan</label>
                         <input
                           type="text"
-                          placeholder="Your address"
+                          placeholder="Ünvaninizi qeyd edin"
                           name="address"
                           id="address"
                           onChange={handleChange}
                           defaultValue={user.address}
                         />
+                        {errors.address && (
+                          <Alert variant="warning">{errors.address}</Alert>
+                        )}
                         {/*{errors.address ? errors.address : null}*/}
                       </div>
-                      <div
-                        className="g-recaptcha"
-                        data-sitekey="6Ldbdg0TAAAAAI7KAf72Q6uagbWzWecTeBWmrCpJ"
-                      ></div>
+
+                      <div className="inputs">
+                        <label className="required" htmlFor="">
+                          Şəkil
+                        </label>
+                        <Crop file={file} getFileCropper={getFileCropper}/>
+
+
+
+                        {/*<div className="file-input">*/}
+                        {/*  <div className="file-input-choose">*/}
+                        {/*    <input*/}
+                        {/*      type="file"*/}
+                        {/*      className="input"*/}
+                        {/*      id="imageUpload"*/}
+                        {/*      onChange={(event) =>*/}
+                        {/*        handleChangeImg(event, new Date())*/}
+                        {/*      }*/}
+                        {/*      onClick={(event) => {*/}
+                        {/*        event.target.value = null;*/}
+                        {/*      }}*/}
+                        {/*      style={{ display: "none" }}*/}
+                        {/*    />*/}
+                        {/*    <label*/}
+                        {/*      htmlFor="imageUpload"*/}
+                        {/*      className="btn btn-large"*/}
+                        {/*      className="inputFile"*/}
+                        {/*    >*/}
+                        {/*      Şəkil seçin*/}
+                        {/*      {file.length !== 0 && (*/}
+                        {/*        <span className="ml-2">{file.length}</span>*/}
+                        {/*      )}*/}
+                        {/*    </label>*/}
+                        {/*  </div>*/}
+
+                        {/*  <div className="uploadedImg">*/}
+                        {/*    {file.map((item, index) => (*/}
+                        {/*      <div*/}
+                        {/*        className="productItem"*/}
+                        {/*        key={index}*/}
+                        {/*        id={index}*/}
+                        {/*      >*/}
+                        {/*        <div className="productItemImg">*/}
+                        {/*          <img src={item.urlFront} className="mt-2" />*/}
+                        {/*          {index === 0 && (*/}
+                        {/*            <div className="d-flex justify-content-center align-items-center">*/}
+                        {/*              <img*/}
+                        {/*                className="profileImg"*/}
+                        {/*                src={profileImg}*/}
+                        {/*                alt=""*/}
+                        {/*              />*/}
+                        {/*              <span>Esas şəkil</span>*/}
+                        {/*            </div>*/}
+                        {/*          )}*/}
+                        {/*        </div>*/}
+                        {/*        <div*/}
+                        {/*          className="productItemImgDelete"*/}
+                        {/*          onClick={() => handleProductItemDelete(index)}*/}
+                        {/*        >*/}
+                        {/*          <img src={deleteIcon} alt={deleteIcon} />*/}
+                        {/*        </div>*/}
+                        {/*      </div>*/}
+                        {/*    ))}*/}
+                        {/*  </div>*/}
+                        {/*</div>*/}
+
+
+
+
+                      </div>
                       <input
                         className="submit"
                         type="submit"
@@ -262,7 +399,10 @@ const UserInfo = (props) => {
                           ) : !isEmpty(published) ? (
                             published.map((row, index) => {
                               return (
-                                <div key={index} className="col-md-3 col-sm-3 col-6">
+                                <div
+                                  key={index}
+                                  className="col-md-3 col-sm-3 col-6"
+                                >
                                   <Link to={`/product_details/${row.id}`}>
                                     <div className="products_item">
                                       <div className="item">
@@ -279,8 +419,8 @@ const UserInfo = (props) => {
                                         </div>
                                         <div className="products_item_bottom">
                                           <p>
-                                           {row.city !== undefined &&
-                                             row.city.name}
+                                            {row.city !== undefined &&
+                                              row.city.name}
                                           </p>
 
                                           <p>
@@ -320,7 +460,10 @@ const UserInfo = (props) => {
                           ) : !isEmpty(deleted) ? (
                             deleted.map((row, index) => {
                               return (
-                                <div key={index} className="col-md-3 col-md-3 col-sm-3 col-6">
+                                <div
+                                  key={index}
+                                  className="col-md-3 col-md-3 col-sm-3 col-6"
+                                >
                                   <Link to={`/product_details/${row.id}`}>
                                     <div className="products_item">
                                       <div className="item">
@@ -378,7 +521,10 @@ const UserInfo = (props) => {
                           ) : !isEmpty(created) ? (
                             created.map((row, index) => {
                               return (
-                                <div key={index} className="col-md-3 col-md-3 col-sm-3 col-6">
+                                <div
+                                  key={index}
+                                  className="col-md-3 col-md-3 col-sm-3 col-6"
+                                >
                                   <Link to={`/product_details/${row.id}`}>
                                     <div className="products_item">
                                       <div className="item">

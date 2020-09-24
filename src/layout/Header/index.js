@@ -24,6 +24,7 @@ import getCategories from "../../API/getCategories";
 import getSubCategories from "../../API/getSubCategories";
 import Context from "../../Context/context";
 import { Accordion, Card, Button } from "react-bootstrap";
+import isEmpty from "lodash/isEmpty"
 
 const pageHeader = document.querySelector(".mobile");
 const openMobMenu = document.querySelector(".open-mobile-menu");
@@ -85,13 +86,6 @@ const Header = (props) => {
   };
 
   useEffect(() => {
-    if (cookies.token !== undefined && cookies.token !== "undefined") {
-      getUserByToken(cookies.token).then((responseUser) => {
-        if (responseUser.status === 200) {
-          setUser(responseUser.data.data);
-        }
-      });
-    }
     getCategories().then((response) => {
       if (response.status === 200) {
         setCategories(
@@ -110,6 +104,17 @@ const Header = (props) => {
     });
     setSelected(selectedProduct);
   }, [selectedProduct, cookies.token]);
+
+  useEffect(() => {
+    if (cookies.token !== undefined && cookies.token !== "undefined") {
+      getUserByToken(cookies.token).then((responseUser) => {
+        if (responseUser.status === 200) {
+          setUser(responseUser.data.data);
+        }
+      });
+    }
+  }, [props.rendering,cookies.token]);
+
 
   const addClickedCategoryOrSubcategory = (id, type, event) => {
     event.stopPropagation();
@@ -186,7 +191,7 @@ const Header = (props) => {
                       >
                         <Link to="/user_info">
                           <img
-                            src={`http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`}
+                            src={user.photo && (`http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`)}
                             alt={user.photo}
                           />
                           <span>{user.name}</span>
@@ -360,10 +365,10 @@ const Header = (props) => {
                         <div className="user-info-header light-btn d-flex align-items-center">
                           <Link to="/user_info">
                             <img
-                              src={`http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`}
+                              src={user.photo && (`http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`)}
                               alt={user.photo}
                             />
-                            <span>{user.name}</span>
+                            <span>{user.name && (user.name) }</span>
                           </Link>
                         </div>
                         <div className="logout light-btn d-flex align-items-center">

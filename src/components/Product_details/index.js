@@ -20,14 +20,20 @@ const Product_details = (props) => {
   const [cookies] = useCookies(["token"]);
   const history = useHistory();
 
+
+
   useEffect(() => {
     getProductById(props.match.params.id).then((response) => {
       if (response.status === 200) {
         setData(response.data.data);
       }
     });
-    getUserByToken(cookies.token)
-        .then(res=>setUser(res.data.data))
+
+    !isEmpty(cookies) && (
+        getUserByToken(cookies.token)
+            .then(res=>setUser(res.data.data))
+    )
+
   }, []);
 
   return (
@@ -117,10 +123,10 @@ const Product_details = (props) => {
                     <div className="col-md-6">
                       {!isEmpty(data) && user.id === data.userId ? (<div className="product_details_change">
                         <div className="product_details_change_edit">
-                          <a href="/">
+                          <Link to={`/update_product/${data.id}`}>
                             <img src={editImg} alt="" />
                             <p>Düzəliş et</p>
-                          </a>
+                          </Link>
                         </div>
                         <div className="product_details_change_delete">
                           <Link

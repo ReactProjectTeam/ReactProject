@@ -6,13 +6,13 @@ import login from "../../API/login";
 import validateLogin from "../../utils/yup/validateLogin";
 import { Alert } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
-import { Link } from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import swal from "sweetalert";
 import confirm from "../../API/confirm";
 
-const Signup = (props) => {
+const Signin = (props) => {
   const [checkUser, setCheckUser] = useState(false);
-  const { history } = props;
+  const history = useHistory();
   const [cookies, setCookie] = useCookies(['token']);
   const [inputTypePassword, setInputTypePassword] = useState("password");
 
@@ -144,4 +144,4 @@ const Signup = (props) => {
   );
 };
 
-export default Signup;
+export default Signin;
