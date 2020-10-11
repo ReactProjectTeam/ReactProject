@@ -88,6 +88,7 @@ const UserInfo = () => {
     validationSchema: validateUserInfo,
     enableReinitialize: true,
     onSubmit: (values) => {
+      console.log("aaaaaaaaa",file)
       const phone = values.phoneNumber.split("-").join("").split(" ").join("").split("(").join("").split(")").join("");
       const formData = {
         ...values,
@@ -113,6 +114,12 @@ const UserInfo = () => {
     },
   });
 
+  const handleProductItemDelete = (index) => {
+    const deletedItemImg = file.splice(index, 1);
+    const newArray = file.filter((value) => value != deletedItemImg);
+    setFile(newArray);
+  };
+
   const handleChangeImg = (event, date) => {
     console.log("event.target.files",event.target.files)
     const filesArr = [];
@@ -123,12 +130,6 @@ const UserInfo = () => {
       });
     }
     setFile(filesArr);
-  };
-
-  const handleProductItemDelete = (index) => {
-    const deletedItemImg = file.splice(index, 1);
-    const newArray = file.filter((value) => value != deletedItemImg);
-    setFile(newArray);
   };
 
   const getFileCropper =(data)=>{
@@ -297,66 +298,66 @@ const UserInfo = () => {
                         <label className="required" htmlFor="">
                           Şəkil
                         </label>
-                        <Crop file={file} getFileCropper={getFileCropper}/>
+                        {/*<Crop file={file} getFileCropper={getFileCropper}/>*/}
 
 
 
-                        {/*<div className="file-input">*/}
-                        {/*  <div className="file-input-choose">*/}
-                        {/*    <input*/}
-                        {/*      type="file"*/}
-                        {/*      className="input"*/}
-                        {/*      id="imageUpload"*/}
-                        {/*      onChange={(event) =>*/}
-                        {/*        handleChangeImg(event, new Date())*/}
-                        {/*      }*/}
-                        {/*      onClick={(event) => {*/}
-                        {/*        event.target.value = null;*/}
-                        {/*      }}*/}
-                        {/*      style={{ display: "none" }}*/}
-                        {/*    />*/}
-                        {/*    <label*/}
-                        {/*      htmlFor="imageUpload"*/}
-                        {/*      className="btn btn-large"*/}
-                        {/*      className="inputFile"*/}
-                        {/*    >*/}
-                        {/*      Şəkil seçin*/}
-                        {/*      {file.length !== 0 && (*/}
-                        {/*        <span className="ml-2">{file.length}</span>*/}
-                        {/*      )}*/}
-                        {/*    </label>*/}
-                        {/*  </div>*/}
+                        <div className="file-input">
+                          <div className="file-input-choose">
+                            <input
+                              type="file"
+                              className="input"
+                              id="imageUpload"
+                              onChange={(event) =>
+                                handleChangeImg(event, new Date())
+                              }
+                              onClick={(event) => {
+                                event.target.value = null;
+                              }}
+                              style={{ display: "none" }}
+                            />
+                            <label
+                              htmlFor="imageUpload"
+                              className="btn btn-large"
+                              className="inputFile"
+                            >
+                              Şəkil seçin
+                              {file.length !== 0 && (
+                                <span className="ml-2">{file.length}</span>
+                              )}
+                            </label>
+                          </div>
 
-                        {/*  <div className="uploadedImg">*/}
-                        {/*    {file.map((item, index) => (*/}
-                        {/*      <div*/}
-                        {/*        className="productItem"*/}
-                        {/*        key={index}*/}
-                        {/*        id={index}*/}
-                        {/*      >*/}
-                        {/*        <div className="productItemImg">*/}
-                        {/*          <img src={item.urlFront} className="mt-2" />*/}
-                        {/*          {index === 0 && (*/}
-                        {/*            <div className="d-flex justify-content-center align-items-center">*/}
-                        {/*              <img*/}
-                        {/*                className="profileImg"*/}
-                        {/*                src={profileImg}*/}
-                        {/*                alt=""*/}
-                        {/*              />*/}
-                        {/*              <span>Esas şəkil</span>*/}
-                        {/*            </div>*/}
-                        {/*          )}*/}
-                        {/*        </div>*/}
-                        {/*        <div*/}
-                        {/*          className="productItemImgDelete"*/}
-                        {/*          onClick={() => handleProductItemDelete(index)}*/}
-                        {/*        >*/}
-                        {/*          <img src={deleteIcon} alt={deleteIcon} />*/}
-                        {/*        </div>*/}
-                        {/*      </div>*/}
-                        {/*    ))}*/}
-                        {/*  </div>*/}
-                        {/*</div>*/}
+                          <div className="uploadedImg">
+                            {file.map((item, index) => (
+                              <div
+                                className="productItem"
+                                key={index}
+                                id={index}
+                              >
+                                <div className="productItemImg">
+                                  <img src={item.urlFront} className="mt-2" />
+                                  {index === 0 && (
+                                    <div className="d-flex justify-content-center align-items-center">
+                                      <img
+                                        className="profileImg"
+                                        src={profileImg}
+                                        alt=""
+                                      />
+                                      <span>Esas şəkil</span>
+                                    </div>
+                                  )}
+                                </div>
+                                <div
+                                  className="productItemImgDelete"
+                                  onClick={() => handleProductItemDelete(index)}
+                                >
+                                  <img src={deleteIcon} alt={deleteIcon} />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
 
 
 

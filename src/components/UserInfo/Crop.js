@@ -79,7 +79,7 @@ const Crop = ({ classes,getFileCropper }) => {
 
   // console.log("imageSrc",imageSrc)
 
-  console.log("fileEnded",fileEnded)
+  // console.log("fileEnded",fileEnded)
 
   useEffect(() => {
     getFileCropper(fileEnded)
