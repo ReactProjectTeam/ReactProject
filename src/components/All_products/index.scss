@@ -1,6 +1,5 @@
 #all_products{
-    margin-top: 30px;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
     .all_products_header{
         margin-bottom: 20px;
         display: flex;
@@ -11,7 +10,7 @@
             }
         }
         .all_products_header_right{
-            width: 60%;
+            //width: 80%;
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -27,7 +26,7 @@
                 }
                 select{
                     height: 25px;
-                    font-size: 13px;
+                    font-size: 14px;
                     border-radius: 2px;
                     padding: 0px 10px;
                     outline: none;
@@ -41,10 +40,19 @@
                     }
                 }
             }
-            
         }
-        
     }
+    .notProduct{
+        height: 55vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        color: #ff9466;
+            p{
+                font-size: 18px;
+            }
+        }
     a{
         text-decoration: none;
         color: rgba(49, 69, 106, 0.8);
@@ -80,13 +88,13 @@
                     display: flex;
                     position: absolute;
                     align-items: flex-end;
-                    z-index: 999;
+                    z-index: 9;
                     background: white;
                     bottom: 35px;
                     width: 100%;
-                    height: 31px;
+                    height: 30px;
                     p{
-                        margin-left: 12px;
+                        margin-left: 11px;
                         font-family: Averta;
                         font-size: 16px;
                         font-weight: 600;
@@ -103,14 +111,13 @@
                     justify-content: left;
                     align-items: center;
                     background: white;
-                    z-index: 999;
+                    z-index: 9;
                     position: absolute;
                     bottom: 0px;
                     height: 35px;
                     width: 100%;
                     p{
-                        color: #333;
-                        // color: #ff9466;
+                        color: #777;
                         margin-left: 11px;
                         font-family: Averta;
                         font-size: 13px;
@@ -166,9 +173,25 @@
     }
 }
 
-@media only screen and (max-width:767px) {
+@media only screen and (max-width:768px) {
     #all_products{
+        padding-top: 90px !important;
+        //height: 86vh;
         .container{
+            .all_products_header{
+                margin-bottom: 25px;
+                .all_products_header_right{
+                    span{
+                        font-size: 16px;
+                    }
+                    .select_date{
+                        select{
+                            font-size: 16px;
+                            height: 27px;
+                        }
+                    }
+                }
+            }
             .row{
                 .products_item{
                     height: 185px;
@@ -181,12 +204,12 @@
                         }
                         .products_item_name{
                             p{
-                                font-size: 13px;
+                                font-size: 16px;
                             }
                         }
                         .products_item_bottom{
                             p{
-                                font-size: 11px;
+                                font-size: 14px;
                             }
                         }
                     }
@@ -261,13 +284,13 @@
     #all_products{
         a  {
             .products_item{
-                height: 185px !important;
+                height: 210px !important;
                 .item{
                     .products_item_top{
-                        height: 120px !important;
+                        height: 150px !important;
 
                         img{
-                            min-height: 120px !important;
+                            min-height: 150px !important;
                         }
                     }
                 }

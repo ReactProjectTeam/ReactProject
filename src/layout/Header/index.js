@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import menu from "../../img/header/menu.svg";
 import close from "../../img/header/close.svg";
 import payverLogo from "../../img/header/payverLogo.jpg";
@@ -8,6 +8,7 @@ import register from "../../img/header/register.png";
 import plus from "../../img/header/plus.png";
 import facebook from "../../img/contact/facebook.svg";
 import instagram from "../../img/contact/instagram.svg";
+import userPhoto from "../../img/header/userPhoto.png";
 import logout from "../../img/header/logout.png";
 import userLogo from "../../img/header/user.png";
 import subCategoryLogo from "../../img/header/subCategory.png";
@@ -15,6 +16,9 @@ import down from "../../img/header/down.png";
 import up from "../../img/header/up.png";
 import clothes from "../../img/header/clothes.png";
 import home from "../../img/header/home.png";
+import home1 from "../../img/header/home1.png";
+import news from "../../img/header/news.png";
+import contact from "../../img/header/contact.png";
 import cat from "../../img/header/cat.png";
 import help from "../../img/header/help.png";
 import "./index.scss";
@@ -24,7 +28,8 @@ import getCategories from "../../API/getCategories";
 import getSubCategories from "../../API/getSubCategories";
 import Context from "../../Context/context";
 import { Accordion, Card, Button } from "react-bootstrap";
-import isEmpty from "lodash/isEmpty"
+import isEmpty from "lodash/isEmpty";
+// import AccordionCustom from "../../utils/Accardion/Accardion";
 
 const pageHeader = document.querySelector(".mobile");
 const openMobMenu = document.querySelector(".open-mobile-menu");
@@ -78,11 +83,38 @@ const Header = (props) => {
   ]);
   const [subCategories, setSubCategories] = useState([]);
   const [selected, setSelected] = useState({});
+  const [mobileMenuImg, setMobileMenuImg] = useState([
+    {
+      selectedCount: 1,
+      display: true,
+    },
+    {
+      selectedCount: 2,
+      display: true,
+    },
+    {
+      selectedCount: 3,
+      display: true,
+    },
+    {
+      selectedCount: 4,
+      display: true,
+    },
+  ]);
+  const [rendering, setRendering] = useState(false);
+
+  const { renderingHandle } = useContext(Context);
   // console.log("linki goturmek",props.match)
   const { getProductsById, selectedProduct } = useContext(Context);
+  const history = useHistory();
 
   const handleSignOut = () => {
+    window.FB.api("/me/permissions", "delete", null, () => window.FB.logout());
+    // accountSubject.next(null);
+    // history.push('/login');
+
     removeCookie("token");
+    props.getLoggedOut(true);
   };
 
   useEffect(() => {
@@ -113,8 +145,7 @@ const Header = (props) => {
         }
       });
     }
-  }, [props.rendering,cookies.token]);
-
+  }, [props.rendering, cookies.token]);
 
   const addClickedCategoryOrSubcategory = (id, type, event) => {
     event.stopPropagation();
@@ -142,20 +173,44 @@ const Header = (props) => {
     getProductsById(id, type);
   };
 
+  const openOrCloseAccardionImg = (count) => {
+    let newArr = [...mobileMenuImg];
+    newArr.map((item, index) => {
+      if (item.selectedCount === count) {
+        newArr[index] = {
+          selectedCount: item.selectedCount,
+          display: !item.display,
+        };
+      }
+    });
+    setMobileMenuImg(newArr);
+  };
+
   return (
     <>
       <div className="mobile">
         <nav className="navbar">
           <div className="mobileNavbarInside">
             <div className="menuAndLogo">
-              <img
-                src={menu}
-                aria-label="Open Mobile Menu"
-                onClick={() => openMobile()}
-                className="open-mobile-menu"
-                alt=""
-              />
-              <Link to="/" className="mobile-logo">
+              <div className="openMobileMenuDiv" onClick={() => openMobile()}>
+                <img
+                  src={menu}
+                  aria-label="Open Mobile Menu"
+                  className="open-mobile-menu"
+                  alt=""
+                />
+              </div>
+              <Link
+                to="/"
+                className="mobile-logo"
+                onClick={(event) => {
+                  addClickedCategoryOrSubcategory(null, "", event);
+                  setSelected({
+                    categoryId: null,
+                    type: "",
+                  });
+                }}
+              >
                 <img src={payverLogo} alt="Logo" />
               </Link>
             </div>
@@ -169,16 +224,21 @@ const Header = (props) => {
           <div className="top-menu-wrapper">
             <div className="top-menu">
               <div className="mob-block">
-                <Link to="/" className="mobile-logo">
+                <Link
+                  to="/"
+                  onClick={() => closeMobile()}
+                  className="mobile-logo"
+                >
                   <img src={payverLogo} alt="Logo" />
                 </Link>
-                <img
-                  aria-label="Close Mobile Menu"
-                  onClick={() => closeMobile()}
-                  className="close-mobile-menu"
-                  src={close}
-                  alt=""
-                />
+                <div className="closeDiv" onClick={() => closeMobile()}>
+                  <img
+                    aria-label="Close Mobile Menu"
+                    className="close-mobile-menu"
+                    src={close}
+                    alt=""
+                  />
+                </div>
               </div>
               <div className="mobileUserInfo">
                 <div className="head right profile">
@@ -186,49 +246,61 @@ const Header = (props) => {
                   cookies.token !== undefined ? (
                     <>
                       <div
-                        className="user-info-header light-btn d-flex align-items-center"
+                        className="user-info-header"
                         onClick={() => closeMobile()}
                       >
-                        <Link to="/user_info">
-                          <img
-                            src={user.photo && (`http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`)}
-                            alt={user.photo}
-                          />
-                          <span>{user.name}</span>
-                        </Link>
+                        <div className="user-info-header-inside">
+                          <Link to="/user_info">
+                            {/*<img*/}
+                            {/*  src={*/}
+                            {/*    user.photo &&*/}
+                            {/*    `http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`*/}
+                            {/*  }*/}
+                            {/*  alt={user.photo}*/}
+                            {/*/>*/}
+                            <img src={userPhoto} alt={userPhoto} />
+                            {/*<span>{user.email && user.email.substring(0, user.email.lastIndexOf("@"))}</span>*/}
+                            <span>{user.userName && user.userName}</span>
+                          </Link>
+                        </div>
                       </div>
-                      <div
-                        className="logout light-btn d-flex align-items-center"
-                        onClick={() => closeMobile()}
-                      >
-                        <Link to="/" onClick={() => handleSignOut()}>
-                          <img src={logout} alt={logout} />
-                          <span>Çixiş</span>
-                        </Link>
+                      <div className="logout" onClick={() => closeMobile()}>
+                        <div className="logout-inside">
+                          <Link to="/" onClick={() => handleSignOut()}>
+                            <img src={logout} alt={logout} />
+                            <span>Çıxış</span>
+                          </Link>
+                        </div>
                       </div>
                     </>
                   ) : (
                     <>
-                      <Link to="/signin">
-                        <div className="signin" onClick={() => closeMobile()}>
-                          <img src={login} alt={login} />
-                          <span>Daxil ol</span>
-                        </div>
-                      </Link>
-                      <Link to="/signup">
-                        <div className="signup" onClick={() => closeMobile()}>
-                          <img src={register} alt={register} />
-                          <span>Qeydiyyat</span>
-                        </div>
-                      </Link>
+                      <div className="authDiv">
+                        <Link to={"/signin"} onClick={() => closeMobile()}>
+                          <div className="signin" >
+                            <img src={login} alt={login} />
+                            <span>Daxil ol</span>
+                          </div>
+                        </Link>
+                      </div>
+                      <div className="authDiv">
+                        <Link to="/signup" onClick={() => closeMobile()}>
+                          <div className="signup" >
+                            <img src={register} alt={register} />
+                            <span>Qeydiyyat</span>
+                          </div>
+                        </Link>
+                      </div>
                     </>
                   )}
                 </div>
               </div>
+
               <Accordion>
                 {categories.map((category, index) => (
                   <Card
                     key={index}
+                    onClick={() => openOrCloseAccardionImg(index + 1)}
                     // className={` dropdown ${category.active ? "active" : ""}`}
                   >
                     <Card.Header>
@@ -244,20 +316,27 @@ const Header = (props) => {
                           </div>
                           <span>{category.name}</span>
                         </div>
-                        <div className="categoryDown">
-                          <img src={down} alt="" />
-                        </div>
-                        <div className="categoryUp">
-                          <img src={up} alt="" />
-                        </div>
+                        {mobileMenuImg.map((itemImg, itemImgIndex) => {
+                          if (index === itemImgIndex) {
+                            return (
+                              <div key={itemImgIndex} className="categoryDown">
+                                <img
+                                  src={itemImg.display === true ? down : up}
+                                  alt=""
+                                />
+                              </div>
+                            );
+                          }
+                        })}
                       </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey={index + 1}>
                       <Card.Body>
-                        <div
+                        <Link
                           key={index}
                           // id={subCategory.id}
                           // className={subCategory.active ? "active" : ""}
+                          to={`/categoryId/${category.id}`}
                           className="subCategoryMobile"
                           onClick={(event) => {
                             addClickedCategoryOrSubcategory(
@@ -270,16 +349,23 @@ const Header = (props) => {
                               categoryId: category.id,
                               type: "category",
                             });
+                            history.push("/");
                           }}
                         >
-                          <img src={subCategoryLogo} alt="" />
-                          <span>Bütün elanlar</span>
-                        </div>
+                          <div className="subCategoryMobileLeft">
+                            <img src={subCategoryLogo} alt="" />
+                            <span>Bütün elanlar</span>
+                          </div>
+                          <div className="subCategoryMobileRight">
+                            <span>({category.productCount})</span>
+                          </div>
+                        </Link>
                         {subCategories.map((subCategory, index) => {
                           if (subCategory.categoryId === category.id) {
                             return (
-                              <div
+                              <Link
                                 key={index}
+                                to={`/subCategoryId/${subCategory.id}`}
                                 id={subCategory.id}
                                 // className={subCategory.active ? "active" : ""}
                                 className="subCategoryMobile"
@@ -290,17 +376,24 @@ const Header = (props) => {
                                     "subCategory",
                                     event
                                   );
+
                                   closeMobile();
                                   setSelected({
                                     categoryId: category.id,
                                     subCategoryId: subCategory.id,
                                     type: "subCategory",
                                   });
+                                  history.push("/");
                                 }}
                               >
-                                <img src={subCategoryLogo} alt="" />
-                                <span>{subCategory.name}</span>
-                              </div>
+                                <div className="subCategoryMobileLeft">
+                                  <img src={subCategoryLogo} alt="" />
+                                  <span>{subCategory.name}</span>
+                                </div>
+                                <div className="subCategoryMobileRight">
+                                  <span>({subCategory.productCount})</span>
+                                </div>
+                              </Link>
                             );
                           }
                         })}
@@ -309,6 +402,43 @@ const Header = (props) => {
                   </Card>
                 ))}
               </Accordion>
+
+              <div className="mobile-navigation">
+                <div className="mobile-navigation-inside">
+                  <Link
+                    onClick={(event) => {
+                      closeMobile();
+                      addClickedCategoryOrSubcategory(null, "", event);
+                      setSelected({
+                        categoryId: null,
+                        type: "",
+                      });
+                    }}
+                    to="/"
+                  >
+                    <div className="mobile-navigation-item">
+                      <img src={home1} alt={home1} />
+                      <p>Əsas</p>
+                    </div>
+                  </Link>
+                </div>
+                <div className="mobile-navigation-inside">
+                  <Link onClick={() => closeMobile()} to="/blogs">
+                    <div className="mobile-navigation-item">
+                      <img src={news} alt={news} />
+                      <p>Xəbərlər</p>
+                    </div>
+                  </Link>
+                </div>
+                <div className="mobile-navigation-inside">
+                  <Link onClick={() => closeMobile()} to="/contact">
+                    <div className="mobile-navigation-item">
+                      <img src={contact} alt={contact} />
+                      <p>Əlaqə</p>
+                    </div>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </nav>
@@ -319,21 +449,39 @@ const Header = (props) => {
           <div className="container">
             <div className="inside-inner">
               <div className="social">
-                <Link to="/">
+                <Link
+                  to={{ pathname: "https://www.facebook.com/" }}
+                  target="_blank"
+                >
                   <img src={facebook} alt="" />
                 </Link>
-                {/*<Link to="https://www.instagram.com/runtime.az/">*/}
-                <a href="https://www.instagram.com/runtime.az/">
+                <Link
+                  to={{ pathname: "https://www.instagram.com/runtime.az/" }}
+                  target="_blank"
+                >
                   <img src={instagram} alt="" />
-                </a>
-                {/*</Link>*/}
+                </Link>
                 <p>
-                  Dəstək: <span>+994502782268</span>
+                  Dəstək: <a href="tel:+994502782268">+994502782268</a>
                 </p>
               </div>
               <div className="pages">
-                <Link to="/">Ana Səhifə</Link>
+                <img src={home} alt={home} />
+                <Link
+                  to="/"
+                  onClick={(event) => {
+                    addClickedCategoryOrSubcategory(null, "", event);
+                    setSelected({
+                      categoryId: null,
+                      type: "",
+                    });
+                  }}
+                >
+                  Əsas
+                </Link>
+                <img src={news} alt={news} />
                 <Link to="/blogs">Xəbərlər</Link>
+                <img src={contact} alt={contact} />
                 <Link to="/contact">Əlaqə</Link>
               </div>
             </div>
@@ -364,17 +512,22 @@ const Header = (props) => {
                       <>
                         <div className="user-info-header light-btn d-flex align-items-center">
                           <Link to="/user_info">
-                            <img
-                              src={user.photo && (`http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`)}
-                              alt={user.photo}
-                            />
-                            <span>{user.name && (user.name) }</span>
+                            {/*<img*/}
+                            {/*  src={*/}
+                            {/*    user.photo &&*/}
+                            {/*    `http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`*/}
+                            {/*  }*/}
+                            {/*  alt={user.photo}*/}
+                            {/*/>*/}
+                            <img src={userPhoto} alt={userPhoto} />
+                            {/*<span>{user.email && user.email.substring(0, user.email.lastIndexOf("@"))}</span>*/}
+                            <span>{user.userName && user.userName}</span>
                           </Link>
                         </div>
                         <div className="logout light-btn d-flex align-items-center">
                           <Link to="/" onClick={() => handleSignOut()}>
                             <img src={logout} alt={logout} />
-                            <span>Çixiş</span>
+                            <span>Çıxış</span>
                           </Link>
                         </div>
                       </>
@@ -426,11 +579,17 @@ const Header = (props) => {
                       });
                     }}
                   >
-                    <div className="categoryLogo">
-                      <img src={category.img} alt="" />
-                    </div>
-                    <Link to="/" className="dropbtn">
-                      {category.name}
+                    {/*{console.log("category.name",category.name.split(" ").join(""))}*/}
+                    <Link to={`/categoryId/${category.id}`} className="dropbtn">
+                      <div className="categoryLogo">
+                        <img src={category.img} alt="" />
+                      </div>
+                      <div className="subCategoryLeft">
+                        <span>{category.name}</span>
+                      </div>
+                      <div className="subCategoryRight ml-2">
+                        <span>({category.productCount})</span>
+                      </div>
                     </Link>
                     <div className="dropdown-content">
                       {subCategories.map((subCategory, index) => {
@@ -439,8 +598,10 @@ const Header = (props) => {
                             <Link
                               key={index}
                               id={subCategory.id}
-                              className={subCategory.active ? "active" : ""}
-                              to="/"
+                              className={`subCategory ${
+                                subCategory.active ? "active" : ""
+                              }`}
+                              to={`/subCategoryId/${subCategory.id}`}
                               onClick={(event) => {
                                 addClickedCategoryOrSubcategory(
                                   subCategory.id,
@@ -454,8 +615,13 @@ const Header = (props) => {
                                 });
                               }}
                             >
-                              <img src={subCategoryLogo} alt="" />
-                              <span>{subCategory.name}</span>
+                              <div className="subCategoryLeft">
+                                <img src={subCategoryLogo} alt="" />
+                                <span>{subCategory.name}</span>
+                              </div>
+                              <div className="subCategoryRight">
+                                <span>({subCategory.productCount})</span>
+                              </div>
                             </Link>
                           );
                         }
@@ -497,12 +663,14 @@ const Header = (props) => {
                     });
                   }}
                 >
-                  <Link to="/">
-                    {categories.map(
-                      (category) =>
-                        category.id === selected.categoryId && category.name
-                    )}
-                  </Link>
+                  {categories.map(
+                    (category, index) =>
+                      category.id === selected.categoryId && (
+                        <Link key={index} to={`/categoryId/${category.id}`}>
+                          {category.name}
+                        </Link>
+                      )
+                  )}
                 </li>
               )}
               {selected.type === "subCategory" && (
@@ -521,11 +689,14 @@ const Header = (props) => {
                       });
                     }}
                   >
-                    <Link to="/">
-                      {categories.map(
-                        (item) => item.id === selected.categoryId && item.name
-                      )}
-                    </Link>
+                    {categories.map(
+                      (category, index) =>
+                        category.id === selected.categoryId && (
+                          <Link key={index} to={`/categoryId/${category.id}`}>
+                            {category.name}
+                          </Link>
+                        )
+                    )}
                   </li>
                   <li
                     className="breadcrumb-item"
@@ -542,13 +713,17 @@ const Header = (props) => {
                       });
                     }}
                   >
-                    <Link to="/">
-                      {subCategories.map(
-                        (subCategory) =>
-                          subCategory.id === selected.subCategoryId &&
-                          subCategory.name
-                      )}
-                    </Link>
+                    {subCategories.map(
+                      (subCategory, index) =>
+                        subCategory.id === selected.subCategoryId && (
+                          <Link
+                            key={index}
+                            to={`/subCategoryId/${subCategory.id}`}
+                          >
+                            {subCategory.name}
+                          </Link>
+                        )
+                    )}
                   </li>
                 </>
               )}

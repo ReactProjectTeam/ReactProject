@@ -39,7 +39,12 @@ header {
                     line-height: normal;
                     letter-spacing: normal;
                     color: rgba(49, 69, 106, 0.8);
-                    margin-left: 2.8%;
+                    margin-right: 2.8%;
+                    margin-left: 5px;
+                }
+                img{
+                    width: 25px;
+                    height: 25px;
                 }
             }
             
@@ -107,14 +112,17 @@ header {
                             cursor: pointer;
                             margin-right: 10px;
                             border: none;
-                            img{
-                                width: 30px;
-                                margin-right: 8px;
-                                border-radius: 5px;
-                            }
-                            span{
-                                font-size: 15px;
-                                color: #ff9466;
+                            a{
+                                text-decoration: none;
+                                img{
+                                    width: 30px;
+                                    margin-right: 8px;
+                                    border-radius: 5px;
+                                }
+                                span{
+                                    font-size: 16px;
+                                    color: #ff9466;
+                                }
                             }
                         }
                         .logout{
@@ -135,6 +143,7 @@ header {
                             a{
                                 display: flex;
                                 align-items: center;
+                                text-decoration: none;
                                 img{
                                     width: 20px !important;
                                     margin-right: 5px;
@@ -152,7 +161,7 @@ header {
                             align-items: center;
                             span {
                                 font-size: 16px;
-                                font-weight: normal;
+                                font-weight: bold;
                                 font-stretch: normal;
                                 font-style: normal;
                                 line-height: normal;
@@ -174,7 +183,7 @@ header {
                             align-items: center;
                             span {
                                 font-size: 16px;
-                                font-weight: normal;
+                                font-weight: bold;
                                 font-stretch: normal;
                                 font-style: normal;
                                 line-height: normal;
@@ -222,15 +231,7 @@ header {
                     margin-right: 30px;
                     flex: 0 0 auto;
                     cursor: pointer;
-                    .categoryLogo{
-                        margin-right: 7px;
-                        background: white;
-                        border-radius: 100%;
-                        img{
-                            width: 45px;
-                            padding: 6px;
-                        }
-                    }
+
 
                     a {
                         margin-bottom: 2px;
@@ -245,6 +246,19 @@ header {
                         line-height: normal;
                         letter-spacing: normal;
                         color: rgba(49, 69, 106, 0.8);
+                        .categoryLogo{
+                            margin-right: 7px;
+                            background: white;
+                            border-radius: 100%;
+                            img{
+                                width: 45px;
+                                padding: 6px;
+                            }
+                        }
+
+                    }
+                    .dropdown-content{
+                        z-index: 9999;
                         img{
                             width: 15px;
                             margin-right: 10px;
@@ -343,19 +357,22 @@ header {
 @media only screen and (max-width: 768px) {
     .mobile{
         display: block !important ;
-        height: 50px;
+        height: 60px;
         width: 100%;
     }
     header{
         display: none;
     }
-    .open-mobile-menu{
+    .openMobileMenuDiv{
         display: block;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .open-mobile-menu{
+        }
     }
-    #all_products{
-        margin-top: 65px !important;
-    }
-
   }
 
 .dropbtn {
@@ -365,6 +382,8 @@ header {
     font-size: 16px;
     border: none;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
 
 .dropdown {
@@ -379,7 +398,7 @@ header {
     min-width: 250px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 99;
-    top: 46px;
+    top: 44px;
 }
 
 .dropdown-content a {
@@ -388,6 +407,10 @@ header {
     text-decoration: none;
     display: block;
     font-size: 13px !important;
+}
+.dropdown-content .subCategory {
+    display: flex;
+    justify-content: space-between;
 }
 
 .dropdown-content a:hover {
@@ -418,7 +441,7 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
     box-shadow: $box-shadow;
     display: none;
     top: 0;
-    z-index: 9999;
+    z-index: 999;
     .navbar {
         display: flex;
         flex-direction: row;
@@ -430,33 +453,38 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
         .mobileNavbarInside{
             display: flex;
             justify-content: space-between;
+            align-items: center;
             width: 100%;
             .menuAndLogo{
                 display: flex;
                 align-items: center;
-                .open-mobile-menu {
-                    width: 25px;
+                .openMobileMenuDiv{
+                    .open-mobile-menu {
+                        width: 25px;
+                    }
                 }
                 .mobile-logo{
-                    margin-left: 15px;
+                    //margin-left: 10px;
                     img{
-                        width: 120px;
+                        width: 135px;
                     }
                 }
             }
             .add_product{
                 cursor: pointer;
                 min-width: 105px;
+                text-decoration: none;
                 a{
                     width: 100%;
                     display: flex;
                     align-items: center;
+                    text-decoration: none;
                     img{
                         width: 20px !important;
                         margin-right: 5px;
                     }
                     span{
-                        font-size: 13px;
+                        font-size: 14px;
                         color: #ff9466;
                     }
                 }
@@ -485,15 +513,18 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
             z-index: 9999999;
             .mobile-logo{
                 img{
-                    width: 120px;
+                    width: 135px;
                 }
             }
             .accordion{
+                //margin: 7px 0px;
                 .card{
                     .card-header{
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
+                        padding: 0px;
+
                         .accardionCardBtn{
                             display: flex;
                             align-items: center;
@@ -501,6 +532,7 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
                             width: 100%;
                             text-decoration: none;
                             cursor: pointer;
+                            padding: 0px;
                             &{
                                 outline: none;
                                 box-shadow: none;
@@ -513,9 +545,10 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
                                 width: 85%;
                                 display: flex;
                                 align-items: center;
+                                padding: 15px;
                                 .categoryLogo{
                                     img{
-                                        width: 30px;
+                                        width: 37px;
                                     }
                                 }
                                 span{
@@ -525,7 +558,7 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
                                     align-items: baseline;
                                     text-decoration: none;
                                     font-family: Averta;
-                                    font-size: 14px;
+                                    font-size: 17px;
                                     font-weight: 600;
                                     font-stretch: normal;
                                     font-style: normal;
@@ -536,28 +569,70 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
                             }
                             .categoryDown{
                                 width: 15%;
+                                //display: block;
+                                img{
+                                    width: 28px;
+                                }
                             }
                             .categoryUp{
                                 width: 15%;
-                                display: none;
+                                //display: none;
+                                img{
+                                    width: 28px;
+                                }
                             }
                         }
-
-
                     }
                     .card-body{
                         .subCategoryMobile{
-                            margin-bottom: 7px;
+                            display: flex;
+                            justify-content: space-between;
+                            margin-bottom: 15px;
                             img{
                                 width: 15px;
                             }
                             span{
-                                font-size: 13px;
+                                font-size: 16px;
                                 margin-left: 14px;
+                                color: black;
                             }
                         }
                     }
                 }
+            }
+            .mobile-navigation{
+                margin-top: 25px;
+                //display: flex;
+                //justify-content: space-between;
+                //flex-direction: column;
+                //align-items: center;
+                //margin-top: 30px;
+                //padding: 0px 2px;
+                .mobile-navigation-inside{
+                    display: inline-block;
+                    width: 33%;
+                    .mobile-navigation-item{
+                        //margin-bottom: 15px;
+                        //padding-bottom: 7px;
+                        //border-bottom: 1px solid #ff9466;
+                        display: inline-block;
+                        width: 100%;
+                        text-align: center;
+                        img{
+                            width: 40px !important;
+                            height: 40px !important;
+                            display: block;
+                            margin: 0 auto;
+                            //margin-right: 10px;
+                        }
+                        p{
+                            color: black;
+                            display: inline-block;
+                            //margin-bottom: 10px;
+                        }
+                    }
+                }
+
             }
         }
 
@@ -627,19 +702,27 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
             }
 
             .mob-block {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-bottom: 20px;
-                .close-mobile-menu{
-                    width: 15px;
+                //display: flex;
+                //align-items: center;
+                //justify-content: space-between;
+                margin-bottom: 30px;
+                .closeDiv{
+                    height: 40px;
+                    float: right;
+                    //display: flex;
+                    //justify-content: flex-end;
+                    //align-items: center;
+                    .close-mobile-menu{
+                        width: 20px;
+                    }
                 }
             }
             .head {
-                margin-bottom: 15px;
+                margin-bottom: 30px;
                 display: flex;
                 align-items: center;
-                flex-wrap: wrap;
+                justify-content: space-between;
+                //flex-wrap: wrap;
                 color: #ff9466;
                 .head-logo {
                     width: 160px;
@@ -659,37 +742,90 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
                     font-size: 16px;
                 }
                 .user-info-header{
-                    cursor: pointer;
-                    margin-right: 10px;
-                    border: none;
-                    img{
-                        width: 30px;
-                        margin-right: 8px;
-                        border-radius: 5px;
+                    text-decoration: none;
+                    border: 1px solid #ff9466;
+                    height: 44.4px;
+                    border-radius: 5px;
+                    width: 48%;
+                    display: flex;
+                    justify-content: center;
+                    .user-info-header-inside{
+                        display: flex;
+                        align-items: center;
+                        width: 100%;
+                        a{
+                            text-decoration: none;
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            img{
+                                width: 30px;
+                                height: 30px;
+                                margin-right: 8px;
+                                border-radius: 5px;
+                            }
+                            span{
+                                font-size: 17px;
+                                font-weight: bold;
+                                font-stretch: normal;
+                                font-style: normal;
+                                line-height: normal;
+                                letter-spacing: normal;
+                                color: #ff9466;
+                            }
+                        }
+
                     }
-                    span{
-                        font-size: 15px;
-                        color: #ff9466;
-                    }
+
                 }
                 .logout{
-                    cursor: pointer;
-                    margin-right: 10px;
-                    img{
-                        width: 20px !important;
-                        margin-right: 5px;
+                    text-decoration: none;
+                    border: 1px solid #ff9466;
+                    border-radius: 5px;
+                    width: 30%;
+                    display: flex;
+                    justify-content: center;
+                    height: 44.4px;
+                    .logout-inside{
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        a{
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            img{
+                                width: 30px !important;
+                                height: 30px;
+                                margin-right: 5px;
+                            }
+                            span{
+                                font-size: 17px;
+                                font-weight: bold;
+                                font-stretch: normal;
+                                font-style: normal;
+                                line-height: normal;
+                                letter-spacing: normal;
+                                color: #ff9466;
+                            }
+                        }
                     }
-                    span{
-                        font-size: 15px;
-                        color: #ff9466;
-                    }
+
                 }
+
+
                 .add_product{
                     cursor: pointer;
                     margin-right: 10px;
+                    text-decoration: none;
                     a{
                         display: flex;
                         align-items: center;
+                        text-decoration: none;
                         img{
                             width: 20px !important;
                             margin-right: 5px;
@@ -701,48 +837,61 @@ $box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15),
                     }
 
                 }
-                .signin {
-                    padding: 0 10px;
+                .authDiv{
                     display: flex;
-                    align-items: center;
-                    span {
-                        font-size: 16px;
-                        font-weight: normal;
-                        font-stretch: normal;
-                        font-style: normal;
-                        line-height: normal;
-                        letter-spacing: normal;
-                        color: #ff9466;
-                    }
-
-                    &:first-child {
-                        border-right: 1px solid #ff9466;
-                    }
-
-                    img {
-                        margin-right: 6px;
-                        width: 20px;
-                    }
-                }
-                .signup {
-                    padding: 0 10px;
+                    text-decoration: none;
+                    border: 1px solid #ff9466;
+                    padding: 10px 0px;
+                    border-radius: 5px;
+                    width: 48%;
                     display: flex;
-                    align-items: center;
-                    span {
-                        font-size: 16px;
-                        font-weight: normal;
-                        font-stretch: normal;
-                        font-style: normal;
-                        line-height: normal;
-                        letter-spacing: normal;
-                        color: #ff9466;
-                    }
+                    justify-content: center;
+                        a{
+                            width: 100%;
+                                .signin {
+                                    padding: 0 10px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    span {
+                                        font-size: 17px;
+                                        font-weight: bold;
+                                        font-stretch: normal;
+                                        font-style: normal;
+                                        line-height: normal;
+                                        letter-spacing: normal;
+                                        color: #ff9466;
+                                    }
 
-                    img {
-                        margin-right: 6px;
-                        width: 20px;
-                    }
+                                    img {
+                                        margin-right: 6px;
+                                        width: 20px;
+                                    }
+                                }
+                                .signup {
+                                    padding: 0 10px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    span {
+                                        font-size: 17px;
+                                        font-weight: bold;
+                                        font-stretch: normal;
+                                        font-style: normal;
+                                        line-height: normal;
+                                        letter-spacing: normal;
+                                        color: #ff9466;
+                                    }
+
+                                    img {
+                                        margin-right: 6px;
+                                        width: 20px;
+                                    }
+                                }
+
+                        }
                 }
+
             }
         }
     }

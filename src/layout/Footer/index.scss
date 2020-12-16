@@ -8,19 +8,21 @@ footer{
         // justify-content: space-between;
 
         .header-text{
-            font-family: Averta;
-            font-size: 15px;
-            font-weight: 600;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: normal;
-            color: rgba(49, 69, 106, 0.8);
             margin-bottom: 15px;
+            p{
+                font-family: Averta;
+                font-size: 15px;
+                font-weight: 600;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                color: rgba(49, 69, 106, 0.8);
+            }
         }
         .social{
             display: flex;
-            align-items: center;
+            //align-items: center;
             flex-direction: column;
             justify-content: space-evenly;
             .logo{
@@ -50,7 +52,7 @@ footer{
         .contact-subscribe{
             display: flex;
             align-items: center;
-            justify-content: space-evenly;
+            justify-content: flex-end;
             .follow-us{
                 ul{
                     li{
@@ -85,33 +87,50 @@ footer{
         
     }
 }
+
 @media only screen and (max-width:769px){
     footer{
+        padding: 15px 0px 0px 0px;
+        //position: fixed;
+        bottom: 0px;
+        width: 100%;
         .social{
-            li{
-                margin-right: 5px !important;
+            .logo{
                 img{
-                    width: 80%;
+                    width: 155px !important;
+                }
+            }
+            .description{
+                p{
+                    font-size: 16px !important;
                 }
             }
         }
-       
-        .header-text{
-            margin-top: 25px;
-        }
-        .site-map{
-            p{
-                margin-top: 0 !important;
-            }
-        }
+       .contact-subscribe{
+           .contact_footer{
+               .header-text{
+                   padding-bottom: 10px;
+                   margin-bottom: 0px;
+                   p{
+                       font-size: 16px !important;
+                       margin-bottom: 0px !important;
+                       padding-top: 5px;
+                   }
+               }
+               ul{
+                   li{
+                       a{
+                           font-size: 16px !important;
+                       }
+                   }
+               }
+           }
+       }
+    }
+    .minimumProductStyle{
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
     }
 }
-@media only screen and (max-width:590px){
-    footer{
-        .logo{
-            img{
-                width: 35% !important;
-            }
-        }
-    }
-}
+

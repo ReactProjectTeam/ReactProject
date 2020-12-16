@@ -1,5 +1,5 @@
 #login_register{
-  margin: 10px 0 50px 0;
+  padding: 10px 0 50px 0;
   .wrapper{
     width: 100%;
     // height: 100px;
@@ -113,6 +113,7 @@
           letter-spacing: normal;
           color: #666;
         }
+
         .select-arrow-active{
           &::after{
             top: 12px !important;
@@ -120,6 +121,7 @@
         }
         label{
           font-family: Averta;
+          display: contents;
           font-size: 18px;
           font-weight: 600;
           font-stretch: normal;
@@ -136,7 +138,7 @@
           border-radius: 4px;
           border: solid 1px #dfdfdf;
           font-family: Averta;
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 400;
           font-stretch: normal;
           font-style: normal;
@@ -160,6 +162,10 @@
             // justify-content: center;
             border: none;
             outline: none;
+            img{
+              width: 20px;
+              height: 20px;
+            }
           }
           .view_confrim{
             position: absolute;
@@ -175,11 +181,23 @@
           }
         }
       }
-      .remember_forgot{
+      .btn-facebook {
+        background: #3B5998;
+        color: #fff;
+        width: 100%;
+        margin-top: 15px;
+        height: 40px;
+        font-size: 14px;
+      }
+      .alert-danger{
+        margin-top: 15px;
+        margin-bottom: 0px;
+        font-size: 13px;
+      }
+      .forgotPassword{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 0;
         .checkbox_container{
           margin-bottom: 0;
         }
@@ -193,6 +211,24 @@
           letter-spacing: normal;
           text-align: right;
           color: #ff9466;
+        }
+      }
+      .registerUser{
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0px 0px 0px;
+        .registerUserInside{
+          display: flex;
+          p{
+            font-size: 15px;
+            margin-bottom: 0px;
+          }
+          a{
+            margin-left: 5px;
+            text-decoration: none;
+            color: #ff9466;
+            font-size: 15px;
+          }
         }
       }
       .g-recaptcha{
@@ -218,6 +254,13 @@
       .submit_reg{
         width: 700px !important;
       }
+      .kep-login-facebook{
+        width: 100%;
+        border-radius: 5px;
+        margin-top: 12px;
+        font-size: 14px;
+        height: 45px;
+      }
       .have_acc{
         margin-top: 10px;
         text-align: center;
@@ -240,7 +283,8 @@
 
 @media only screen and (max-width:768px) {
   #login_register{
-    margin-top: 70px;
+    padding-top: 90px;
+    //height: 86vh;
       .wrapper{
         padding: 0px;
         background: white;
@@ -260,13 +304,13 @@
               }
               input{
                 width: 100%;
-                font-size: 13px;
+                font-size: 15px;
               }
               .password{
                 width: 100%;
                 input{
                   width: 100%;
-                  font-size: 13px;
+                  font-size: 15px;
                 }
                 .view{
                   right: 0px;

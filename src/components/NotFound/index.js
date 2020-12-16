@@ -1,23 +1,19 @@
 import React, { Component } from 'react'
 import notFound404 from "../../img/NotFound/notFound.jpg"
 import "./index.scss"
+import Footer from "../../layout/Footer";
 
-class NotFound extends Component {
-    constructor(props) {
-        super(props)
+const NotFound =()=> {
 
-        this.state = {
-                 
-        }
-    }
-
-    render() {
         return (
+            <>
             <div className="notFound404">
                <img src={notFound404} alt=""/>
             </div>
+                <Footer notFound={"notFound"}/>
+                </>
         )
-    }
+
 }
 
 export default NotFound

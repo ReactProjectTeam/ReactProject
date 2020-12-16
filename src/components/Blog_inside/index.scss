@@ -1,6 +1,6 @@
 #blog_inside {
     margin-top: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 
     .blog_header {
         // margin-bottom: 20px;
@@ -13,6 +13,8 @@
         // border: 1px solid purple;
         .blog_top {
             // height: 100%;
+            display: flex;
+            justify-content: center;
             height: 400px;
             padding-top: 7px;
             margin-bottom: 20px;
@@ -30,13 +32,16 @@
             justify-content: space-between;
 
             .blog_header {
+                margin-bottom: 10px;
                 h3{
                     color: #ff9466;
+                    font-size: 20px;
                 }
             }
 
             .blog_date {
                 p {
+                    font-size: 14px;
                     img {
                         width: 20px;
                         margin-right: 8px;
@@ -54,6 +59,53 @@
                 button {
                     background: #ff9466;
                     color: white;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width:768px) {
+    #blog_inside{
+        margin-top: 90px;
+        .blogs_header{
+            margin-bottom: 0px;
+            h5{
+                margin-bottom: 0px;
+                font-size: 16px;
+            }
+        }
+        .blog{
+            margin-bottom: 0px;
+            .blog_top{
+                width: 100% !important;
+                height: 320px;
+                img{
+                    width: 100% !important;
+                    height: 100%;
+                }
+            }
+            .blog_bottom{
+                .blog_header{
+                    margin-bottom: 15px;
+                    h4{
+                        font-size: 17px;
+                        margin-bottom: 0px;
+                    }
+                }
+                .blog_date{
+                    margin-bottom: 15px;
+                    p{
+                        margin-bottom: 0px;
+                        font-size: 15px;
+                    }
+                }
+                .blog_description{
+                    margin-bottom: 15px;
+                    p{
+                        font-size: 14px;
+                        margin-bottom: 0px;
+                    }
                 }
             }
         }

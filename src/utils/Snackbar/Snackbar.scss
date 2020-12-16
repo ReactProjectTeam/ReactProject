@@ -1,0 +1,19 @@
+.MuiSnackbar-root{
+  .MuiPaper-root{
+    width: 260px;
+    .MuiAlert-icon{
+      width: 20%;
+      align-items: center;
+    }
+    .MuiAlert-message{
+      width: 100%;
+      text-align: center;
+    }
+    .MuiAlert-action{
+      width: 30%;
+      .MuiButtonBase-root{
+        min-width: 100% !important;
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 #add_product {
-  padding: 30px 0;
+  margin: 30px 0;
 
   .wrapper {
     padding: 40px;
@@ -21,117 +21,29 @@
         color: #ff9466;
       }
     }
-    .inputs {
+    .form {
       display: flex;
+      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-
-      .alert{
-        margin-top: 5px;
-        font-family: Averta;
-        font-size: 13px;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        color: #666;
-      }
-      .inputFile {
-        cursor: pointer !important;
-        width: 100%;
-        background-color: #fff;
-        font-family: Averta;
-        font-size: 12px;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        color: #666;
-        padding: 8px 16px;
-        border-radius: 4px;
-        border: solid 1px #dfdfdf;
-        cursor: pointer;
-        user-select: none;
-        outline: none;
-      }
-      .uploadedImg {
+      .inputs {
         display: flex;
-        flex-wrap: wrap;
-
-        .productItem {
-          display: flex;
-          justify-content: center;
-          position: relative;
-          width: 25%;
-          .productItemImg {
-            img {
-              width: 100px;
-              height: 100px;
-            }
-            .profileImg{
-              width: 24px;
-              height: 24px;
-            }
-          }
-          .productItemImgDelete {
-            cursor: pointer;
-            img {
-              position: absolute;
-              top: 10px;
-              right: 2px;
-              width: 22px;
-              height: 22px;
-              cursor: pointer;
-              transition: all 0.5s ease;
-              &:hover {
-                transform: scale(1.2);
-              }
-            }
+        justify-content: flex-start;
+        flex-direction: column;
+        // align-items: center;
+        margin-bottom: 0px !important;
+        padding-top: 20px;
+        .select-selected{
+          font-size: 16px;
+          padding: 12px 16px;
+          &::after{
+            top: 18px;
           }
         }
-      }
 
-      label {
-        margin-bottom: 0;
-      }
-      .custom-selectbox {
-        width: 50%;
-        background-color: #fff;
-        border-radius: 5px;
-      }
-
-      .select {
-        width: 70%;
-        border-radius: 4px;
-        color: #666;
-        background-color: #fff;
-        font-family: Averta;
-        font-size: 12px;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        border: solid 1px #dfdfdf;
-        padding: 8px 16px;
-        cursor: pointer;
-        outline: none;
-        option {
-          // border: 1px solid #dfdfdf;
-          // outline: none ;
-          // box-shadow: none ;
-        }
-      }
-      .inputs_inside{
-        width: 70%;
-
-        .input {
-          cursor: text !important;
+        .alert{
           width: 100%;
-          background-color: #fff;
+          margin-top: 5px;
           font-family: Averta;
           font-size: 13px;
           font-weight: 400;
@@ -140,14 +52,9 @@
           line-height: normal;
           letter-spacing: normal;
           color: #666;
-          padding: 8px 16px;
-          border-radius: 4px;
-          border: solid 1px #dfdfdf;
-          cursor: pointer;
-          user-select: none;
-          outline: none;
         }
-        textarea {
+        .inputFile {
+          cursor: pointer !important;
           width: 100%;
           background-color: #fff;
           font-family: Averta;
@@ -164,121 +71,295 @@
           cursor: pointer;
           user-select: none;
           outline: none;
-          height: 100px;
-          cursor: text !important;
         }
-      }
+        .inputFileCustom{
 
-
-    }
-  }
-}
-.required {
-  &:after {
-    content: "*";
-    color: #fe6617;
-    position: relative;
-    margin-left: 5px;
-  }
-}
-
-.file-input {
-  width: 70%;
-  background-color: #fff;
-  font-family: Averta;
-  font-size: 12px;
-  font-weight: 400;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #666;
-  padding: 8px 16px;
-  border-radius: 4px;
-  border: solid 1px #dfdfdf;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  position: relative;
-}
-
-.file-input > [type="file"] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  z-index: 10;
-  cursor: pointer;
-}
-
-.file-input > .button {
-  display: inline-block;
-  cursor: pointer;
-  background: #eee;
-  padding: 8px 16px;
-  border-radius: 2px;
-  margin-right: 8px;
-}
-
-.file-input:hover > .button {
-  background: #ff9466;
-  color: white;
-}
-
-.file-input > .label {
-  color: #333;
-  white-space: nowrap;
-  opacity: 0.3;
-}
-
-.file-input.-chosen > .label {
-  opacity: 1;
-}
-
-@media only screen and (max-width:768px) {
-  #add_product{
-    margin-top: 40px;
-    .wrapper{
-      padding: 0px;
-      background: white;
-      .header{
-        margin-bottom: 0px;
-        h3{
-          font-size: 20px;
         }
-      }
-      .form{
-        width: 100%;
-        form{
-          width: 100%;
-          .inputs{
-            label{
-              font-size: 14px;
-            }
-            input{
-              width: 100%;
-              font-size: 13px;
-            }
-            .password{
-              width: 100%;
-              input{
+        .uploadedImg {
+          display: flex;
+          flex-wrap: wrap;
+
+          .productItem {
+            padding: 0px 2px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            width: 25%;
+            .productItemImg {
+              img {
                 width: 100%;
-                font-size: 13px;
+                height: 100px;
               }
-              .view{
-                right: 0px;
+              .profileImg{
+                width: 20px;
+                height: 20px;
               }
             }
+            .productItemImgDelete {
+              cursor: pointer;
+              img {
+                position: absolute;
+                top: 10px;
+                right: 2px;
+                width: 22px;
+                height: 22px;
+                cursor: pointer;
+                transition: all 0.5s ease;
+                &:hover {
+                  transform: scale(1.2);
+                }
+              }
+            }
+          }
+        }
 
+        label {
+          font-family: Averta;
+          font-size: 18px;
+          font-weight: 600;
+          font-stretch: normal;
+          margin-bottom: 7px !important;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          color: rgba(49, 69, 106, 0.8);
+        }
+        .custom-selectbox {
+          width: 50%;
+          background-color: #fff;
+          border-radius: 5px;
+        }
+
+        .select {
+          width: 100%;
+          height: 45px;
+          border-radius: 4px;
+          color: #666;
+          background-color: #fff;
+          font-family: Averta;
+          font-size: 14px;
+          font-weight: 400;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          border: solid 1px #dfdfdf;
+          padding: 8px 16px;
+          cursor: pointer;
+          outline: none;
+          option {
+            // border: 1px solid #dfdfdf;
+            // outline: none ;
+            // box-shadow: none ;
           }
-          .submit{
-            width: 100%;
-            font-size: 14px;
+        }
+        .input {
+          background-color: #f7f7f7;
+          padding: 13px 15px;
+          width: 100%;
+          height: 46px;
+          border-radius: 4px;
+          border: solid 1px #dfdfdf;
+          font-family: Averta;
+          font-size: 14px;
+          font-weight: 400;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          color: #666;
+          outline: none;
+        }
+        textarea {
+          width: 100%;
+          background-color: #fff;
+          font-family: Averta;
+          font-size: 14px !important;
+          font-weight: 400;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          color: #666;
+          padding: 8px 16px;
+          border-radius: 4px;
+          border: solid 1px #dfdfdf;
+          cursor: pointer;
+          outline: none;
+          height: 100px;
+        }
+      }
+      .required {
+        &:after {
+          content: "*";
+          color: #fe6617;
+          position: relative;
+          margin-left: 5px;
+        }
+      }
+      .submit{
+        margin-top: 20px;
+        width: 100%;
+        height: 46px;
+        border-radius: 4px;
+        background-color: #0b8071;
+        border: none;
+        font-family: Averta;
+        background-color: #ff9466;
+        font-size: 14px !important;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+      }
+      .file-input {
+        width: 100%;
+        background-color: #fff;
+        font-family: Averta;
+        font-size: 12px;
+        font-weight: 400;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #666;
+        padding: 2px 16px !important;
+        border-radius: 4px;
+        border: solid 1px #dfdfdf;
+        cursor: pointer;
+        user-select: none;
+        outline: none;
+        position: relative;
+        margin-bottom: 0px !important;
+        .file-input-choose{
+          margin-top: 13px;
+        }
+      }
+
+      .file-input > [type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        z-index: 10;
+        cursor: pointer;
+      }
+
+      .file-input > .button {
+        display: inline-block;
+        cursor: pointer;
+        background: #eee;
+        padding: 2px 16px;
+        border-radius: 2px;
+        margin-right: 8px;
+      }
+
+      .file-input:hover > .button {
+        background: #ff9466;
+        color: white;
+      }
+
+      .file-input > .label {
+        color: #333;
+        white-space: nowrap;
+        opacity: 0.3;
+      }
+
+      .file-input.-chosen > .label {
+        opacity: 1;
+      }
+    }
+
+  }
+}
+
+@media only screen and (max-width:992px) {
+  #add_product {
+    .container{
+      max-width: 960px;
+      form{
+        width: 100%;
+        .inputs{
+          input{
+            width: 100% !important;
           }
+          .password{
+            width: 100% !important;
+            input{
+              width: 100% !important;
+            }
+          }
+          .uploadedImg{
+            .productItemImgDelete{
+              img{
+                //right: 0px !important;
+              }
+            }
+          }
+        }
+        .submit{
+          width: 100% !important;
         }
       }
     }
   }
 }
+
+
+
+//@media only screen and (max-width:768px) {
+//  #add_product{
+//    margin-top: 40px;
+//    .wrapper{
+//      padding: 0px;
+//      background: white;
+//      .header{
+//        margin-bottom: 0px;
+//        h3{
+//          font-size: 20px;
+//        }
+//      }
+//      .form{
+//
+//        form{
+//          //width: 100%;
+//          .inputs{
+//            .inputs_inside{
+//              label{
+//                font-size: 14px;
+//              }
+//              input{
+//                width: 100%;
+//                font-size: 15px;
+//              }
+//              textarea{
+//                font-size: 15px;
+//              }
+//              .password{
+//                width: 100%;
+//                input{
+//                  width: 100%;
+//                  font-size: 15px;
+//                }
+//                .view{
+//                  right: 0px;
+//                }
+//              }
+//            }
+//
+//
+//          }
+//          .submit{
+//            width: 100%;
+//            font-size: 14px;
+//          }
+//        }
+//      }
+//    }
+//  }
+//}

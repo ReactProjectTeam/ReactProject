@@ -4,6 +4,7 @@ import "./index.scss";
 import date from "../../img/blog/date.png";
 import { allBlogsList } from "../../API/all_blogs";
 import getAllBlogs from "../../API/getAllBlogs";
+import Footer from "../../layout/Footer";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -27,7 +28,7 @@ const Blogs = () => {
       <section id="blogs">
         <div className="container">
           <div className="blogs_header">
-            <h5>Bütün Bloglar</h5>
+            <h5>Bütün Xəbərlər</h5>
           </div>
             {isLoading === true ? (
                 <div className="col-md-12 d-flex justify-content-center align-items-center">
@@ -41,7 +42,7 @@ const Blogs = () => {
                         <div className="row">
                             <div className="col-md-5">
                                 <div className="blog_left">
-                                    <img src={`http://aanar028-001-site3.dtempurl.com/api/blogimage/${blog.photo}`} alt="" />
+                                    <img src={`https://pricegroup.az/api/blogimage/${blog.photo}`} alt="" />
                                 </div>
                             </div>
                             <div className="col-md-7">
@@ -51,7 +52,13 @@ const Blogs = () => {
                                     </div>
                                     <div className="blog_date">
                                         <p>
-                                            <img src={date} alt="" /> {blog.date}
+                                            <img src={date} alt="" />
+                                            {new Date(blog.publishDate).toLocaleDateString()}
+                                            <span className="ml-2">
+                                            {new Date(
+                                                blog.publishDate
+                                            ).toLocaleTimeString()}
+                                          </span>
                                         </p>
                                     </div>
                                     <div className="blog_description">
@@ -71,6 +78,7 @@ const Blogs = () => {
 
         </div>
       </section>
+        <Footer/>
     </>
   );
 };

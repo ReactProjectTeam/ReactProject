@@ -4,11 +4,11 @@ import Footer from "./Footer";
 
 const Layout =(props)=> {
         return (
-            <div>
-                <Header user={props.user} rendering={props.rendering}/>
+            <>
+                <Header rendering={props.rendering} getLoggedOut={props.getLoggedOut} />
                     {props.children}
-                <Footer/>
-            </div>
+                {/*<Footer product={props.product}/>*/}
+            </>
         );
 
 }

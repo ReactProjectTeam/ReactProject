@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, useHistory} from "react-router-dom";
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Layout from "../../layout";
-import Signup from "../Signup/Signup";
+import SignupEmail from "../Signup/SignupEmail";
 import Signin from "../Signin/Signin";
 import All_products from "../All_products";
 import Product_details from "../Product_details";
@@ -12,7 +12,6 @@ import Blog_inside from "../Blog_inside";
 import Add_product from "../Add_product";
 import Contact from "../Contact";
 import NotFound from "../NotFound";
-// import getUserByToken from "../../API/getUserByToken";
 import { useCookies } from "react-cookie";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import PrivateRouteSignUpSignIn from "../PrivateRoute/PrivateRouteSignUpSignIn";
@@ -21,33 +20,50 @@ import Context from "../../Context/context";
 import Confirm from "../Confirm";
 import ForgotPassword from "../ForgotPassword";
 import ConfirmPassword from "../ConfirmPassword";
-import Swal from "../Swal";
 import getUserByToken from "../../API/getUserByToken";
 import isEmpty from "lodash/isEmpty";
-import Test from "../Test/Test";
 import Update_product from "../Update_product";
+import SnackbarCustom from "../../utils/Snackbar/Snackbar";
+import Signup from "../Signup/Signup";
+import {initFacebookSdk} from "../../utils/InitFacebookSDK";
 
 const App = () => {
-  const [cookies] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies(["token"]);
+
   const [
     selectedCategoryOrSubcategory,
     setSelectedCategoryOrSubcategory,
   ] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
-  const isAuth =
-    cookies.token === "undefined" || cookies.token === undefined ? false : true;
+  const isAuth = cookies.token === "undefined" || cookies.token === undefined ? false : true;
   const [user, setUser] = useState({});
   const [rendering, setRendering] = useState(null);
+  const [confirmed, setConfirmed] = useState(false)
+  const [loggedOut, setLoggedOut] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [product, setProduct] = useState([]);
+
+
+
+
+  // if (!isAuth){
+  //   initFacebookSdk();
+  //   console.log("initFacebookSdk")
+  // }
+  // initFacebookSdk();
 
   useEffect(() => {
     if (cookies.token !== undefined && cookies.token !== "undefined") {
-      getUserByToken(cookies.token).then((responseUser) => {
-        if (responseUser.status === 200) {
-          setUser(responseUser.data.data);
-        }
-      });
-    }
-  }, []);
+        getUserByToken(cookies.token).then((responseUser) => {
+          if (responseUser.status === 200) {
+            setUser(responseUser.data.data);
+          }
+        });
+      }
+
+  }, [cookies.token]);
+
+
 
   const handleScroll = () => {
     let content = document.getElementById("content1");
@@ -69,9 +85,9 @@ const App = () => {
   };
 
   const getProductCategoryAndSubcategory = (
-    categoryId,
-    subCategoryId,
-    type
+      categoryId,
+      subCategoryId,
+      type
   ) => {
     const newObj = { categoryId, subCategoryId, type };
     setSelectedProduct(newObj);
@@ -81,74 +97,106 @@ const App = () => {
     setRendering(rendering)
   }
 
+  const getConfirmed=(confirmedData)=>{
+    setConfirmed(confirmedData)
+  }
+
+  const getLoggedOut=(loggedOutData)=>{
+    setLoggedOut(loggedOutData)
+    setLoggedIn(false)
+  }
+
+  const getLoggedIn=(loggedInData)=>{
+    console.log("loggedInData",loggedInData)
+    setLoggedIn(loggedInData)
+    setLoggedOut(false)
+  }
+
+  const getProducts=(productData)=>{
+    setProduct(productData)
+  }
+
+
+
   return (
-    <Context.Provider
-      value={{
-        getProductsById,
-        getProductCategoryAndSubcategory,
-        selectedProduct,
-        renderingHandle,
-      }}
-    >
-      <>
-        <Router>
-          <div id="content1">
-            <Route path="/confirm" component={Confirm} />
-            <Layout rendering={rendering}>
-              <Switch>
-                <Route path="/test" component={Test} />
-                <Route path="/confirmpassword" component={ConfirmPassword} />
-                <Route path="/forgotpassword" component={ForgotPassword} />
-                <Route path="/swal" component={Swal} />
+      <Context.Provider
+          value={{
+            getProductsById,
+            getProductCategoryAndSubcategory,
+            selectedProduct,
+            renderingHandle,
+          }}
+      >
+        <>
+          {confirmed && (
+              <SnackbarCustom title="Qeydiyyatınız uğurla tamamlandı"/>
+          )}
+          {loggedOut && (
+              <SnackbarCustom title="Çıxış etdiniz"/>
+          )}
+          {loggedIn && (
+              <SnackbarCustom title="Sayta daxil oldunuz"/>
+          )}
+          <Router>
+            <div id="content">
+              <Layout rendering={rendering} getLoggedOut={getLoggedOut} >
+                <Switch>
+                  <Route path="/confirm" component={(props) => <Confirm {...props} getConfirmed={getConfirmed}/> } />
+                  <Route path="/confirmpassword" component={ConfirmPassword} />
+                  <Route path="/forgotpassword" component={ForgotPassword} />
+                  <Route path="/signup" component={Signup}>
+                    <PrivateRouteSignUpSignIn isAuth={isAuth}>
+                      <Signup  />
+                    </PrivateRouteSignUpSignIn>
+                  </Route>
+                  <Route path="/signin" component={Signin}>
+                    <PrivateRouteSignUpSignIn isAuth={isAuth}>
+                      <Signin getLoggedIn={getLoggedIn}/>
+                    </PrivateRouteSignUpSignIn>
+                  </Route>
+                  <Route exact path="/">
+                    <All_products
+                        selectedCategoryOrSubcategory={selectedCategoryOrSubcategory}
+                        getProducts={getProducts}
+                    />
+                  </Route>
+                  <Route path="/categoryId/:categoryId" children={<All_products
+                      selectedCategoryOrSubcategory={selectedCategoryOrSubcategory}
+                      getProducts={getProducts}
+                  />}/>
+                  <Route path="/subCategoryId/:subCategoryId" children={<All_products
+                      selectedCategoryOrSubcategory={selectedCategoryOrSubcategory}
+                      getProducts={getProducts}
+                  />}/>
 
-                <Route path="/signup" component={Signup}>
-                  <PrivateRouteSignUpSignIn isAuth={isAuth}>
-                    <Signup />
-                  </PrivateRouteSignUpSignIn>
-                </Route>
-                <Route path="/signin" component={Signin}>
-                  <PrivateRouteSignUpSignIn isAuth={isAuth}>
-                    <Signin />
-                  </PrivateRouteSignUpSignIn>
-                </Route>
-
-                <Route exact path="/">
-                  <All_products
-                    selectedCategoryOrSubcategory={
-                      selectedCategoryOrSubcategory
-                    }
+                  <Route
+                      path="/product_details/:id"
+                      component={Product_details}
                   />
-                </Route>
-                <Route
-                  path="/product_details/:id"
-                  component={Product_details}
-                />
-                <Route path="/blogs" component={Blogs} />
-                <Route path="/blog_inside/:id" component={Blog_inside} />
-                <Route path="/user_info">
-                  <PrivateRoute isAuth={isAuth}>
-                    <UserInfo user={user} />
-                  </PrivateRoute>
-                </Route>
-                <Route path="/add_product">
-                  <PrivateRoute isAuth={isAuth}>
-                    <Add_product />
-                  </PrivateRoute>
-                </Route>
-                <Route path="/update_product/:id" component={Update_product}>
-                  {/*<PrivateRoute isAuth={isAuth}>*/}
-                  {/*  <Update_product />*/}
-                  {/*</PrivateRoute>*/}
-                </Route>
-                <Route path="/contact" component={Contact} />
-                <Route component={NotFound} />
-              </Switch>
-            </Layout>
-          </div>
-        </Router>
-      </>
-    </Context.Provider>
+                  <Route path="/blogs" component={Blogs} />
+                  <Route path="/blog_inside/:id" component={Blog_inside} />
+                  <Route path="/user_info">
+                    <PrivateRoute isAuth={isAuth}>
+                      <UserInfo user={user} />
+                    </PrivateRoute>
+                  </Route>
+                  <Route path="/add_product">
+                    <PrivateRoute isAuth={isAuth}>
+                      <Add_product />
+                    </PrivateRoute>
+                  </Route>
+                  <Route path="/update_product/:id" component={Update_product}>
+                  </Route>
+                  <Route path="/contact" component={Contact} />
+                  <Route component={NotFound} />
+                </Switch>
+              </Layout>
+            </div>
+          </Router>
+        </>
+      </Context.Provider>
   );
 };
 
 export default App;
+

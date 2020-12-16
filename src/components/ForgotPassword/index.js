@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import viewCopy from "../../img/login/view-copy.svg";
+import eye from "../../img/login/eye.png";
+import hideEye from "../../img/login/hideEye.png";
 import register from "../../API/register";
 import { useFormik } from "formik";
 import {Alert} from "react-bootstrap";
 import validateForgotPassword from "../../utils/yup/validateForgotPassword";
 import forgotPassword from "../../API/forgotPassword";
+import ButtonCustom from "../../utils/Button/Button";
+import Footer from "../../layout/Footer";
 
 const ForgotPassword = (props) => {
   const [inputTypePassword, setInputTypePassword] = useState("password");
@@ -13,9 +16,28 @@ const ForgotPassword = (props) => {
   );
   const [checkUser, setCheckUser] = useState(false);
   const [file, setFile] = useState([]);
+
+
   useEffect(() => {
-    
-  }, [])
+    changeFooterCss()
+  }, []);
+
+  const changeFooterCss=()=>{
+    let inputs = document.getElementsByTagName("input");
+    let footer = document.getElementsByTagName("footer")[0];
+
+    Array.from(inputs).map(input=> {
+      input.addEventListener("focus", function () {
+        footer.style.position = "static";
+      });
+    });
+    Array.from(inputs).map(input=> {
+      input.addEventListener("blur", function () {
+        footer.style.position = "fixed";
+      });
+    })
+  }
+
 
   const changeTypePassword = (e) => {
     inputTypePassword === "password"
@@ -54,7 +76,6 @@ const ForgotPassword = (props) => {
         ...values,
         code: code
       };
-      console.log(formData);
       forgotPassword(formData)
         .then(() => {
           history.push("/signin");
@@ -65,6 +86,7 @@ const ForgotPassword = (props) => {
 
 
   return (
+      <>
     <section id="login_register">
       <div className="container">
         <div className="row">
@@ -97,7 +119,7 @@ const ForgotPassword = (props) => {
                         type="button"
                         className="view"
                       >
-                        <img src={viewCopy} alt="" />
+                        <img src={inputTypePassword === "text" ? eye  :  hideEye} alt="" />
                       </button>
                     </div>
                   </div>
@@ -122,7 +144,7 @@ const ForgotPassword = (props) => {
                         type="button"
                         className="view"
                       >
-                        <img src={viewCopy} alt="" />
+                        <img src={inputTypePassword === "text" ? eye  :  hideEye} alt="" />
                       </button>
                     </div>
                   </div>
@@ -130,7 +152,8 @@ const ForgotPassword = (props) => {
                     className="g-recaptcha"
                     data-sitekey="6Ldbdg0TAAAAAI7KAf72Q6uagbWzWecTeBWmrCpJ"
                   ></div>
-                  <input className="submit" type="submit" value="Şifrəni dəyiş" />
+                  {/*<input className="submit" type="submit" value="Şifrəni dəyiş" />*/}
+                  <ButtonCustom title="Şifrəni dəyiş"/>
                 </form>
               </div>
             </div>
@@ -139,6 +162,8 @@ const ForgotPassword = (props) => {
         </div>
       </div>
     </section>
+        <Footer forgotPassword={"forgotPassword"}/>
+        </>
   );
 };
 

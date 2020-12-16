@@ -16,24 +16,24 @@ const validateUserInfo = yup.object({
     name: yup
         .string()
         .min(3, "3 simvoldan az olmamalıdır")
-        .max(20, "20 simvoldan çox olmamalıdır")
-        .required("Ad qeyd olunmayıb"),
+        .max(20, "20 simvoldan çox olmamalıdır"),
+        // .required("Ad qeyd olunmayıb"),
     surname: yup
         .string()
         .min(3, "3 simvoldan az olmamalıdır")
-        .max(20, "20 simvoldan çox olmamalıdır")
-        .required("Soyad qeyd olunmayıb"),
+        .max(20, "20 simvoldan çox olmamalıdır"),
+        // .required("Soyad qeyd olunmayıb"),
     phoneNumber: yup
         .string()
         // .matches(phoneRegExp, 'Yalnız rəqəm daxil olunmalıdır')
         .min(9, "9 simvoldan az olmamalıdır")
-        .max(20, "20 simvoldan çox olmamalıdır")
-        .required("Telefon nömrəsi qeyd olunmayıb"),
+        .max(20, "20 simvoldan çox olmamalıdır"),
+        // .required("Telefon nömrəsi qeyd olunmayıb"),
     address: yup
         .string()
         .min(3, "3 simvoldan az olmamalıdır")
         .max(50, "50 simvoldan çox olmamalıdır")
-        .required("Ünvan qeyd olunmayıb"),
+        // .required("Ünvan qeyd olunmayıb"),
 });
 
 export default validateUserInfo;

@@ -5,6 +5,7 @@ import date from "../../img/blog/date.png";
 import axios from "axios";
 import getBlogById from "../../API/getBlogById";
 import { useCookies } from "react-cookie";
+import Footer from "../../layout/Footer";
 
 const Blogs = (props) => {
   const [data, setData] = useState({});
@@ -18,19 +19,21 @@ const Blogs = (props) => {
     });
   }, []);
 
-  console.log(data)
   return (
     <>
       <section id="blog_inside">
         <div className="container">
           <div className="blog_header">
-            <h5>Blog haqqında ətraflı</h5>
+            <h5>Xəbər haqqında ətraflı</h5>
           </div>
           <div className="blog">
             <div className="row">
               <div className="col-md-12">
                 <div className="blog_top">
-                  <img src={`http://aanar028-001-site3.dtempurl.com/api/blogimage/${data.photo}`} alt="" />
+                  <img
+                    src={`https://pricegroup.az/api/blogimage/${data.photo}`}
+                    alt=""
+                  />
                 </div>
               </div>
               <div className="col-md-12">
@@ -41,6 +44,10 @@ const Blogs = (props) => {
                   <div className="blog_date">
                     <p>
                       <img src={date} alt="" />
+                      {new Date(data.publishDate).toLocaleDateString()}
+                      <span className="ml-2">
+                        {new Date(data.publishDate).toLocaleTimeString()}
+                      </span>
                     </p>
                   </div>
                   <div className="blog_description">
@@ -52,6 +59,7 @@ const Blogs = (props) => {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 };

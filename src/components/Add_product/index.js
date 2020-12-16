@@ -11,12 +11,15 @@ import { Alert } from "react-bootstrap";
 import deleteIcon from "../../img/add_product/delete.png";
 import profileImg from "../../img/add_product/profileImg.png";
 import postAddProduct from "../../API/postAddProduct";
-import InputMask from 'react-input-mask';
-import swal from 'sweetalert';
+import InputMask from "react-input-mask";
+import swal from "sweetalert";
 
-
+import Resizer from "react-image-file-resizer";
 
 import { useHistory } from "react-router-dom";
+import ButtonCustom from "../../utils/Button/Button";
+import BackdropCustom from "../../utils/Backdrop/Backdrop";
+import Footer from "../../layout/Footer";
 
 const Add_product = (props) => {
   const [cookies] = useCookies(["token"]);
@@ -26,6 +29,8 @@ const Add_product = (props) => {
   const [cities, setCities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [file, setFile] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -46,6 +51,7 @@ const Add_product = (props) => {
   const {
     handleSubmit,
     handleChange,
+    handleBlur,
     values: {
       userId,
       categoryId,
@@ -58,6 +64,7 @@ const Add_product = (props) => {
       ownerAddress,
     },
     errors,
+    touched,
   } = useFormik({
     initialValues: {
       userId: user.id,
@@ -71,35 +78,87 @@ const Add_product = (props) => {
       ownerAddress: "",
     },
     validationSchema: validateAddProduct,
+    enableReinitialize: true,
     onSubmit: (values) => {
-      const phone = values.ownerPhoneNumber.split("-").join("").split(" ").join("").split("(").join("").split(")").join("");
-      
+
+      const phone = values.ownerPhoneNumber
+        .split("-")
+        .join("")
+        .split(" ")
+        .join("")
+        .split("(")
+        .join("")
+        .split(")")
+        .join("");
+
       const formData = {
         ...values,
         userId: user.id,
         files: file.map((item) => item.file),
-        ownerPhoneNumber: phone
+        ownerPhoneNumber: phone,
       };
-  
-      postAddProduct(cookies.token, formData).then(() => {
-        swal("Elanınız moderatora göndərildi", "Elanınız təsdiqləndikdən sonra paylaşılacaq", "success",{
-          button: "Bağla",
-        }).then(()=>{
-          history.push("/");
-        })
-      });
+      if ( file.length > 0){
+        setIsLoading(true);
+        postAddProduct(cookies.token, formData).then(() => {
+          setIsLoading(false);
+          swal(
+              "Elanınız moderatora göndərildi",
+              "Elanınız təsdiqləndikdən sonra paylaşılacaq",
+              "success",
+              {
+                button: "Bağla",
+              }
+          ).then(() => {
+            history.push("/");
+          });
+        });
+      }
     },
   });
 
-  const handleChangeImg = (event, date) => {
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        500,
+        500,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "base64"
+      );
+    });
+
+  const handleChangeImg = async (event, date) => {
     const filesArr = [...file];
     for (const item of event.target.files) {
-      filesArr.push({
-        urlFront: URL.createObjectURL(item),
-        file: item,
-      });
+      let typeEvent = item.type.substring(item.type.indexOf("/")+1);
+      if (typeEvent == "HEIF" || typeEvent == "HEIC" || typeEvent == "jpg" || typeEvent == "jpeg" || typeEvent == "gif" || typeEvent == "png"){
+        const image = await resizeFile(item);
+        let minimazePhoto = dataURLtoFile(image, item.name);
+        filesArr.push({
+          urlFront: URL.createObjectURL(minimazePhoto),
+          file: minimazePhoto,
+        });
+      }
     }
+
     setFile(filesArr);
+  };
+
+  const dataURLtoFile = (dataurl, filename) => {
+    var arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
   };
 
   const handleProductItemDelete = (index) => {
@@ -107,208 +166,174 @@ const Add_product = (props) => {
     const newArray = file.filter((value) => value != deletedItemImg);
     setFile(newArray);
   };
-  // console.log("file", file);
   return (
-    <section id="add_product">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-2"></div>
-          <div className="col-md-8">
-            <div className="wrapper">
-              <div className="header">
-                <h3>Elan yerləşdir</h3>
-              </div>
-              <div className="row">
-                <div className="col-md-12">
+    <>
+        <section id="add_product">
+          {isLoading && <BackdropCustom/>}
+
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="wrapper">
+                  <div className="header">
+                    <h3>Elan yerləşdir</h3>
+                  </div>
                   <div className="form">
                     <form onSubmit={handleSubmit}>
-                      <div className="inputs">
-                        <label className="required" htmlFor="">
-                          Kategoriya
-                        </label>
-                        <select
-                            className="select"
-                            value={categoryId}
-                            name="categoryId"
-                            onChange={(e) => {
-                              handleChange(e);
-                              handleSelectedCategory(e);
-                            }}
-                        >
-                          <option value="0">Kategoriya seçin</option>
-                          {categories.map((category, index) => (
-                              <option key={index} value={category.id}>
-                                {category.name}
-                              </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="inputs">
-                        <label className="required" htmlFor="">
-                          Sub kategoriya
-                        </label>
-                        <select
-                            className="select"
-                            value={subCategoryId}
-                            name="subCategoryId"
-                            onChange={handleChange}
-                            disabled={Number(selectedCategory) === 12 && true}
-                        >
-                          <option value="0">Sub kateqoriya seçin</option>
-                          {subCategories.map((subCategory, index) => {
-                            if (subCategory.categoryId === Number(selectedCategory)) {
-                              return (
-                                  <option key={index} value={subCategory.id}>
-                                    {subCategory.name}
-                                  </option>
-                              );
-                            }
-                          })}
-                        </select>
-                      </div>
-                      <div className="inputs">
-                        <label className="required" htmlFor="">
-                          Şəhər
-                        </label>
-                        <select
-                            className="select"
-                            value={cityId}
-                            name="cityId"
-                            onChange={handleChange}
-                        >
-                          <option value="0">Şəhər seçin</option>
-                          {cities.map((city, index) => {
-                            return (
-                                <option key={index} value={city.id}>
-                                  {city.name}
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="inputs">
+                            <label className="required" htmlFor="">
+                              Kategoriya
+                            </label>
+                            {/*<div className="inputs_inside">*/}
+                            <select
+                              className="select"
+                              value={categoryId}
+                              name="categoryId"
+                              onChange={(e) => {
+                                handleChange(e);
+                                handleSelectedCategory(e);
+                              }}
+                              onBlur={handleBlur}
+                            >
+                              <option value="0">Kategoriya seçin</option>
+                              {categories.map((category, index) => (
+                                <option key={index} value={category.id}>
+                                  {category.name}
                                 </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                      <div className="inputs">
-                        <label className="required" htmlFor="">
-                          Elanın adı
-                        </label>
-                        <div className="inputs_inside">
-                          <input
+                              ))}
+                            </select>
+                            {errors.categoryId && touched.categoryId && (
+                              <Alert variant="warning">
+                                {errors.categoryId}
+                              </Alert>
+                            )}
+                            {/*</div>*/}
+                          </div>
+                          <div className="inputs">
+                            <label className="required" htmlFor="">
+                              Sub kategoriya
+                            </label>
+                            {/*<div className="inputs_inside">*/}
+                            <select
+                              className="select"
+                              value={subCategoryId}
+                              name="subCategoryId"
+                              onChange={handleChange}
+                              disabled={Number(selectedCategory) === 12 && true}
+                            >
+                              <option value="0">Sub kateqoriya seçin</option>
+                              {subCategories.map((subCategory, index) => {
+                                if (
+                                  subCategory.categoryId ===
+                                  Number(selectedCategory)
+                                ) {
+                                  return (
+                                    <option key={index} value={subCategory.id}>
+                                      {subCategory.name}
+                                    </option>
+                                  );
+                                }
+                              })}
+                            </select>
+                            {errors.subCategoryId && touched.subCategoryId && (
+                              <Alert variant="warning">
+                                {errors.subCategoryId}
+                              </Alert>
+                            )}
+                            {/*</div>*/}
+                          </div>
+                          <div className="inputs">
+                            <label className="required" htmlFor="">
+                              Şəhər
+                            </label>
+                            {/*<div className="inputs_inside">*/}
+                            <select
+                              className="select"
+                              value={cityId}
+                              name="cityId"
+                              onChange={handleChange}
+                            >
+                              <option value="0">Şəhər seçin</option>
+                              {cities.map((city, index) => {
+                                return (
+                                  <option key={index} value={city.id}>
+                                    {city.name}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                            {errors.cityId && touched.cityId && (
+                              <Alert variant="warning">{errors.cityId}</Alert>
+                            )}
+                            {/*</div>*/}
+                          </div>
+                          <div className="inputs">
+                            <label className="required" htmlFor="title">
+                              Elanın adı
+                            </label>
+                            {/*<div className="inputs_inside">*/}
+                            <input
                               className="input"
                               type="text"
-                              placeholder="elanın adını qeyd edin"
+                              placeholder="Elanın adını qeyd edin"
                               name="title"
+                              id="title"
                               onChange={handleChange}
                               value={title}
-                          />
-                          {errors.title && (
-                              <Alert
-                                  variant="warning"
+                            />
 
-                              >
-                                {errors.title}
-                              </Alert>
-                          )}
-                        </div>
-                      </div>
-                      <div className="inputs">
-                        <label className="required" htmlFor="">
-                          Məzmun
-                        </label>
-                        <div className="inputs_inside">
-                    <textarea
-                        name="description"
-                        onChange={handleChange}
-                        value={description}
-                    ></textarea>
-                          {errors.description && (
-                              <Alert
-                                  variant="warning"
-
-                              >
+                            {errors.title && (
+                              <Alert variant="warning">{errors.title}</Alert>
+                            )}
+                            {/*</div>*/}
+                          </div>
+                          <div className="inputs">
+                            <label className="required" htmlFor="">
+                              Məzmun
+                            </label>
+                            {/*<div className="inputs_inside">*/}
+                            <textarea
+                              name="description"
+                              onChange={handleChange}
+                              value={description}
+                            ></textarea>
+                            {errors.description && (
+                              <Alert variant="warning">
                                 {errors.description}
                               </Alert>
-                          )}
+                            )}
+                            {/*</div>*/}
+                          </div>
                         </div>
-                      </div>
-                      <div className="inputs">
-                        <label className="required" htmlFor="">
-                          Şəkil
-                        </label>
-                        <div className="file-input">
-                          <div className="file-input-choose">
-                            <input
-                                type="file"
-                                className="input"
-                                id="imageUpload"
-                                multiple={true}
-                                onChange={(event) => handleChangeImg(event, new Date())}
-                                onClick={(event) => {
-                                  event.target.value = null;
-                                }}
-                                style={{ display: "none" }}
-                            />
-                            <label
-                                htmlFor="imageUpload"
-                                className="btn btn-large"
-                                className="inputFile"
-                            >
-                              Şəkil seçin
-                              {file.length !== 0 && (
-                                  <span className="ml-2">{file.length}</span>
-                              )}
+                        <div className="col-md-6">
+                          <div className="inputs">
+                            <label className="required" htmlFor="">
+                              Adınız
                             </label>
-                          </div>
-                          <div className="uploadedImg">
-                            {file.map((item, index) => (
-                                <div className="productItem" key={index} id={index}>
-                                  <div className="productItemImg">
-                                    <img src={item.urlFront} className="mt-2" />
-                                    {index === 0 && (
-                                        <div className="d-flex justify-content-center align-items-center">
-                                          <img className="profileImg" src={profileImg} alt="" />
-                                          <span>Esas şəkil</span>
-                                        </div>
-                                    )}
-                                  </div>
-                                  <div
-                                      className="productItemImgDelete"
-                                      onClick={() => handleProductItemDelete(index)}
-                                  >
-                                    <img src={deleteIcon} alt={deleteIcon} />
-                                  </div>
-                                </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="inputs">
-                        <label className="required" htmlFor="">
-                          Adınız
-                        </label>
-                        <div className="inputs_inside">
-                          <input
+                            {/*<div className="inputs_inside">*/}
+                            <input
                               className="input"
                               type="text"
-                              placeholder="adınızı qeyd edin"
+                              placeholder="Adınızı qeyd edin"
                               name="ownerName"
                               onChange={handleChange}
                               value={ownerName}
-                          />
-                          {errors.ownerName && (
-                              <Alert
-                                  variant="warning"
-
-                              >
+                            />
+                            {errors.ownerName && (
+                              <Alert variant="warning">
                                 {errors.ownerName}
                               </Alert>
-                          )}
-                        </div>
-                      </div>
-                      <div className="inputs">
-                        <label className="required" htmlFor="">
-                          Nömrə
-                        </label>
-                        <div className="inputs_inside">
-                          {/* <input
+                            )}
+                            {/*</div>*/}
+                          </div>
+                          <div className="inputs">
+                            <label className="required" htmlFor="">
+                              Nömrə
+                            </label>
+                            {/*<div className="inputs_inside">*/}
+                            {/* <input
                               className="input"
                               type="text"
                               name="ownerPhoneNumber"
@@ -316,58 +341,131 @@ const Add_product = (props) => {
                               value={ownerPhoneNumber}
                               placeholder="nömrənizi qeyd edin"
                           /> */}
-                          <InputMask  
-                            placeholder="Telefon nomrənizi qeyd edin"
-                            name="ownerPhoneNumber"
-                            id="phoneNumber"
-                            className="input"
-                            onChange={handleChange}
-                            value={ownerPhoneNumber}
-                            mask="+\9\94 (99) 999-99-99" />
-                          {errors.ownerPhoneNumber && (
-                              <Alert
-                                  variant="warning"
-                              >
+                            <InputMask
+                              placeholder="Telefon nomrənizi qeyd edin"
+                              name="ownerPhoneNumber"
+                              id="phoneNumber"
+                              type="tel"
+                              className="input"
+                              onChange={handleChange}
+                              value={ownerPhoneNumber}
+                              mask="+\9\94 (99) 999-99-99"
+                            />
+                            {errors.ownerPhoneNumber && (
+                              <Alert variant="warning">
                                 {errors.ownerPhoneNumber}
                               </Alert>
-                          )}
-                        </div>
-                      </div>
-                      <div className="inputs">
-                        <label className="required" htmlFor="">
-                          Adress
-                        </label>
-                        <div className="inputs_inside">
-                          <input
+                            )}
+                            {/*</div>*/}
+                          </div>
+                          <div className="inputs">
+                            <label className="required" htmlFor="">
+                              Adress
+                            </label>
+                            {/*<div className="inputs_inside">*/}
+                            <input
                               className="input"
                               type="text"
                               name="ownerAddress"
                               onChange={handleChange}
                               value={ownerAddress}
-                              placeholder="adress qeyd edin"
-                          />
-                          {errors.ownerAddress && (
-                              <Alert
-                                  variant="warning"
-
-                              >
+                              placeholder="Adress qeyd edin"
+                            />
+                            {errors.ownerAddress && (
+                              <Alert variant="warning">
                                 {errors.ownerAddress}
                               </Alert>
-                          )}
+                            )}
+                            {/*</div>*/}
+                          </div>
+                          <div
+                            className="inputs"
+                            style={{ alignItems: "flex-start" }}
+                          >
+                            <label className="required mt-1" htmlFor="">
+                              Şəkil
+                            </label>
+                            <div className="file-input">
+                              <div className="file-input-choose">
+                                <input
+                                  type="file"
+                                  className="input"
+                                  id="imageUpload"
+                                  multiple={true}
+                                  onChange={(event) =>
+                                    handleChangeImg(event, new Date())
+                                  }
+                                  onClick={(event) => {
+                                    event.target.value = null;
+                                  }}
+                                  style={{ display: "none" }}
+                                />
+                                <label
+                                  htmlFor="imageUpload"
+                                  className="btn btn-large"
+                                  className="inputFile"
+                                >
+                                  Şəkil seçin
+                                  {file.length !== 0 && (
+                                    <span className="ml-2">{file.length}</span>
+                                  )}
+                                </label>
+                              </div>
+
+                              {file.length == 0 && (
+                                <Alert variant="warning">
+                                  Ən azı bir şəkil yüklənməlidir.
+                                </Alert>
+                              )}
+                              <div className="uploadedImg">
+                                {file.map((item, index) => (
+                                  <div
+                                    className="productItem"
+                                    key={index}
+                                    id={index}
+                                  >
+                                    <div className="productItemImg">
+                                      <img
+                                        src={item.urlFront}
+                                        className="mt-2"
+                                      />
+                                      {index === 0 && (
+                                        <div className="d-flex justify-content-center align-items-center">
+                                          <img
+                                            className="profileImg"
+                                            src={profileImg}
+                                            alt=""
+                                          />
+                                          <span>Esas şəkil</span>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <div
+                                      className="productItemImgDelete"
+                                      onClick={() =>
+                                        handleProductItemDelete(index)
+                                      }
+                                    >
+                                      <img src={deleteIcon} alt={deleteIcon} />
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                          {/*<button type="submit"  className="submit" >Əlavə et</button>*/}
+                          <ButtonCustom title="Əlavə et" />
                         </div>
                       </div>
-
-                      <button type="submit" className="light-btn" style={{float:"right"}}>Əlavə et</button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-md-2"></div>
-      </div>
-      </div>
-    </section>
+        </section>
+        <Footer/>
+    </>
   );
 };
 

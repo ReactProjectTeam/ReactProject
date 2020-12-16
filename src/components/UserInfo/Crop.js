@@ -41,7 +41,7 @@ const Crop = ({ classes,getFileCropper }) => {
         croppedAreaPixels,
         rotation
       );
-      // console.log("donee", { croppedImage });
+
       setCroppedImage(croppedImage);
     } catch (e) {
       // console.error(e);
@@ -77,9 +77,6 @@ const Crop = ({ classes,getFileCropper }) => {
     setFileEnded([new File([imageSrc],imageName,{type: imageType})])
   },[imageSrc]);
 
-  // console.log("imageSrc",imageSrc)
-
-  // console.log("fileEnded",fileEnded)
 
   useEffect(() => {
     getFileCropper(fileEnded)

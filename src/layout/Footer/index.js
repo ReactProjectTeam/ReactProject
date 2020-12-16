@@ -1,27 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
 import payverLogo from "../../img/header/payverLogo.jpg";
-import facebook from "../../img/footer/facebook-letter-logo.svg";
-import instagram from "../../img/footer/instagram.svg";
-import twitter from "../../img/footer/twitter-logo-silhouette.svg";
-import linkedin from "../../img/footer/linkedin-letters.svg";
-// import send from "../../img/footer/send.svg";
-import "./index.scss"
-// import '../../scss/main.scss';
+import "./index.scss";
 
-class Footer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
-  render() {
-    return (
+const Footer =({products,all_products,signin,signup,confirm,confirmPassword,forgotPassword,notFound})=> {
+    let linkParams = window.location.pathname.substring(1,window.location.pathname.lastIndexOf("/"));
+    let link = window.location.pathname;
+
+    // console.log("casfasfas",products.length < 3)
+    // console.log("casfasfas",products)
+  // console.log(((products && products.length < 3) && ("minimumProductStyle")))
+
+  // ((linkParams === "subCategoryId" || linkParams === "categoryId") && props.product.length < 3 )  ? ("minimumProductStyle") : ("")
+
+  return (
       <>
-        <footer>
+        <footer className={((signin || signup || confirm || confirmPassword || forgotPassword || notFound) && ("minimumProductStyle")) || ((products && products.length < 3) ? ("minimumProductStyle"): "")  }>
           <div className="container">
             <div className="wrapper">
               <div className="row justify-content-between">
-                <div className="col-md-5 col-sm-6 align-self-start">
+                <div className="col-md-5 col-sm-6 col-6 align-self-start">
                   <div className="social">
                     <div className="logo">
                       {/* <a href="index.html"><img src={logo} alt="" /></a> */}
@@ -29,51 +27,30 @@ class Footer extends Component {
                         <span className="sha_temp">
                           <span>
                             <span className="temp-data">
-                              <img src={payverLogo} alt="Logo" />
+                              {/*<img src={payverLogo} alt="Logo" />*/}
+                                <img src={payverLogo} alt="Logo" />
                             </span>
                           </span>
                         </span>
                       </div>
                     </div>
                     <div className="description">
-                      <p>Yalnız pulsuz paylaşımlar</p>
+                      <p>Pulsuz paylaşımlar</p>
                     </div>
                   </div>
                 </div>
-                <div className="col-md-5 col-sm-6">
+                <div className="col-md-5 col-sm-6 col-6">
                   <div className="contact-subscribe">
                     <div className="contact_footer">
-                      <p className="header-text">Əlaqə</p>
+                      <div className="header-text">
+                        <p>Əlaqə</p>
+                      </div>
                       <ul>
                         <li>
-                          <a href="/">info@xususiyardim.com</a>
+                          <a href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;tf=1&amp;to=info@payver.az">info@payver.az</a>
                         </li>
                         <li>
-                          <a href="/">+994 50 278 22 68</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="follow-us">
-                      <ul>
-                        <li>
-                          <a href="/">
-                            <img src={facebook} alt="" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <img src={instagram} alt="" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <img src={twitter} alt="" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <img src={linkedin} alt="" />
-                          </a>
+                          <a href="tel:+994502782268">+994 50 278 22 68</a>
                         </li>
                       </ul>
                     </div>
@@ -85,7 +62,6 @@ class Footer extends Component {
         </footer>
       </>
     );
-  }
 }
 
 export default Footer;

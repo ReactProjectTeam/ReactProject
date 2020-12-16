@@ -1,5 +1,5 @@
 #add_product {
-  padding: 30px 0;
+  margin: 30px 0;
 
   .wrapper {
     padding: 40px;
@@ -21,119 +21,31 @@
         color: #ff9466;
       }
     }
-    .inputs {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-
-      .alert{
-        margin-top: 5px;
-        font-family: Averta;
-        font-size: 13px;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        color: #666;
-      }
-      .inputFile {
-        cursor: pointer !important;
-        width: 100%;
-        background-color: #fff;
-        font-family: Averta;
-        font-size: 12px;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        color: #666;
-        padding: 8px 16px;
-        border-radius: 4px;
-        border: solid 1px #dfdfdf;
-        cursor: pointer;
-        user-select: none;
-        outline: none;
-      }
-      .uploadedImg {
+    form {
+      width: 100%;
+      .inputs {
         display: flex;
-        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 20px;
 
-        .productItem {
-          display: flex;
-          justify-content: center;
-          position: relative;
-          width: 25%;
-          .productItemImg {
-            img {
-              width: 100px;
-              height: 100px;
-            }
-            .profileImg{
-              width: 24px;
-              height: 24px;
-            }
-          }
-          .productItemImgDelete {
-            cursor: pointer;
-            img {
-              position: absolute;
-              top: 10px;
-              right: 2px;
-              width: 22px;
-              height: 22px;
-              cursor: pointer;
-              transition: all 0.5s ease;
-              &:hover {
-                transform: scale(1.2);
-              }
-            }
-          }
+        .alert{
+          margin-top: 5px;
+          font-family: Averta;
+          font-size: 14px;
+          font-weight: 400;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          color: #666;
         }
-      }
-
-      label {
-        margin-bottom: 0;
-      }
-      .custom-selectbox {
-        width: 50%;
-        background-color: #fff;
-        border-radius: 5px;
-      }
-
-      .select {
-        width: 70%;
-        border-radius: 4px;
-        color: #666;
-        background-color: #fff;
-        font-family: Averta;
-        font-size: 12px;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        border: solid 1px #dfdfdf;
-        padding: 8px 16px;
-        cursor: pointer;
-        outline: none;
-        option {
-          // border: 1px solid #dfdfdf;
-          // outline: none ;
-          // box-shadow: none ;
-        }
-      }
-      .inputs_inside{
-        width: 70%;
-
-        .input {
-          cursor: text !important;
+        .inputFile {
+          cursor: pointer !important;
           width: 100%;
           background-color: #fff;
           font-family: Averta;
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 400;
           font-stretch: normal;
           font-style: normal;
@@ -145,6 +57,93 @@
           border: solid 1px #dfdfdf;
           cursor: pointer;
           user-select: none;
+          outline: none;
+        }
+        .uploadedImg {
+          display: flex;
+          flex-wrap: wrap;
+
+          .productItem {
+            padding: 0px 2px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            width: 25%;
+            .productItemImg {
+              img {
+                width: 100%;
+                height: 100px;
+              }
+              .profileImg{
+                width: 20px;
+                height: 20px;
+              }
+            }
+            .productItemImgDelete {
+              cursor: pointer;
+              img {
+                position: absolute;
+                top: 10px;
+                right: 2px;
+                width: 22px;
+                height: 22px;
+                cursor: pointer;
+                transition: all 0.5s ease;
+                &:hover {
+                  transform: scale(1.2);
+                }
+              }
+            }
+          }
+        }
+
+        label {
+          margin-bottom: 0;
+        }
+        .custom-selectbox {
+          width: 50%;
+          background-color: #fff;
+          border-radius: 5px;
+        }
+
+        .select {
+          width: 100%;
+          height: 45px;
+          border-radius: 4px;
+          color: #666;
+          background-color: #fff;
+          font-family: Averta;
+          font-size: 14px;
+          font-weight: 400;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          border: solid 1px #dfdfdf;
+          padding: 8px 16px;
+          cursor: pointer;
+          outline: none;
+          option {
+            // border: 1px solid #dfdfdf;
+            // outline: none ;
+            // box-shadow: none ;
+          }
+        }
+        .input {
+          width: 100%;
+          background-color: #fff;
+          font-family: Averta;
+          font-size: 14px;
+          font-weight: 400;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          color: #666;
+          padding: 8px 16px;
+          border-radius: 4px;
+          border: solid 1px #dfdfdf;
+          cursor: pointer;
           outline: none;
         }
         textarea {
@@ -162,15 +161,12 @@
           border-radius: 4px;
           border: solid 1px #dfdfdf;
           cursor: pointer;
-          user-select: none;
           outline: none;
           height: 100px;
-          cursor: text !important;
         }
       }
-
-
     }
+
   }
 }
 .required {
@@ -183,7 +179,7 @@
 }
 
 .file-input {
-  width: 70%;
+  width: 100%;
   background-color: #fff;
   font-family: Averta;
   font-size: 12px;
@@ -239,7 +235,7 @@
 
 @media only screen and (max-width:768px) {
   #add_product{
-    margin-top: 40px;
+    margin-top: 90px;
     .wrapper{
       padding: 0px;
       background: white;
@@ -259,13 +255,13 @@
             }
             input{
               width: 100%;
-              font-size: 13px;
+              font-size: 15px;
             }
             .password{
               width: 100%;
               input{
                 width: 100%;
-                font-size: 13px;
+                font-size: 15px;
               }
               .view{
                 right: 0px;
