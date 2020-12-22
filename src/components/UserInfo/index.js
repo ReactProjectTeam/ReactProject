@@ -135,7 +135,7 @@ const UserInfo = () => {
           setIsLoading(false);
           swal(
             "Uğurla yeniləndi",
-            "Daxil etdiyiniz melumatlar dəyişdirildi",
+            "Daxil etdiyiniz məlumatlar dəyişdirildi",
             "success",
             {
               button: "Bağla",
@@ -223,18 +223,19 @@ const UserInfo = () => {
               <div className="row">
                 <div className="col-md-5">
                   <div className="information_left">
-                    {user.photo != null ? (
-                        <img
-                            src={
-                              user.photo &&
-                              `https://pricegroup.az/api/userimage/${user.photo}`
-                            }
-                            alt={user.photo}
-                        />
-                    ) : (
-                        <img src={noPhoto} alt={noPhoto}/>
-                    )}
-
+                    <div className="information_left_inside">
+                      {user.photo != null ? (
+                          <img
+                              src={
+                                user.photo &&
+                                `https://pricegroup.az/api/userimage/${user.photo}`
+                              }
+                              alt={user.photo}
+                          />
+                      ) : (
+                          <img src={noPhoto} alt={noPhoto}/>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-7">
@@ -337,78 +338,25 @@ const UserInfo = () => {
                                 <Alert variant="warning">{errors.name}</Alert>
                               )}
                             </div>
+
                           </div>
                           <div className="col-md-6">
                             <div className="inputs">
-                              <label className="required" htmlFor="">
-                                Şəkil
-                              </label>
-                              {/*<Crop file={file} getFileCropper={getFileCropper}/>*/}
-                              <div className="file-input fileInputUserInfo">
-                                <div className="file-input-choose">
-                                  <input
-                                    type="file"
-                                    className="input"
-                                    id="imageUpload"
-                                    onChange={(event) =>
-                                      handleChangeImg(event, new Date())
-                                    }
-                                    onClick={(event) => {
-                                      event.target.value = null;
-                                    }}
-                                    style={{ display: "none" }}
-                                  />
-                                  <label
-                                    htmlFor="imageUpload"
-                                    className="btn btn-large"
-                                    className="inputFile inputFileCustom"
-                                  >
-                                    Şəkil seçin
-                                    {file.length !== 0 && (
-                                      <span className="ml-2">
-                                        {file.length}
-                                      </span>
-                                    )}
-                                  </label>
-                                </div>
-
-                                <div className="uploadedImg">
-                                  {file.map((item, index) => (
-                                    <div
-                                      className="productItem"
-                                      key={index}
-                                      id={index}
-                                    >
-                                      <div className="productItemImg">
-                                        <img
-                                          src={item.urlFront}
-                                          className="mt-2"
-                                        />
-                                        {/*{index === 0 && (*/}
-                                        {/*  <div className="d-flex justify-content-center align-items-center">*/}
-                                        {/*    <img*/}
-                                        {/*      className="profileImg"*/}
-                                        {/*      src={profileImg}*/}
-                                        {/*      alt=""*/}
-                                        {/*    />*/}
-                                        {/*  </div>*/}
-                                        {/*)}*/}
-                                      </div>
-                                      <div
-                                        className="productItemImgDelete"
-                                        onClick={() =>
-                                          handleProductItemDelete(index)
-                                        }
-                                      >
-                                        <img
-                                          src={deleteIcon}
-                                          alt={deleteIcon}
-                                        />
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
+                              <label htmlFor="surname">Soyad</label>
+                              <input
+                                  type="text"
+                                  placeholder="Soyadınızı qeyd edin"
+                                  name="surname"
+                                  id="surname"
+                                  onChange={handleChange}
+                                  value={surname}
+                              />
+                              {errors.surname && (
+                                  <Alert variant="warning">
+                                    {errors.surname}
+                                  </Alert>
+                              )}
+                              {/*{errors.surname ? errors.surname : null}*/}
                             </div>
                             <div className="inputs">
                               <label htmlFor="phoneNumber">
@@ -446,32 +394,87 @@ const UserInfo = () => {
                               {/*{errors.address ? errors.address : null}*/}
                             </div>
                             <div className="inputs">
-                              <label htmlFor="surname">Soyad</label>
-                              <input
-                                type="text"
-                                placeholder="Soyadınızı qeyd edin"
-                                name="surname"
-                                id="surname"
-                                onChange={handleChange}
-                                value={surname}
-                              />
-                              {errors.surname && (
-                                <Alert variant="warning">
-                                  {errors.surname}
-                                </Alert>
-                              )}
-                              {/*{errors.surname ? errors.surname : null}*/}
-                            </div>
-                          </div>
+                              <label className="required" htmlFor="">
+                                Şəkil
+                              </label>
+                              {/*<Crop file={file} getFileCropper={getFileCropper}/>*/}
+                              <div className="file-input fileInputUserInfo">
+                                <div className="file-input-choose">
+                                  <input
+                                      type="file"
+                                      className="input"
+                                      id="imageUpload"
+                                      onChange={(event) =>
+                                          handleChangeImg(event, new Date())
+                                      }
+                                      onClick={(event) => {
+                                        event.target.value = null;
+                                      }}
+                                      style={{ display: "none" }}
+                                  />
+                                  <label
+                                      htmlFor="imageUpload"
+                                      className="btn btn-large"
+                                      className="inputFile inputFileCustom"
+                                  >
+                                    Şəkil seçin
+                                    {file.length !== 0 && (
+                                        <span className="ml-2">
+                                        {file.length}
+                                      </span>
+                                    )}
+                                  </label>
+                                </div>
 
-                          <div className="col-md-6"></div>
-                          <div className="col-md-6">
+                                <div className="uploadedImg">
+                                  {file.map((item, index) => (
+                                      <div
+                                          className="productItem"
+                                          key={index}
+                                          id={index}
+                                      >
+                                        <div className="productItemImg">
+                                          <img
+                                              src={item.urlFront}
+                                              className="mt-2"
+                                          />
+                                          {/*{index === 0 && (*/}
+                                          {/*  <div className="d-flex justify-content-center align-items-center">*/}
+                                          {/*    <img*/}
+                                          {/*      className="profileImg"*/}
+                                          {/*      src={profileImg}*/}
+                                          {/*      alt=""*/}
+                                          {/*    />*/}
+                                          {/*  </div>*/}
+                                          {/*)}*/}
+                                        </div>
+                                        <div
+                                            className="productItemImgDelete"
+                                            onClick={() =>
+                                                handleProductItemDelete(index)
+                                            }
+                                        >
+                                          <img
+                                              src={deleteIcon}
+                                              alt={deleteIcon}
+                                          />
+                                        </div>
+                                      </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
                             <input
-                              className="submit"
-                              type="submit"
-                              value="Məlumatları dəyiş"
+                                className="submit"
+                                type="submit"
+                                value="Məlumatları dəyiş"
                             />
                           </div>
+
+                          {/*<div className="col-md-6"></div>*/}
+                          {/*<div className="col-md-6">*/}
+                          {/*  */}
+                          {/*</div>*/}
                         </div>
                       </form>
                     </div>
@@ -479,17 +482,18 @@ const UserInfo = () => {
                 </div>
               </div>
             </div>
+            {!isEmpty(user.productResponses) && (
             <div className="ownerProducts">
               <section id="all_products">
                 <div className="container">
                   <div className="row">
-                    {!isEmpty(user.productResponses) && (
+
                       <Tabs className="w-100 tabs">
                         <TabList>
                           <Tab>Dərc olunmuş</Tab>
                           <Tab>Silinmiş</Tab>
                           <Tab>Yoxlanılır</Tab>
-                          <Tab>Deyishdirilmish</Tab>
+                          <Tab>Dəyişdirilmiş</Tab>
                         </TabList>
                         <TabPanel>
                           <div className="row">
@@ -736,11 +740,12 @@ const UserInfo = () => {
                           </div>
                         </TabPanel>
                       </Tabs>
-                    )}
+
                   </div>
                 </div>
               </section>
             </div>
+            )}
           </div>
         </section>
       <Footer/>

@@ -13,6 +13,8 @@
         // border: 1px solid purple;
         .blog_top {
             // height: 100%;
+            border: 1px solid #ff9466;
+            border-radius: 5px;
             display: flex;
             justify-content: center;
             height: 400px;
@@ -42,6 +44,7 @@
             .blog_date {
                 p {
                     font-size: 14px;
+                    color: #535353;
                     img {
                         width: 20px;
                         margin-right: 8px;
@@ -52,6 +55,7 @@
             .blog_description {
                 p{
                     font-size: 15px;
+                    margin-bottom: 0px;
                 }
             }
 
@@ -59,6 +63,7 @@
                 button {
                     background: #ff9466;
                     color: white;
+                    font-size: 15px !important;
                 }
             }
         }
@@ -81,27 +86,27 @@
                 width: 100% !important;
                 height: 320px;
                 img{
-                    width: 100% !important;
+                    width: auto;
                     height: 100%;
                 }
             }
             .blog_bottom{
                 .blog_header{
-                    margin-bottom: 15px;
+                    margin-bottom: 20px;
                     h4{
                         font-size: 17px;
                         margin-bottom: 0px;
                     }
                 }
                 .blog_date{
-                    margin-bottom: 15px;
+                    margin-bottom: 20px;
                     p{
                         margin-bottom: 0px;
                         font-size: 15px;
                     }
                 }
                 .blog_description{
-                    margin-bottom: 15px;
+                    margin-bottom: 20px;
                     p{
                         font-size: 14px;
                         margin-bottom: 0px;

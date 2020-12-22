@@ -4,18 +4,26 @@ import "./index.css";
 import App from "./components/App/App";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import rootReducer from "./store/reducers";
-import { Router } from 'react-router-dom';
 import { render } from 'react-dom';
-
-import {
-  initFacebookSdk,
-  history,
-} from "./utils/InitFacebookSDK";
+import {initFacebookSdk} from "./utils/InitFacebookSDK";
 
 initFacebookSdk().then(startApp);
 
-const store = createStore(rootReducer);
+const reducer=(state=[],action)=>{
+    switch (action.type) {
+        case "addProduct": {
+            return [...state,action.payload]
+        }
+    }
+    return state
+}
+
+const store = createStore(reducer);
+store.subscribe(()=> console.log(store.getState()))
+
+
+store.dispatch({type: "addProduct",payload:"kurtka"})
+store.dispatch({type: "addProduct",payload:"shalvar"})
 
 function startApp() {
   render(
@@ -25,11 +33,3 @@ function startApp() {
     document.getElementById("root")
   );
 }
-
-
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <App />
-//   </Provider>,
-//   document.getElementById("root")
-// );

@@ -430,13 +430,13 @@ const Add_product = (props) => {
                                         className="mt-2"
                                       />
                                       {index === 0 && (
-                                        <div className="d-flex justify-content-center align-items-center">
+                                        <div className="profileImgDiv d-flex justify-content-center align-items-center">
                                           <img
                                             className="profileImg"
                                             src={profileImg}
                                             alt=""
                                           />
-                                          <span>Esas şəkil</span>
+                                          {/*<span>Esas şəkil</span>*/}
                                         </div>
                                       )}
                                     </div>

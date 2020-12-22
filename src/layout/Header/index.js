@@ -31,6 +31,7 @@ import { Accordion, Card, Button } from "react-bootstrap";
 import isEmpty from "lodash/isEmpty";
 // import AccordionCustom from "../../utils/Accardion/Accardion";
 
+
 const pageHeader = document.querySelector(".mobile");
 const openMobMenu = document.querySelector(".open-mobile-menu");
 const closeMobMenu = document.querySelector(".close-mobile-menu");
@@ -72,7 +73,7 @@ function resizingComplete() {
 }
 
 const Header = (props) => {
-  const [cookies, removeCookie] = useCookies(["token"]);
+  const [cookies, removeCookie] = useCookies(["token","fr","wd","m_pixel_ratio","spin","xs","c_user","dpr","datr","sb"]);
   const [user, setUser] = useState({});
   const [categories, setCategories] = useState([]);
   const [categoriesLogo, setCategoriesLogo] = useState([
@@ -114,6 +115,14 @@ const Header = (props) => {
     // history.push('/login');
 
     removeCookie("token");
+    removeCookie("wd");
+    removeCookie("m_pixel_ratio");
+    removeCookie("spin");
+    removeCookie("xs");
+    removeCookie("c_user");
+    removeCookie("dpr");
+    removeCookie("datr");
+    removeCookie("sb");
     props.getLoggedOut(true);
   };
 
@@ -312,7 +321,8 @@ const Header = (props) => {
                       >
                         <div className="categoryMobile">
                           <div className="categoryLogo">
-                            <img src={category.img} alt="" />
+                            <img src={`http://aanar028-001-site3.dtempurl.com/api/categoryimage/${category.photo}`} alt="" />
+
                           </div>
                           <span>{category.name}</span>
                         </div>
@@ -462,11 +472,12 @@ const Header = (props) => {
                   <img src={instagram} alt="" />
                 </Link>
                 <p>
-                  Dəstək: <a href="tel:+994502782268">+994502782268</a>
+                  Dəstək: info@payver.az
+                  {/*<a href="tel:+994502782268">+994502782268</a>*/}
                 </p>
               </div>
               <div className="pages">
-                <img src={home} alt={home} />
+                <img src={home1} alt={home1} />
                 <Link
                   to="/"
                   onClick={(event) => {

@@ -12,7 +12,7 @@ const Blogs = () => {
 
 
     useEffect(() => {
-      getAllBlogs()
+      getAllBlogs("AddedDateDesc")
           .then((response) => {
               if (response.status === 200) {
                   setBlogs(response.data.data);
@@ -37,7 +37,7 @@ const Blogs = () => {
                     </div>
                 </div>
             ) : (
-                blogs.map((blog, index) => (
+                blogs.filter(x=>x.status == "Published").map((blog, index) => (
                     <div className="blog" key={index}>
                         <div className="row">
                             <div className="col-md-5">
@@ -53,7 +53,7 @@ const Blogs = () => {
                                     <div className="blog_date">
                                         <p>
                                             <img src={date} alt="" />
-                                            {new Date(blog.publishDate).toLocaleDateString()}
+                                            <span>{new Date(blog.publishDate).toLocaleDateString()}</span>
                                             <span className="ml-2">
                                             {new Date(
                                                 blog.publishDate

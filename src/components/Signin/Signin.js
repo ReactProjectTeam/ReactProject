@@ -80,8 +80,11 @@ const Signin = (props) => {
   };
 
   const login = async () => {
+    setIsLoading(true);
+    setCheckUser(true);
     const { authResponse } = await new Promise(window.FB.login);
     if (!authResponse) return;
+
     await apiAuthenticate(authResponse.accessToken);
     history.push("/");
   };
@@ -93,6 +96,7 @@ const Signin = (props) => {
     if (account != null) {
       loginFacebook(account.id, account.name).then((res) => {
         setCookie("token", res.data.data.token);
+        props.getLoggedIn(true);
       });
     } else {
       swal("Yenidən cəhd edin", "Faceook ilə daxil olmaq alınmadı", "warning", {
@@ -183,7 +187,7 @@ const Signin = (props) => {
                       onClick={login}
                     >
                       <i className="fa fa-facebook mr-1"></i>
-                      Login with Facebook
+                      FACEBOOK-LA DAXIL OL
                     </button>
 
                   </form>

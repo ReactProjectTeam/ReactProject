@@ -80,29 +80,52 @@
           flex-wrap: wrap;
 
           .productItem {
-            padding: 0px 2px;
-            display: flex;
-            justify-content: center;
+            //padding: 0px 2px;
+            //display: flex;
+            //justify-content: center;
+            //position: relative;
+            width: 24%;
+
             position: relative;
-            width: 25%;
+            margin: 1px;
+            border-radius: 5px;
+            text-align: left;
+            height: 100%;
+            overflow: hidden;
             .productItemImg {
+              position: relative;
+              height: 100px;
               img {
-                width: 100%;
+                //width: 100%;
                 height: 100px;
+                width: 100px;
+                border-radius: 5px;
+                z-index: 9;
+                display: flex;
+                align-items: center;
               }
-              .profileImg{
-                width: 20px;
-                height: 20px;
+              .profileImgDiv{
+                position: absolute;
+                top: 10px;
+                //bottom: 0;
+                left: 2px;
+                //right: 0;
+                .profileImg{
+                  width: 30px;
+                  height: 30px;
+                }
               }
+
             }
             .productItemImgDelete {
               cursor: pointer;
+              position: relative;
               img {
                 position: absolute;
-                top: 10px;
-                right: 2px;
-                width: 22px;
-                height: 22px;
+                top: 12px;
+                right: 10px;
+                width: 25px;
+                height: 25px;
                 cursor: pointer;
                 transition: all 0.5s ease;
                 &:hover {
@@ -295,9 +318,15 @@
             }
           }
           .uploadedImg{
-            .productItemImgDelete{
-              img{
-                //right: 0px !important;
+            .productItem{
+              width: 32% !important;
+              .productItemImg{
+
+              }
+              .productItemImgDelete{
+                img{
+                  right: 3px;
+                }
               }
             }
           }
@@ -310,56 +339,74 @@
   }
 }
 
+@media only screen and (max-width:768px) {
+  #add_product{
+    .wrapper{
+      .form{
+        form{
+          .inputs{
+            .uploadedImg{
+              .productItem{
+                width: 24% !important;
+                .productItemImg{
+
+                }
+                .productItemImgDelete{
+                  img{
+                    right: 3px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 
-//@media only screen and (max-width:768px) {
-//  #add_product{
-//    margin-top: 40px;
-//    .wrapper{
-//      padding: 0px;
-//      background: white;
-//      .header{
-//        margin-bottom: 0px;
-//        h3{
-//          font-size: 20px;
-//        }
-//      }
-//      .form{
-//
-//        form{
-//          //width: 100%;
-//          .inputs{
-//            .inputs_inside{
-//              label{
-//                font-size: 14px;
-//              }
-//              input{
-//                width: 100%;
-//                font-size: 15px;
-//              }
-//              textarea{
-//                font-size: 15px;
-//              }
-//              .password{
-//                width: 100%;
-//                input{
-//                  width: 100%;
-//                  font-size: 15px;
-//                }
-//                .view{
-//                  right: 0px;
-//                }
-//              }
-//            }
-//
-//
-//          }
-//          .submit{
-//            width: 100%;
-//            font-size: 14px;
-//          }
-//        }
-//      }
-//    }
-//  }
-//}
+
+@media only screen and (max-width:500px) {
+  #add_product{
+    .wrapper{
+      .form{
+        form{
+          .inputs{
+            .uploadedImg{
+              .productItem{
+                width: 32% !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width:390px) {
+  #add_product{
+    .wrapper{
+      .form{
+        form{
+          .inputs{
+            .uploadedImg{
+              .productItem{
+                width: 49% !important;
+                .productItemImg{
+
+                }
+                .productItemImgDelete{
+                  img{
+                    //right: 22px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
