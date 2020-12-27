@@ -35,7 +35,7 @@ const Footer =({products,all_products,signin,signup,confirm,confirmPassword,forg
                       </div>
                     </div>
                     <div className="description">
-                      <p>Pulsuz paylaşımlar</p>
+                      <p>Payver, sevinc bəxş et</p>
                     </div>
                   </div>
                 </div>

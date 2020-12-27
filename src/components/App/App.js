@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {BrowserRouter as Router, Switch, Route, useHistory} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Layout from "../../layout";
-import SignupEmail from "../Signup/SignupEmail";
 import Signin from "../Signin/Signin";
 import All_products from "../All_products";
 import Product_details from "../Product_details";
@@ -21,11 +20,9 @@ import Confirm from "../Confirm";
 import ForgotPassword from "../ForgotPassword";
 import ConfirmPassword from "../ConfirmPassword";
 import getUserByToken from "../../API/getUserByToken";
-import isEmpty from "lodash/isEmpty";
 import Update_product from "../Update_product";
 import SnackbarCustom from "../../utils/Snackbar/Snackbar";
 import Signup from "../Signup/Signup";
-import {initFacebookSdk} from "../../utils/InitFacebookSDK";
 
 const App = () => {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -45,13 +42,6 @@ const App = () => {
 
 
 
-
-  // if (!isAuth){
-  //   initFacebookSdk();
-  //   console.log("initFacebookSdk")
-  // }
-  // initFacebookSdk();
-
   useEffect(() => {
     if (cookies.token !== undefined && cookies.token !== "undefined") {
         getUserByToken(cookies.token).then((responseUser) => {
@@ -63,21 +53,6 @@ const App = () => {
 
   }, [cookies.token]);
 
-
-
-  const handleScroll = () => {
-    let content = document.getElementById("content1");
-    let menu = document.getElementById("menu");
-
-    if (window.pageYOffset >= 154) {
-      menu.classList.add("sticky");
-
-      content.classList.add("menu-padding");
-    } else {
-      menu.classList.remove("sticky");
-      content.classList.remove("menu-padding");
-    }
-  };
 
   const getProductsById = (id, type) => {
     const newObj = { id, type };
@@ -107,7 +82,6 @@ const App = () => {
   }
 
   const getLoggedIn=(loggedInData)=>{
-    console.log("loggedInData",loggedInData)
     setLoggedIn(loggedInData)
     setLoggedOut(false)
   }

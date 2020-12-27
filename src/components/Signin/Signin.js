@@ -3,27 +3,24 @@ import "./Signin.scss";
 import eye from "../../img/login/eye.png";
 import hideEye from "../../img/login/hideEye.png";
 import { useFormik } from "formik";
-import login from "../../API/login";
 import validateLogin from "../../utils/yup/validateLogin";
 import { Alert } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { Link, useHistory } from "react-router-dom";
 import swal from "sweetalert";
-import confirm from "../../API/confirm";
 import ButtonCustom from "../../utils/Button/Button";
 import BackdropCustom from "../../utils/Backdrop/Backdrop";
 import Footer from "../../layout/Footer";
 import loginUserName from "../../API/loginUserName";
-// import Facebook from "../../utils/Facebook/Facebook";
-import { accountService } from "../../utils/InitFacebookSDK";
-import getUserByToken from "../../API/getUserByToken";
 import axios from "axios";
 import loginFacebook from "../../API/loginFacebook";
+
+
 
 const Signin = (props) => {
   const [checkUser, setCheckUser] = useState(false);
   const history = useHistory();
-  const [cookies, setCookie,removeCookie] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies(["token"]);
   const [inputTypePassword, setInputTypePassword] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -107,7 +104,6 @@ const Signin = (props) => {
 
 
 
-
   return (
     <>
       <section id="login_register">
@@ -180,7 +176,6 @@ const Signin = (props) => {
                     )}
 
                     <ButtonCustom title="Daxil ol" />
-
                     <button
                       type="button"
                       className="btn btn-facebook"
@@ -189,7 +184,6 @@ const Signin = (props) => {
                       <i className="fa fa-facebook mr-1"></i>
                       FACEBOOK-LA DAXIL OL
                     </button>
-
                   </form>
                 </div>
               </div>
@@ -202,5 +196,6 @@ const Signin = (props) => {
     </>
   );
 };
+
 
 export default Signin;

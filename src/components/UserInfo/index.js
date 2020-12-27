@@ -159,8 +159,8 @@ const UserInfo = () => {
       new Promise((resolve) => {
         Resizer.imageFileResizer(
             file,
-            500,
-            500,
+            600,
+            600,
             "JPEG",
             100,
             0,
