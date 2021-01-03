@@ -22,6 +22,10 @@ header {
                     margin-bottom: 0px;
                     color: rgba(49, 69, 106, 0.8);
                     font-size: 14px;
+                    a{
+                        text-decoration: none;
+                        color: rgba(49, 69, 106, 0.8);
+                    }
                 }
             }
             .pages{
@@ -298,11 +302,13 @@ header {
         a {
             font-size: 15px !important;
         }
-
-        button {
-            min-width: 100px !important;
-            font-size: 13px !important;
+        header{
+            button {
+                min-width: 100px !important;
+                font-size: 13px !important;
+            }
         }
+
 
         .logo {
             img {
@@ -347,10 +353,13 @@ header {
         margin-left: 20px !important;
     }
 
-    button {
-        min-width: 100px !important;
-        font-size: 13px !important;
+    header{
+        button {
+            min-width: 100px !important;
+            font-size: 13px !important;
+        }
     }
+
 
     a {
         font-size: 15px !important;

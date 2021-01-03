@@ -246,8 +246,8 @@ const UserInfo = () => {
                           <div className="col-md-6">
                             <div className="inputs">
                               <div className="emailInfo">
-                                <label htmlFor="userName">Istifadəçi adı</label>
-                                <p>{user.userName}</p>
+                                <label htmlFor="userName">Email</label>
+                                <p>{user.email}</p>
                               </div>
                             </div>
                             <div className="inputs">
@@ -487,7 +487,6 @@ const UserInfo = () => {
               <section id="all_products">
                 <div className="container">
                   <div className="row">
-
                       <Tabs className="w-100 tabs">
                         <TabList>
                           <Tab>Dərc olunmuş</Tab>
@@ -555,7 +554,6 @@ const UserInfo = () => {
                                 <div className="notProductUserInfo">
                               <p>Dərc olunmuş elanınız yoxdur</p>
                                 </div>
-
                             )}
                           </div>
                         </TabPanel>
@@ -640,7 +638,10 @@ const UserInfo = () => {
                                     key={index}
                                     className="col-md-3 col-md-3 col-sm-3 col-6"
                                   >
-                                    <Link to={`/product_details/${row.id}`}>
+                                    <Link
+                                        to={() => false}
+                                        style={{ cursor: "auto" }}
+                                    >
                                       <div className="products_item">
                                         <div className="item">
                                           <div className="products_item_top">
@@ -693,13 +694,16 @@ const UserInfo = () => {
                                   </div>
                                 </div>
                             ) : !isEmpty(created) ? (
-                                created.map((row, index) => {
+                                updated.map((row, index) => {
                                   return (
                                       <div
                                           key={index}
                                           className="col-md-3 col-md-3 col-sm-3 col-6"
                                       >
-                                        <Link to={`/product_details/${row.id}`}>
+                                        <Link
+                                            to={() => false}
+                                            style={{ cursor: "auto" }}
+                                        >
                                           <div className="products_item">
                                             <div className="item">
                                               <div className="products_item_top">
@@ -752,5 +756,14 @@ const UserInfo = () => {
     </>
   );
 };
+
+
+// data.status == "Created" ||
+// data.status == "Blocked" ||
+// data.status == "Disabled" ||
+// data.status == "Deleted"
+
+
+
 
 export default UserInfo;

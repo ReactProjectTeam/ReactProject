@@ -286,12 +286,12 @@
     padding-top: 90px;
     //height: 86vh;
       .wrapper{
-        padding: 0px;
-        background: white;
+        padding: 90px 15px 0px 15px !important;
+        background: white !important;
         .header{
-          margin-bottom: 0px;
+          margin-bottom: 0px !important;
           h3{
-            font-size: 20px;
+            font-size: 20px !important;
           }
         }
         .form{
@@ -314,6 +314,7 @@
                 }
                 .view{
                   right: 0px;
+                  width: 60px;
                 }
               }
             }
@@ -324,5 +325,22 @@
           }
         }
       }
+  }
+}
+
+@media only screen and (max-width:365px) {
+  #login_register{
+    padding-top: 90px;
+    //height: 86vh;
+    .wrapper{
+      padding: 70px 15px !important;
+      background: white;
+      .registerUser{
+        flex-flow: column;
+        .registerUserInside{
+          margin-bottom: 8px;
+        }
+      }
+    }
   }
 }

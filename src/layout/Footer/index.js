@@ -1,5 +1,5 @@
 import React from "react";
-import payverLogo from "../../img/header/payverLogo.jpg";
+import payverLogo from "../../img/footer/payverLogoFooter.png";
 import "./index.scss";
 
 

@@ -30,6 +30,28 @@ const Add_product = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [file, setFile] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [genders, setGenders] = useState([
+    // {
+    //   id: "All",
+    //   name: "Hamısı"
+    // },
+    {
+      id: "Man",
+      name: "Kişi"
+    },
+    {
+      id: "Woman",
+      name: "Qadın"
+    },
+    {
+      id: "Boy",
+      name: "Uşaq(oğlan)"
+    },
+    {
+      id: "Girl",
+      name: "Uşaq(qiz)"
+    },
+  ]);
 
   const history = useHistory();
 
@@ -56,6 +78,7 @@ const Add_product = (props) => {
       userId,
       categoryId,
       subCategoryId,
+      gender,
       cityId,
       title,
       description,
@@ -70,6 +93,7 @@ const Add_product = (props) => {
       userId: user.id,
       categoryId: "",
       subCategoryId: "",
+      gender: "",
       cityId: "",
       title: "",
       description: "",
@@ -244,6 +268,37 @@ const Add_product = (props) => {
                             )}
                             {/*</div>*/}
                           </div>
+                          {
+                            Number(selectedCategory) === 9 && (
+                                <div className="inputs">
+                                  <label className="required" htmlFor="">
+                                    Cins
+                                  </label>
+                                  {/*<div className="inputs_inside">*/}
+                                  <select
+                                      className="select"
+                                      value={gender}
+                                      name="gender"
+                                      onChange={handleChange}
+                                  >
+                                    <option value="0">Cins seçin</option>
+                                    {genders.map((genderİtem, index) => {
+                                      return (
+                                          <option key={index} value={genderİtem.id}>
+                                            {genderİtem.name}
+                                          </option>
+                                      );
+                                    })}
+                                  </select>
+                                  {/*{errors.cityId && touched.cityId && (*/}
+                                  {/*    <Alert variant="warning">{errors.cityId}</Alert>*/}
+                                  {/*)}*/}
+                                  {/*</div>*/}
+                                </div>
+                            )
+                          }
+
+
                           <div className="inputs">
                             <label className="required" htmlFor="">
                               Şəhər

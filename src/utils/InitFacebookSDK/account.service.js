@@ -32,6 +32,7 @@ async function apiAuthenticate(accessToken) {
         loginFacebook(account.id,account.name)
             .then(res=>{
                 cookies.set('token', res.data.data.token);
+
                     // window.location.href = "https://payver.az/"
                     // window.location.href = "http://localhost:3000/"
 

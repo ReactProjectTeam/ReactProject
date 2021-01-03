@@ -64,7 +64,6 @@ const SignupEmail = (props) => {
         .then((response) => {
           if (response.data.codeName === "SendConfirmEmail") {
             setIsLoading(false)
-
             swal("Qeydiyyat uğurlu oldu", "Qeydiyyatınızı tamamlamaq üçün emailden təsdiqləyin", "success",{
               button: "Bağla",
             }).then(()=>{

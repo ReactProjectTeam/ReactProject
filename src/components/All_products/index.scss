@@ -5,8 +5,36 @@
         display: flex;
         justify-content: space-between;
         .all_products_header_left{
-            h5{
-                color: rgba(49, 69, 106, 0.8);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            span{
+                margin-right: 10px;
+                font-size: 14px;
+            }
+            .select_date{
+                display: flex;
+                label{
+                    margin-right: 12px;
+                    margin-bottom: 0px;
+                }
+                select{
+                    height: 30px;
+                    font-size: 14px;
+                    border-radius: 2px;
+                    background-color: white;
+                    padding: 0px 15px;
+                    outline: none;
+                    margin-right: 2px;
+                    &:focus{
+                        box-shadow: none;
+                        outline: none;
+                        border-color: #ff9466 !important;
+                    }
+                    option{
+
+                    }
+                }
             }
         }
         .all_products_header_right{

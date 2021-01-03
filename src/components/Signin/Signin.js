@@ -11,9 +11,9 @@ import swal from "sweetalert";
 import ButtonCustom from "../../utils/Button/Button";
 import BackdropCustom from "../../utils/Backdrop/Backdrop";
 import Footer from "../../layout/Footer";
-import loginUserName from "../../API/loginUserName";
 import axios from "axios";
 import loginFacebook from "../../API/loginFacebook";
+import loginEmail from "../../API/loginEmail";
 
 
 
@@ -36,17 +36,17 @@ const Signin = (props) => {
   const {
     handleSubmit,
     handleChange,
-    values: { userName, password },
+    values: { email, password },
     errors,
   } = useFormik({
     initialValues: {
-      userName: "",
+      email: "",
       password: "",
     },
     validationSchema: validateLogin,
     onSubmit: (values) => {
       setIsLoading(true);
-      loginUserName(values)
+      loginEmail(values)
         .then((response) => {
           setIsLoading(false);
           setCheckUser(true);
@@ -78,7 +78,7 @@ const Signin = (props) => {
 
   const login = async () => {
     setIsLoading(true);
-    setCheckUser(true);
+    // setCheckUser(true);
     const { authResponse } = await new Promise(window.FB.login);
     if (!authResponse) return;
 
@@ -90,6 +90,7 @@ const Signin = (props) => {
     const account = await axios
       .get(`https://graph.facebook.com/v8.0/me?access_token=${accessToken}`)
       .then((response) => response.data);
+
     if (account != null) {
       loginFacebook(account.id, account.name).then((res) => {
         setCookie("token", res.data.data.token);
@@ -119,18 +120,18 @@ const Signin = (props) => {
                 <div className="form">
                   <form onSubmit={handleSubmit}>
                     <div className="inputs">
-                      <label htmlFor="userName">İstifadəçi adı</label>
+                      <label htmlFor="email">Email</label>
                       <input
                         type="text"
-                        placeholder="İstifadəçi adı qeyd edin"
-                        name="userName"
-                        id="userName"
+                        placeholder="Email qeyd edin"
+                        name="email"
+                        id="email"
                         onChange={handleChange}
-                        value={userName}
+                        value={email}
                       />
 
-                      {errors.userName && (
-                        <Alert variant="warning">{errors.userName}</Alert>
+                      {errors.email && (
+                        <Alert variant="warning">{errors.email}</Alert>
                       )}
                     </div>
                     <div className="inputs">
@@ -171,7 +172,7 @@ const Signin = (props) => {
                     </div>
                     {checkUser === true && (
                       <Alert variant="danger">
-                        İstifadəçi adı və ya parolda səhvlik var
+                        Email və ya parolda səhvlik var
                       </Alert>
                     )}
 

@@ -2,20 +2,21 @@ import React from 'react';
 import axios from 'axios'
 import {baseURL} from './baseURL'
 
-function loginFacebook(FacebookUserId,userName) {
+function loginEmail({email,password}) {
 
     const newData = {
-        FacebookUserId,
-        userName,
+        email,
+        password,
     }
-    console.log("newData",newData)
+
+
     const response =  axios({
         method: 'post',
-        url: `${baseURL}/api/loginfacebook`,
+        url: `${baseURL}/api/login`,
         data: newData
     });
 
     return (response);
 }
 
-export default loginFacebook;
+export default loginEmail;

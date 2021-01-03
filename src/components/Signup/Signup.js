@@ -65,21 +65,22 @@ const Signup = (props) => {
     handleSubmit,
     handleChange,
     values: {
-      userName,
+      email,
       password,
       confirmPassword,
     },
     errors,
   } = useFormik({
     initialValues: {
-      userName: "",
+      email: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: validateRegister,
     onSubmit: (values) => {
+      console.log("dhfsaifhiashfisa",values)
       setIsLoading(true)
-      registerUserName(values)
+      register(values)
         .then((response) => {
             setIsLoading(false)
             swal("Qeydiyyat uğurlu oldu", "Xoş gəlmisiz", "success",{
@@ -116,23 +117,23 @@ const Signup = (props) => {
                           <div className="row">
                             <div className="col-md-12">
                               <div className="inputs">
-                                <label htmlFor="userName">İsdifadəçi adı</label>
+                                <label htmlFor="email">Email</label>
                                 <input
                                     type="text"
-                                    placeholder="İsdifadəçi adı qeyd edin"
-                                    name="userName"
-                                    id="userName"
+                                    placeholder="Email qeyd edin"
+                                    name="email"
+                                    id="email"
                                     onChange={handleChange}
-                                    value={userName}
+                                    value={email}
                                 />
                                 {checkUser === true && (
                                     <Alert variant="danger">
                                       Bu isdifadəçi adı ile user qeydiyyatdan kechib
                                     </Alert>
                                 )}
-                                {errors.userName && (
+                                {errors.email && (
                                     <Alert variant="warning">
-                                      {errors.userName}
+                                      {errors.email}
                                     </Alert>
                                 )}
                               </div>

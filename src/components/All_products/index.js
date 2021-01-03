@@ -12,21 +12,49 @@ const All_products = (props) => {
   const [nextProduct, setNextProduct] = useState(true);
   const [countProduct, setCountProduct] = useState(8);
   const [isLoading, setIsLoading] = useState(true);
-  const [
-    selectedCategoryOrSubcategory,
-    setSelectedCategoryOrSubcategory,
-  ] = useState("");
-  const { getProductCategoryAndSubcategory } = useContext(Context);
+  // const [
+  //   selectedCategoryOrSubcategory,
+  //   setSelectedCategoryOrSubcategory,
+  // ] = useState("");
+  const [selectedSort, setSelectedSort] = useState(1);
+  const [genders, setGenders] = useState([
+    {
+      id: "All",
+      name: "Hamısı"
+    },
+    {
+      id: "Man",
+      name: "Kişi"
+    },
+    {
+      id: "Woman",
+      name: "Qadın"
+    },
+    {
+      id: "Boy",
+      name: "Uşaq(oğlan)"
+    },
+    {
+      id: "Girl",
+      name: "Uşaq(qiz)"
+    },
+  ]);
 
+
+  const { getProductCategoryAndSubcategory } = useContext(Context);
   let { categoryId, subCategoryId } = useParams();
 
   useEffect(() => {
+    setNextProduct(true);
+    pageProduct = 1;
     props.selectedCategoryOrSubcategory.type == "category"
       ? getAllProducts(
           props.selectedCategoryOrSubcategory.id,
           null,
           4,
-          countProduct
+          countProduct,
+          pageProduct,
+        selectedSort
         )
           .then((response) => {
             if (response.status === 200) {
@@ -42,7 +70,9 @@ const All_products = (props) => {
           null,
           props.selectedCategoryOrSubcategory.id,
           4,
-          countProduct
+          countProduct,
+          pageProduct,
+            selectedSort
         )
           .then((response) => {
             if (response.status === 200) {
@@ -53,7 +83,7 @@ const All_products = (props) => {
           .finally((response) => {
             setIsLoading(false);
           })
-      : getAllProducts(categoryId, subCategoryId, 4, countProduct)
+      : getAllProducts(categoryId, subCategoryId, 4, countProduct, pageProduct,selectedSort)
           .then((response) => {
             if (response.status === 200) {
               setProducts(response.data.data);
@@ -65,9 +95,9 @@ const All_products = (props) => {
           });
   }, [props.selectedCategoryOrSubcategory, categoryId, subCategoryId]);
 
-  useEffect(() => {
-    setSelectedCategoryOrSubcategory(props.selectedCategoryOrSubcategory);
-  }, [props]);
+  // useEffect(() => {
+  //   setSelectedCategoryOrSubcategory(props.selectedCategoryOrSubcategory);
+  // }, [props]);
 
   useEffect(() => {
     const onScroll = (e) => {
@@ -86,7 +116,7 @@ const All_products = (props) => {
     window.addEventListener("scroll", onScroll);
 
     return () => window.removeEventListener("scroll", onScroll);
-  }, [nextProduct]);
+  }, [nextProduct,props,pageProduct]);
 
   const getAllProductsHandle = () => {
     props.selectedCategoryOrSubcategory.type == "category"
@@ -108,7 +138,7 @@ const All_products = (props) => {
           .finally((response) => {
             setIsLoading(false);
           })
-      : props.selectedCategoryOrSubcategory.type == "subCategory"
+      : props.selectedCategoryOrSubcategory.type === "subCategory"
       ? getAllProducts(
           null,
           props.selectedCategoryOrSubcategory.id,
@@ -142,13 +172,14 @@ const All_products = (props) => {
   };
 
   const getAllProductsSortHandle = (e) => {
+    setSelectedSort(e.target.value)
     props.selectedCategoryOrSubcategory.type == "category"
       ? getAllProducts(
           props.selectedCategoryOrSubcategory.id,
           null,
           4,
           countProduct,
-          null,
+          pageProduct,
           e.target.value
         )
           .then((response) => {
@@ -161,11 +192,11 @@ const All_products = (props) => {
           })
       : props.selectedCategoryOrSubcategory.type == "subCategory"
       ? getAllProducts(
-          props.selectedCategoryOrSubcategory.id,
           null,
+            props.selectedCategoryOrSubcategory.id,
           4,
           countProduct,
-          null,
+          pageProduct,
           e.target.value
         )
           .then((response) => {
@@ -176,7 +207,7 @@ const All_products = (props) => {
           .finally((response) => {
             setIsLoading(false);
           })
-      : getAllProducts(null, null, 4, countProduct, null, e.target.value)
+      : getAllProducts(null, null, 4, countProduct, pageProduct, e.target.value)
           .then((response) => {
             if (response.status === 200) {
               setProducts(response.data.data);
@@ -193,7 +224,28 @@ const All_products = (props) => {
         <div className="container">
           <div className="all_products_header">
             <div className="all_products_header_left">
-              {/*<h5>Elanlar</h5>*/}
+              {console.log(props.selectedCategoryOrSubcategory)}
+              
+              {props.selectedCategoryOrSubcategory.id == 9 && (
+                  <>
+                    <span>Cinsə görə</span>
+                    <div className="select_date">
+                      <select
+                          id="exampleFormControlSelect1"
+                          className="form-control"
+                          name="productSort"
+                          onChange={(e) => getAllProductsSortHandle(e)}
+                      >
+                        {
+                          genders.map(genderItem=>(
+                              <option key={genderItem.id} value={genderItem.id}>{genderItem.name}</option>
+                          ))
+                        }
+                      </select>
+                    </div>
+                  </>
+              )}
+
             </div>
             <div className="all_products_header_right">
               <span>Tarixə görə</span>
@@ -264,21 +316,21 @@ const All_products = (props) => {
                         <div className="products_item_bottom">
                           <p>{row.city !== undefined && row.city.name}</p>
                           <p>
-                            {new Date(row.addedDate).toLocaleDateString() ===
+                            {new Date(row.publishDate).toLocaleDateString() ===
                             new Date().toLocaleDateString() ? (
                               <>
                                 <span>bugün</span>,
                                 <span className="ml-2">
-                                  {new Date(row.addedDate).getHours()}:
-                                  {new Date(row.addedDate).getMinutes() < 10
-                                    ? `0${new Date(row.addedDate).getMinutes()}`
-                                    : new Date(row.addedDate).getMinutes()}
+                                  {new Date(row.publishDate).getHours()}:
+                                  {new Date(row.publishDate).getMinutes() < 10
+                                    ? `0${new Date(row.publishDate).getMinutes()}`
+                                    : new Date(row.publishDate).getMinutes()}
                                 </span>
                               </>
                             ) : (
                               <>
                                 <span>
-                                  {new Date(row.addedDate).toLocaleDateString()}
+                                  {new Date(row.publishDate).toLocaleDateString()}
                                 </span>
                               </>
                             )}

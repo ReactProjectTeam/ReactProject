@@ -61,6 +61,18 @@ const Product_details = (props) => {
                 <span className="sr-only">Loading...</span>
               </div>
             </div>
+          ) :
+              data.status == "Created" ||
+              data.status == "Updated" ||
+            data.status == "Blocked" ||
+            data.status == "Disabled" ||
+            data.status == "Deleted" ? (
+                <div className="col-md-12 d-flex justify-content-center align-items-center">
+                  <div className="notProduct">
+                    <h2>0 elan tapıldı</h2>
+                    <p>Sizin sorğunuza uyğun heçnə tapılmadı</p>
+                  </div>
+                </div>
           ) : (
             <div className="row">
               <div className="col-md-6">
@@ -121,12 +133,13 @@ const Product_details = (props) => {
                         <Category />
                         Kateqoriya
                       </li>
-                      <li>
-                        <SubdirectoryArrowRight />{" "}
-                        {data.subCategory !== undefined &&
-                          data.subCategory !== null &&
-                          "Alt kateqoriya"}
-                      </li>
+
+                      {data.subCategory !== undefined &&
+                        data.subCategory !== null && (
+                          <li>
+                            <SubdirectoryArrowRight /> Alt kateqoriya
+                          </li>
+                        )}
                     </ul>
                     <ul className="product_details_categories_right">
                       <li>{data.city !== undefined && data.city.name}</li>
@@ -134,11 +147,10 @@ const Product_details = (props) => {
                       <li>
                         {data.category !== undefined && data.category.name}
                       </li>
-                      <li>
-                        {data.subCategory !== undefined &&
-                          data.subCategory !== null &&
-                          data.subCategory.name}
-                      </li>
+                      {data.subCategory !== undefined &&
+                        data.subCategory !== null && (
+                          <li>{data.subCategory.name}</li>
+                        )}
                     </ul>
                   </div>
                   <div className="product_details_description">

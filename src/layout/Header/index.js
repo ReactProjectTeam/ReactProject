@@ -268,8 +268,11 @@ const Header = (props) => {
                             {/*  alt={user.photo}*/}
                             {/*/>*/}
                             <img src={userPhoto} alt={userPhoto} />
-                            {/*<span>{user.email && user.email.substring(0, user.email.lastIndexOf("@"))}</span>*/}
-                            <span>{user.userName && user.userName}</span>
+                            <span>{
+                              user.email && user.email.includes("@") ? user.email.substring(0, user.email.lastIndexOf("@")) : user.email
+                            }
+                            </span>
+                            {/*<span>{user.userName && user.userName}</span>*/}
                           </Link>
                         </div>
                       </div>
@@ -321,8 +324,7 @@ const Header = (props) => {
                       >
                         <div className="categoryMobile">
                           <div className="categoryLogo">
-                            <img src={`http://aanar028-001-site3.dtempurl.com/api/categoryimage/${category.photo}`} alt="" />
-
+                            <img src={`https://pricegroup.az/api/categoryimage/${category.photo}`} alt="" />
                           </div>
                           <span>{category.name}</span>
                         </div>
@@ -472,7 +474,7 @@ const Header = (props) => {
                   <img src={instagram} alt="" />
                 </Link>
                 <p>
-                  Dəstək: info@payver.az
+                  Dəstək: <a href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;tf=1&amp;to=info@payver.az">info@payver.az</a>
                   {/*<a href="tel:+994502782268">+994502782268</a>*/}
                 </p>
               </div>
@@ -531,8 +533,10 @@ const Header = (props) => {
                             {/*  alt={user.photo}*/}
                             {/*/>*/}
                             <img src={userPhoto} alt={userPhoto} />
-                            {/*<span>{user.email && user.email.substring(0, user.email.lastIndexOf("@"))}</span>*/}
-                            <span>{user.userName && user.userName}</span>
+                            <span>{
+                              user.email && user.email.includes("@") ? user.email.substring(0, user.email.lastIndexOf("@")) : user.email
+                            }</span>
+                            {/*<span>{user.userName && user.userName}</span>*/}
                           </Link>
                         </div>
                         <div className="logout light-btn d-flex align-items-center">
@@ -593,7 +597,7 @@ const Header = (props) => {
                     {/*{console.log("category.name",category.name.split(" ").join(""))}*/}
                     <Link to={`/categoryId/${category.id}`} className="dropbtn">
                       <div className="categoryLogo">
-                        <img src={category.img} alt="" />
+                        <img src={`https://pricegroup.az/api/categoryimage/${category.photo}`} alt="" />
                       </div>
                       <div className="subCategoryLeft">
                         <span>{category.name}</span>
@@ -731,6 +735,7 @@ const Header = (props) => {
                             key={index}
                             to={`/subCategoryId/${subCategory.id}`}
                           >
+                            {/*{console.log("subCategory",subCategory)}*/}
                             {subCategory.name}
                           </Link>
                         )
