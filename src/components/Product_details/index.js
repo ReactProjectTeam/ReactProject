@@ -224,7 +224,7 @@ const Product_details = (props) => {
           )}
         </div>
       </section>
-      <Footer />
+      <Footer productDetails={"productDetails"} isLoadingProductDetails={isLoading}/>
     </>
   );
 };

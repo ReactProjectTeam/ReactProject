@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 import Footer from "../../layout/Footer";
 
 const Blogs = (props) => {
+
   const [data, setData] = useState({});
   const [cookies] = useCookies(["token"]);
 

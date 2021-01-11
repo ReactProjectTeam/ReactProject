@@ -205,7 +205,7 @@ const Signup = (props) => {
                 </div>
               </div>
             </section>
-            <Footer signin={"signup"}/>
+            <Footer signin={"signup"} errorsEmail={errors.email} errorsPassword={errors.password} errorsConfirmPassword={errors.confirmPassword}/>
       </>
 
   );

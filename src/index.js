@@ -12,6 +12,9 @@ initFacebookSdk().then(startApp);
 
 const store = createStore(()=>{});
 
+// localStorage.setItem("sort","1")
+// localStorage.setItem("sortGender","All")
+
 
 function startApp() {
   render(

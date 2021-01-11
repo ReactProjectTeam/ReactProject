@@ -23,6 +23,7 @@ import getUserByToken from "../../API/getUserByToken";
 import Update_product from "../Update_product";
 import SnackbarCustom from "../../utils/Snackbar/Snackbar";
 import Signup from "../Signup/Signup";
+import Header from "../../layout/Header";
 
 const App = () => {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -38,7 +39,7 @@ const App = () => {
   const [confirmed, setConfirmed] = useState(false)
   const [loggedOut, setLoggedOut] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
-  const [product, setProduct] = useState([]);
+
 
 
 
@@ -54,10 +55,10 @@ const App = () => {
   }, [cookies.token]);
 
 
-  const getProductsById = (id, type) => {
-    const newObj = { id, type };
-    setSelectedCategoryOrSubcategory(newObj);
-  };
+  // const getProductsById = (id, type) => {
+  //   const newObj = { id, type };
+  //   setSelectedCategoryOrSubcategory(newObj);
+  // };
 
   const getProductCategoryAndSubcategory = (
       categoryId,
@@ -86,16 +87,14 @@ const App = () => {
     setLoggedOut(false)
   }
 
-  const getProducts=(productData)=>{
-    setProduct(productData)
-  }
+
 
 
 
   return (
       <Context.Provider
           value={{
-            getProductsById,
+            // getProductsById,
             getProductCategoryAndSubcategory,
             selectedProduct,
             renderingHandle,
@@ -113,7 +112,8 @@ const App = () => {
           )}
           <Router>
             <div id="content">
-              <Layout rendering={rendering} getLoggedOut={getLoggedOut} >
+              <Route render={(props)=> <Header {...props} rendering={rendering} getLoggedOut={getLoggedOut}/>}/>
+               {/*<Layout rendering={rendering} getLoggedOut={getLoggedOut} >*/}
                 <Switch>
                   <Route path="/confirm" component={(props) => <Confirm {...props} getConfirmed={getConfirmed}/> } />
                   <Route path="/confirmpassword" component={ConfirmPassword} />
@@ -128,21 +128,7 @@ const App = () => {
                       <Signin getLoggedIn={getLoggedIn}/>
                     </PrivateRouteSignUpSignIn>
                   </Route>
-                  <Route exact path="/">
-                    <All_products
-                        selectedCategoryOrSubcategory={selectedCategoryOrSubcategory}
-                        getProducts={getProducts}
-                    />
-                  </Route>
-                  <Route path="/categoryId/:categoryId" children={<All_products
-                      selectedCategoryOrSubcategory={selectedCategoryOrSubcategory}
-                      getProducts={getProducts}
-                  />}/>
-                  <Route path="/subCategoryId/:subCategoryId" children={<All_products
-                      selectedCategoryOrSubcategory={selectedCategoryOrSubcategory}
-                      getProducts={getProducts}
-                  />}/>
-
+                  <Route exact path="/" component={All_products}/>
                   <Route
                       path="/product_details/:id"
                       component={Product_details}
@@ -164,7 +150,7 @@ const App = () => {
                   <Route path="/contact" component={Contact} />
                   <Route component={NotFound} />
                 </Switch>
-              </Layout>
+              {/*</Layout>*/}
             </div>
           </Router>
         </>

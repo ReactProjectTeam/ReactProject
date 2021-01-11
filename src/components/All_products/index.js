@@ -1,251 +1,184 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import "./index.scss";
 import getAllProducts from "../../API/getAllProducts";
 import Context from "../../Context/context";
-import isEmpty from "lodash/isEmpty";
 import Footer from "../../layout/Footer";
+import getSubCategories from "../../API/getSubCategories";
+import isEmpty from "lodash/isEmpty";
+import qs from "query-string";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 let pageProduct = 1;
 const All_products = (props) => {
   const [products, setProducts] = useState([]);
-  const [nextProduct, setNextProduct] = useState(true);
+  // const [nextProduct, setNextProduct] = useState(true);
   const [countProduct, setCountProduct] = useState(8);
   const [isLoading, setIsLoading] = useState(true);
-  // const [
-  //   selectedCategoryOrSubcategory,
-  //   setSelectedCategoryOrSubcategory,
-  // ] = useState("");
-  const [selectedSort, setSelectedSort] = useState(1);
+  const [subCategories, setSubCategories] = useState([]);
   const [genders, setGenders] = useState([
     {
       id: "All",
-      name: "Hamısı"
+      name: "Hamısı",
     },
     {
       id: "Man",
-      name: "Kişi"
+      name: "Kişi",
     },
     {
       id: "Woman",
-      name: "Qadın"
+      name: "Qadın",
     },
     {
       id: "Boy",
-      name: "Uşaq(oğlan)"
+      name: "Uşaq (oğlan)",
     },
     {
       id: "Girl",
-      name: "Uşaq(qiz)"
+      name: "Uşaq (qız)",
     },
   ]);
-
+  const [isLoadingMini, setIsLoadingMini] = useState(true);
 
   const { getProductCategoryAndSubcategory } = useContext(Context);
-  let { categoryId, subCategoryId } = useParams();
+
+  const history = useHistory();
+
+  const queryParam = qs.parse(props.location.search);
+  const query = new URLSearchParams(props.location.search);
+  const category = query.get("category");
+  const subCategory = query.get("subCategory");
+  const sort = query.get("sort");
+  const sortGender = query.get("sortGender");
 
   useEffect(() => {
-    setNextProduct(true);
-    pageProduct = 1;
-    props.selectedCategoryOrSubcategory.type == "category"
-      ? getAllProducts(
-          props.selectedCategoryOrSubcategory.id,
-          null,
-          4,
-          countProduct,
-          pageProduct,
-        selectedSort
-        )
-          .then((response) => {
-            if (response.status === 200) {
-              setProducts(response.data.data);
-              props.getProducts(response.data.data);
-            }
-          })
-          .finally((response) => {
-            setIsLoading(false);
-          })
-      : props.selectedCategoryOrSubcategory.type == "subCategory"
-      ? getAllProducts(
-          null,
-          props.selectedCategoryOrSubcategory.id,
-          4,
-          countProduct,
-          pageProduct,
-            selectedSort
-        )
-          .then((response) => {
-            if (response.status === 200) {
-              setProducts(response.data.data);
-              props.getProducts(response.data.data);
-            }
-          })
-          .finally((response) => {
-            setIsLoading(false);
-          })
-      : getAllProducts(categoryId, subCategoryId, 4, countProduct, pageProduct,selectedSort)
-          .then((response) => {
-            if (response.status === 200) {
-              setProducts(response.data.data);
-              props.getProducts(response.data.data);
-            }
-          })
-          .finally((response) => {
-            setIsLoading(false);
-          });
-  }, [props.selectedCategoryOrSubcategory, categoryId, subCategoryId]);
-
-  // useEffect(() => {
-  //   setSelectedCategoryOrSubcategory(props.selectedCategoryOrSubcategory);
-  // }, [props]);
-
-  useEffect(() => {
-    const onScroll = (e) => {
-      let content = document.getElementById("content");
-      let contentHeight = content.offsetHeight;
-      let yOffset = window.pageYOffset + 1;
-      let y = yOffset + window.innerHeight;
-      if (y >= contentHeight) {
-        if (nextProduct) {
-          pageProduct++;
-          getAllProductsHandle();
+    pageProduct = 1
+    setIsLoadingMini(true)
+    getAllProducts(
+      category,
+      subCategory,
+      4,
+      countProduct,
+      pageProduct,
+      sort,
+      sortGender
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          if (response.data.data.length < 8) {
+            // let loader = document.getElementById("loaderId")
+            // loader.classList.add("loaderDisplayNone")
+            setIsLoadingMini(false);
+            pageProduct=1;
+          }
+          setProducts(response.data.data);
         }
-      }
-    };
+      })
+      .finally((response) => {
+        setIsLoading(false);
+      });
+  }, [category, subCategory, sort, sortGender]);
 
-    window.addEventListener("scroll", onScroll);
+  useEffect(() => {
+    getSubCategories().then((response) => setSubCategories(response.data.data));
+  }, []);
 
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [nextProduct,props,pageProduct]);
-
-  const getAllProductsHandle = () => {
-    props.selectedCategoryOrSubcategory.type == "category"
-      ? getAllProducts(
-          props.selectedCategoryOrSubcategory.id,
-          null,
-          4,
-          countProduct,
-          pageProduct
-        )
-          .then((response) => {
-            if (response.status === 200) {
-              response.data.data.length === 0 && setNextProduct(false);
-              response.data.data.map((item) =>
-                setProducts((oldProducts) => [...oldProducts, item])
-              );
-            }
-          })
-          .finally((response) => {
-            setIsLoading(false);
-          })
-      : props.selectedCategoryOrSubcategory.type === "subCategory"
-      ? getAllProducts(
-          null,
-          props.selectedCategoryOrSubcategory.id,
-          4,
-          countProduct,
-          pageProduct
-        )
-          .then((response) => {
-            if (response.status === 200) {
-              response.data.data.length === 0 && setNextProduct(false);
-              response.data.data.map((item) =>
-                setProducts((oldProducts) => [...oldProducts, item])
-              );
-            }
-          })
-          .finally((response) => {
-            setIsLoading(false);
-          })
-      : getAllProducts(null, null, 4, countProduct, pageProduct)
-          .then((response) => {
-            if (response.status === 200) {
-              response.data.data.length === 0 && setNextProduct(false);
-              response.data.data.map((item) =>
-                setProducts((oldProducts) => [...oldProducts, item])
-              );
-            }
-          })
-          .finally((response) => {
-            setIsLoading(false);
-          });
-  };
 
   const getAllProductsSortHandle = (e) => {
-    setSelectedSort(e.target.value)
-    props.selectedCategoryOrSubcategory.type == "category"
-      ? getAllProducts(
-          props.selectedCategoryOrSubcategory.id,
-          null,
-          4,
-          countProduct,
-          pageProduct,
-          e.target.value
-        )
-          .then((response) => {
-            if (response.status === 200) {
-              setProducts(response.data.data);
-            }
-          })
-          .finally((response) => {
-            setIsLoading(false);
-          })
-      : props.selectedCategoryOrSubcategory.type == "subCategory"
-      ? getAllProducts(
-          null,
-            props.selectedCategoryOrSubcategory.id,
-          4,
-          countProduct,
-          pageProduct,
-          e.target.value
-        )
-          .then((response) => {
-            if (response.status === 200) {
-              setProducts(response.data.data);
-            }
-          })
-          .finally((response) => {
-            setIsLoading(false);
-          })
-      : getAllProducts(null, null, 4, countProduct, pageProduct, e.target.value)
-          .then((response) => {
-            if (response.status === 200) {
-              setProducts(response.data.data);
-            }
-          })
-          .finally((response) => {
-            setIsLoading(false);
-          });
+    const newQueryParam = {
+      ...queryParam,
+      sort: e.target.value,
+    };
+
+    history.push({
+      pathname: `/`,
+      search: qs.stringify(newQueryParam),
+    });
+    pageProduct = 1;
+    // setNextProduct(true);
   };
 
+  const getAllProductsSortGenderHandle = (e) => {
+    const newQueryParam = {
+      ...queryParam,
+      sortGender: e.target.value,
+    };
+
+    history.push({
+      pathname: `/`,
+      search: qs.stringify(newQueryParam),
+    });
+  };
+
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchMoreData = () => {
+    if (products.length >= 500) {
+      setHasMore(false);
+      return;
+    }
+    // a fake async api call like which sends
+    // 20 more records in .5 secs
+    pageProduct++;
+
+    getAllProducts(
+      category,
+      subCategory,
+      4,
+      countProduct,
+      pageProduct,
+      sort,
+      sortGender
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          if (response.data.data.length < 8) {
+            // let loader = document.getElementById("loaderId")
+            // loader.classList.add("loaderDisplayNone")
+            setIsLoadingMini(false);
+            // pageProduct=1;
+          }
+          response.data.data.map((item) =>
+            setProducts((oldProducts) => [...oldProducts, item])
+          );
+        }
+      })
+      .finally((response) => {
+        setIsLoading(false);
+      });
+  };
   return (
     <>
       <section id="all_products">
         <div className="container">
           <div className="all_products_header">
             <div className="all_products_header_left">
-              {console.log(props.selectedCategoryOrSubcategory)}
-              
-              {props.selectedCategoryOrSubcategory.id == 9 && (
+              {subCategories.length > 0 &&
+                (category === "9" ||
+                  (typeof subCategories.find(
+                    (sub) => sub.id === Number(subCategory)
+                  ) !== "undefined" &&
+                    subCategories.find((sub) => sub.id === Number(subCategory))
+                      .categoryId === Number(9))) && (
                   <>
                     <span>Cinsə görə</span>
                     <div className="select_date">
                       <select
-                          id="exampleFormControlSelect1"
-                          className="form-control"
-                          name="productSort"
-                          onChange={(e) => getAllProductsSortHandle(e)}
+                        id="exampleFormControlSelect1"
+                        className="form-control"
+                        name="productSortGender"
+                        value={sortGender === null ? "All" : sortGender}
+                        onChange={(e) => getAllProductsSortGenderHandle(e)}
                       >
-                        {
-                          genders.map(genderItem=>(
-                              <option key={genderItem.id} value={genderItem.id}>{genderItem.name}</option>
-                          ))
-                        }
+                        {genders.map((genderItem) => (
+                          <option key={genderItem.id} value={genderItem.id}>
+                            {genderItem.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </>
-              )}
-
+                )}
             </div>
             <div className="all_products_header_right">
               <span>Tarixə görə</span>
@@ -254,6 +187,7 @@ const All_products = (props) => {
                   id="exampleFormControlSelect1"
                   className="form-control"
                   name="productSort"
+                  value={sort === null ? 1 : sort}
                   onChange={(e) => getAllProductsSortHandle(e)}
                 >
                   <option value="1">əvvəlcə yenilər</option>
@@ -263,6 +197,7 @@ const All_products = (props) => {
             </div>
           </div>
           <div className="row">
+
             {isLoading === true ? (
               <div
                 className="col-md-12 d-flex justify-content-center align-items-center"
@@ -284,68 +219,109 @@ const All_products = (props) => {
                 </div>
               </div>
             ) : (
-              products.map((row, index) => (
-                <div key={index} className="col-lg-3 col-md-4 col-sm-4  col-6">
-                  <Link to={`/product_details/${row.id}`}>
+              <InfiniteScroll
+                dataLength={products.length}
+                next={fetchMoreData}
+                hasMore={hasMore}
+                loader={
+                  isLoadingMini && (
                     <div
-                      className="products_item"
-                      onClick={() =>
-                        getProductCategoryAndSubcategory(
-                          row.categoryId,
-                          row.subCategoryId,
-                          "subCategory"
-                        )
-                      }
+                      className="col-md-12 d-flex justify-content-center align-items-center"
+                      style={{ height: "100px" }}
+                      id="loaderId"
                     >
-                      <div className="item">
-                        <div className="products_item_top">
-                          {row.photos.length > 0 && (
-                            <img
-                              src={`https://pricegroup.az/api/productimage/${
-                                row.photos.filter(
-                                  (x) => x.status === "Created"
-                                )[0].path
-                              }`}
-                              alt=""
-                            />
-                          )}
-                        </div>
-                        <div className="products_item_name">
-                          <p>{row.title}</p>
-                        </div>
-                        <div className="products_item_bottom">
-                          <p>{row.city !== undefined && row.city.name}</p>
-                          <p>
-                            {new Date(row.publishDate).toLocaleDateString() ===
-                            new Date().toLocaleDateString() ? (
-                              <>
-                                <span>bugün</span>,
-                                <span className="ml-2">
-                                  {new Date(row.publishDate).getHours()}:
-                                  {new Date(row.publishDate).getMinutes() < 10
-                                    ? `0${new Date(row.publishDate).getMinutes()}`
-                                    : new Date(row.publishDate).getMinutes()}
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                <span>
-                                  {new Date(row.publishDate).toLocaleDateString()}
-                                </span>
-                              </>
-                            )}
-                          </p>
-                        </div>
+                      <div
+                        className="spinner-border"
+                        style={{ color: "#ff9466" }}
+                        role="status"
+                      >
+                        <span className="sr-only">Loading...</span>
                       </div>
                     </div>
-                  </Link>
+                  )
+                }
+
+              >
+                <div className="container">
+                  <div className="row">
+                    {products.map((row, index) => (
+                      <div
+                        key={index}
+                        className="col-lg-3 col-md-4 col-sm-4  col-6"
+                      >
+                        <Link to={`/product_details/${row.id}`}>
+                          <div
+                            className="products_item"
+                            onClick={() =>
+                              getProductCategoryAndSubcategory(
+                                row.categoryId,
+                                row.subCategoryId,
+                                "subCategory"
+                              )
+                            }
+                          >
+                            <div className="item">
+                              <div className="products_item_top">
+                                {row.photos.length > 0 && (
+                                  <img
+                                    src={`https://pricegroup.az/api/productimage/${
+                                      row.photos.filter(
+                                        (x) => x.status === "Created"
+                                      )[0].path
+                                    }`}
+                                    alt=""
+                                  />
+                                )}
+                              </div>
+                              <div className="products_item_name">
+                                <p>{row.title}</p>
+                              </div>
+                              <div className="products_item_bottom">
+                                <p>{row.city !== undefined && row.city.name}</p>
+                                <p>
+                                  {new Date(
+                                    row.publishDate
+                                  ).toLocaleDateString() ===
+                                  new Date().toLocaleDateString() ? (
+                                    <>
+                                      <span>bugün</span>,
+                                      <span className="ml-2">
+                                        {new Date(row.publishDate).getHours()}:
+                                        {new Date(
+                                          row.publishDate
+                                        ).getMinutes() < 10
+                                          ? `0${new Date(
+                                              row.publishDate
+                                            ).getMinutes()}`
+                                          : new Date(
+                                              row.publishDate
+                                            ).getMinutes()}
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <span>
+                                        {new Date(
+                                          row.publishDate
+                                        ).toLocaleDateString()}
+                                      </span>
+                                    </>
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))
+              </InfiniteScroll>
             )}
           </div>
         </div>
       </section>
-      <Footer products={products} all_products={"all_products"}/>
+      <Footer products={products} all_products={"all_products"} />
     </>
   );
 };

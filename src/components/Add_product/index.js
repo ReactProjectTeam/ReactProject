@@ -93,7 +93,7 @@ const Add_product = (props) => {
       userId: user.id,
       categoryId: "",
       subCategoryId: "",
-      gender: "",
+      gender: 0,
       cityId: "",
       title: "",
       description: "",

@@ -60,11 +60,11 @@ const Contact =()=> {
                                         <div className="contact-text">
                                             <h3>Sosial media</h3>
                                             <div className="contact-social-icon">
-                                                <Link to={{ pathname: "https://www.facebook.com/" }} target="_blank">
-                                                    <img src={facebook} alt="" />
-                                                </Link>
+                                                {/*<Link to={{ pathname: "https://www.facebook.com/" }} target="_blank">*/}
+                                                {/*    <img src={facebook} alt="" />*/}
+                                                {/*</Link>*/}
 
-                                                <Link to={{ pathname: "https://www.instagram.com/runtime.az/" }} target="_blank">
+                                                <Link to={{ pathname: "https://www.instagram.com/payver.az/" }} target="_blank">
                                                     <img src={instagram} alt="" />
                                                 </Link>
                                             </div>
