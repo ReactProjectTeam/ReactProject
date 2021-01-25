@@ -47,7 +47,6 @@ const ConfirmPassword = (props) => {
     },
     validationSchema: validateConfirmPassword,
     onSubmit: (values) => {
-
         confirmPassword(values)
         .then((response) => {
           setCheckUser(true);
@@ -55,6 +54,11 @@ const ConfirmPassword = (props) => {
             button: "Bağla",
           })
           history.push("/signin");
+        })
+        .catch(err=>{
+          swal("Əməliyyat alınmadi", "Bele istifadəçi yoxdur", "warning",{
+            button: "Bağla",
+          })
         })
     },
   });

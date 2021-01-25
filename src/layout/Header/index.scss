@@ -45,11 +45,13 @@ header {
                     color: rgba(49, 69, 106, 0.8);
                     margin-right: 2.8%;
                     margin-left: 5px;
+                    img{
+                        width: 40px;
+                        height: 40px;
+                        margin-right: 6px;
+                    }
                 }
-                img{
-                    width: 40px;
-                    height: 40px;
-                }
+                
             }
             
         }

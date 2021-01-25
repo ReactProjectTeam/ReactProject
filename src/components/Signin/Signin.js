@@ -14,7 +14,9 @@ import Footer from "../../layout/Footer";
 import axios from "axios";
 import loginFacebook from "../../API/loginFacebook";
 import loginEmail from "../../API/loginEmail";
-
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as headerActions from "../../store/actions/headerActions"
 
 
 const Signin = (props) => {
@@ -51,7 +53,8 @@ const Signin = (props) => {
           setIsLoading(false);
           setCheckUser(true);
           setCookie("token", response.data.data.token);
-          props.getLoggedIn(true);
+          props.actions.loggedIn(true);
+          props.actions.loggedOut(false);
           history.push("/");
         })
         .catch((errorResponse) => {
@@ -94,7 +97,8 @@ const Signin = (props) => {
     if (account != null) {
       loginFacebook(account.id, account.name).then((res) => {
         setCookie("token", res.data.data.token);
-        props.getLoggedIn(true);
+        props.actions.loggedIn(true);
+        props.actions.loggedOut(false);
       });
     } else {
       swal("Yenidən cəhd edin", "Faceook ilə daxil olmaq alınmadı", "warning", {
@@ -198,5 +202,13 @@ const Signin = (props) => {
   );
 };
 
+const mapDispatchToProps=(dispatch)=>{
+  return {
+    actions: {
+      loggedOut : bindActionCreators(headerActions.loggedOut,dispatch),
+      loggedIn : bindActionCreators(headerActions.loggedIn,dispatch),
+    }
+  }
+}
 
-export default Signin;
+export default connect(null,mapDispatchToProps)(Signin);

@@ -10,7 +10,7 @@ const validateAddProduct = yup.object({
     title: yup
         .string()
         .min(3, "3 simvoldan az olmamalıdır")
-        .max(50, "50 simvoldan çox olmamalıdır")
+        .max(30, "30 simvoldan çox olmamalıdır")
         .required("Elanın adı qeyd olunmayıb"),
     description: yup
         .string()

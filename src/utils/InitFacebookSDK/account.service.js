@@ -32,14 +32,6 @@ async function apiAuthenticate(accessToken) {
         loginFacebook(account.id,account.name)
             .then(res=>{
                 cookies.set('token', res.data.data.token);
-
-                    // window.location.href = "https://payver.az/"
-                    // window.location.href = "http://localhost:3000/"
-
-                // if (cookies.cookies.token.length < 20){
-                //     window.location.href = "https://payver.az"
-                //     console.log("cookies",cookies.cookies.token.length)
-                // }
             })
     }else {
         swal("Yenidən cəhd edin", "Faceook ilə daxil olmaq alınmadı", "warning",{

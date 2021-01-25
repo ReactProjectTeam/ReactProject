@@ -8,7 +8,6 @@ function loginFacebook(FacebookUserId,userName) {
         FacebookUserId,
         userName,
     }
-    console.log("newData",newData)
     const response =  axios({
         method: 'post',
         url: `${baseURL}/api/loginfacebook`,

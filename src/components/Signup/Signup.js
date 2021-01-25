@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import "./Signup.scss";
 import eye from "../../img/login/eye.png";
 import hideEye from "../../img/login/hideEye.png";
-
 import register from "../../API/register";
 import { useFormik } from "formik";
 import validateRegister from "../../utils/yup/validateRegister";
@@ -12,7 +11,6 @@ import { useHistory,useParams } from "react-router-dom";
 import ButtonCustom from "../../utils/Button/Button";
 import BackdropCustom from "../../utils/Backdrop/Backdrop";
 import Footer from "../../layout/Footer";
-import registerUserName from "../../API/registerUserName";
 
 
 
@@ -78,7 +76,6 @@ const Signup = (props) => {
     },
     validationSchema: validateRegister,
     onSubmit: (values) => {
-      console.log("dhfsaifhiashfisa",values)
       setIsLoading(true)
       register(values)
         .then((response) => {

@@ -3,7 +3,6 @@ import axios from 'axios'
 import {baseURL} from './baseURL'
 
 function confirm(urlCode) {
-    // console.log(typeof urlCode)
     let urlNewCode = {
         code: urlCode
     }

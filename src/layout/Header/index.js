@@ -1,26 +1,20 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import menu from "../../img/header/menu.svg";
 import close from "../../img/header/close.svg";
 import payverLogo from "../../img/header/payverLogo.jpg";
 import login from "../../img/header/login.png";
 import register from "../../img/header/register.png";
 import plus from "../../img/header/plus.png";
-import facebook from "../../img/contact/facebook.svg";
 import instagram from "../../img/contact/instagram.svg";
 import userPhoto from "../../img/header/userPhoto.png";
 import logout from "../../img/header/logout.png";
-import userLogo from "../../img/header/user.png";
 import subCategoryLogo from "../../img/header/subCategory.png";
 import down from "../../img/header/down.png";
 import up from "../../img/header/up.png";
-import clothes from "../../img/header/clothes.png";
-import home from "../../img/header/home.png";
 import home1 from "../../img/header/home1.png";
 import news from "../../img/header/news.png";
 import contact from "../../img/header/contact.png";
-import cat from "../../img/header/cat.png";
-import help from "../../img/header/help.png";
 import "./index.scss";
 import { useCookies } from "react-cookie";
 import getUserByToken from "../../API/getUserByToken";
@@ -28,8 +22,10 @@ import getCategories from "../../API/getCategories";
 import getSubCategories from "../../API/getSubCategories";
 import Context from "../../Context/context";
 import { Accordion, Card, Button } from "react-bootstrap";
-import isEmpty from "lodash/isEmpty";
-import qs from "query-string";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as headerActions from "../../store/actions/headerActions"
+
 
 const pageHeader = document.querySelector(".mobile");
 const openMobMenu = document.querySelector(".open-mobile-menu");
@@ -86,14 +82,7 @@ const Header = (props) => {
   ]);
   const [user, setUser] = useState({});
   const [categories, setCategories] = useState([]);
-  const [categoriesLogo, setCategoriesLogo] = useState([
-    clothes,
-    home,
-    cat,
-    help,
-  ]);
   const [subCategories, setSubCategories] = useState([]);
-  const [selected, setSelected] = useState({});
   const [mobileMenuImg, setMobileMenuImg] = useState([
     {
       selectedCount: 1,
@@ -112,28 +101,13 @@ const Header = (props) => {
       display: true,
     },
   ]);
-  const [rendering, setRendering] = useState(false);
 
-  const { renderingHandle } = useContext(Context);
-  const { getProductsById, selectedProduct } = useContext(Context);
-  const history = useHistory();
-
-  const queryParam = qs.parse(props.location.search);
   const query = new URLSearchParams(props.location.search);
   const category = query.get("category");
   const subCategory = query.get("subCategory");
 
-  const newQueryParam = {
-    ...queryParam,
-    category: "admin",
-    subCategory: "something",
-  };
-
   const handleSignOut = () => {
     window.FB.api("/me/permissions", "delete", null, () => window.FB.logout());
-    // accountSubject.next(null);
-    // history.push('/login');
-
     removeCookie("token");
     removeCookie("wd");
     removeCookie("m_pixel_ratio");
@@ -143,7 +117,8 @@ const Header = (props) => {
     removeCookie("dpr");
     removeCookie("datr");
     removeCookie("sb");
-    props.getLoggedOut(true);
+    props.actions.loggedOut(true);
+    props.actions.loggedIn(false);
   };
 
   useEffect(() => {
@@ -151,11 +126,9 @@ const Header = (props) => {
       if (response.status === 200) {
         setCategories(
           response.data.data.map((category, index) => {
-            category.img = categoriesLogo[index];
             return category;
           })
         );
-        // setCategories(response.data.data);
       }
     });
     getSubCategories().then((response) => {
@@ -163,8 +136,7 @@ const Header = (props) => {
         setSubCategories(response.data.data);
       }
     });
-    // setSelected(selectedProduct);
-  }, [selectedProduct, cookies.token]);
+  }, [cookies.token]);
 
   useEffect(() => {
     if (cookies.token !== undefined && cookies.token !== "undefined") {
@@ -174,7 +146,7 @@ const Header = (props) => {
         }
       });
     }
-  }, [props.rendering, cookies.token]);
+  }, [cookies.token]);
 
   const openOrCloseAccardionImg = (count) => {
 
@@ -249,13 +221,6 @@ const Header = (props) => {
                       >
                         <div className="user-info-header-inside">
                           <Link to="/user_info">
-                            {/*<img*/}
-                            {/*  src={*/}
-                            {/*    user.photo &&*/}
-                            {/*    `http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`*/}
-                            {/*  }*/}
-                            {/*  alt={user.photo}*/}
-                            {/*/>*/}
                             <img src={userPhoto} alt={userPhoto} />
                             <span>
                               {user.email && user.email.includes("@")
@@ -265,7 +230,6 @@ const Header = (props) => {
                                   )
                                 : user.email}
                             </span>
-                            {/*<span>{user.userName && user.userName}</span>*/}
                           </Link>
                         </div>
                       </div>
@@ -306,7 +270,6 @@ const Header = (props) => {
                   <Card
                     key={index}
                     onClick={() => openOrCloseAccardionImg(index + 1)}
-                    // className={` dropdown ${category.active ? "active" : ""}`}
                   >
                     <Card.Header>
                       <Accordion.Toggle
@@ -324,7 +287,6 @@ const Header = (props) => {
                           </div>
                           <span>{category.name}</span>
                         </div>
-                        {console.log("mobileMenuImg",mobileMenuImg)}
                         {mobileMenuImg.map((itemImg, itemImgIndex) => {
                           if (index === itemImgIndex) {
                             return (
@@ -343,9 +305,6 @@ const Header = (props) => {
                       <Card.Body>
                         <Link
                           key={index}
-                          // id={subCategory.id}
-                          // className={subCategory.active ? "active" : ""}
-                          // to={`/categoryId/${category.id}`}
                           to={{
                             pathname: "/",
                             search: `category=${category.id}`,
@@ -353,8 +312,6 @@ const Header = (props) => {
                           className="subCategoryMobile"
                           onClick={(event) => {
                             closeMobile();
-
-                            // history.push("/");
                           }}
                         >
                           <div className="subCategoryMobileLeft">
@@ -370,19 +327,14 @@ const Header = (props) => {
                             return (
                               <Link
                                 key={index}
-                                // to={`/subCategoryId/${subCategory.id}`}
                                 to={{
                                   pathname: "/",
                                   search: `subCategory=${subCategory.id}`,
                                 }}
                                 id={subCategory.id}
-                                // className={subCategory.active ? "active" : ""}
                                 className="subCategoryMobile"
-                                // onClick={() => closeMobile()}
                                 onClick={(event) => {
                                   closeMobile();
-
-                                  // history.push("/");
                                 }}
                               >
                                 <div className="subCategoryMobileLeft">
@@ -443,12 +395,6 @@ const Header = (props) => {
           <div className="container">
             <div className="inside-inner">
               <div className="social">
-                {/*<Link*/}
-                {/*  to={{ pathname: "https://www.facebook.com/" }}*/}
-                {/*  target="_blank"*/}
-                {/*>*/}
-                {/*  <img src={facebook} alt="" />*/}
-                {/*</Link>*/}
                 <Link
                   to={{ pathname: "https://www.instagram.com/payver.az/" }}
                   target="_blank"
@@ -460,18 +406,22 @@ const Header = (props) => {
                   <a href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;tf=1&amp;to=info@payver.az">
                     info@payver.az
                   </a>
-                  {/*<a href="tel:+994502782268">+994502782268</a>*/}
                 </p>
               </div>
               <div className="pages">
-                <img src={home1} alt={home1} />
+                
                 <Link to="/" onClick={(event) => {}}>
+                <img src={home1} alt={home1} />
                   Əsas
                 </Link>
+                <Link to="/blogs">
                 <img src={news} alt={news} />
-                <Link to="/blogs">Xəbərlər</Link>
+                  Xəbərlər
+                  </Link>
+                
+                <Link to="/contact">
                 <img src={contact} alt={contact} />
-                <Link to="/contact">Əlaqə</Link>
+                  Əlaqə</Link>
               </div>
             </div>
           </div>
@@ -492,13 +442,6 @@ const Header = (props) => {
                       <>
                         <div className="user-info-header light-btn d-flex align-items-center">
                           <Link to="/user_info">
-                            {/*<img*/}
-                            {/*  src={*/}
-                            {/*    user.photo &&*/}
-                            {/*    `http://aanar028-001-site3.dtempurl.com/api/userimage/${user.photo}`*/}
-                            {/*  }*/}
-                            {/*  alt={user.photo}*/}
-                            {/*/>*/}
                             <img src={userPhoto} alt={userPhoto} />
                             <span>
                               {user.email && user.email.includes("@")
@@ -508,7 +451,6 @@ const Header = (props) => {
                                   )
                                 : user.email}
                             </span>
-                            {/*<span>{user.userName && user.userName}</span>*/}
                           </Link>
                         </div>
                         <div className="logout light-btn d-flex align-items-center">
@@ -556,16 +498,9 @@ const Header = (props) => {
                     className={` dropdown ${category.active ? "active" : ""}`}
                     onClick={(event) => {}}
                   >
-                    {/*{console.log("category.name",category.name.split(" ").join(""))}*/}
                     <Link
                       to={{ pathname: "/", search: `category=${category.id}` }}
                       className="dropbtn"
-                      onClick={() =>
-                        setSelected({
-                          type: "category",
-                          value: category.id,
-                        })
-                      }
                     >
                       <div className="categoryLogo">
                         <img
@@ -594,12 +529,6 @@ const Header = (props) => {
                                 pathname: "/",
                                 search: `subCategory=${subCategory.id}`,
                               }}
-                              onClick={() =>
-                                setSelected({
-                                  type: "subCategory",
-                                  value: subCategory.id,
-                                })
-                              }
                             >
                               <div className="subCategoryLeft">
                                 <img src={subCategoryLogo} alt="" />
@@ -658,10 +587,6 @@ const Header = (props) => {
                 .map((filtered, index) => (
                   <li key={index} className="breadcrumb-item">
                     <Link
-                      // to={{
-                      //   pathname: "/",
-                      //   search: `subCategory=${subCategory}`,
-                      // }}
                       to={{
                         pathname: "/",
                         search: `subCategory=${filtered.id}`,
@@ -679,4 +604,16 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+
+
+
+const mapDispatchToProps=(dispatch)=>{
+  return {
+    actions: {
+        loggedOut : bindActionCreators(headerActions.loggedOut,dispatch),
+        loggedIn : bindActionCreators(headerActions.loggedIn,dispatch),
+    }
+  }
+}
+
+export default connect(null,mapDispatchToProps)(Header);

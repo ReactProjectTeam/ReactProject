@@ -1,18 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import "./index.scss";
 import getAllProducts from "../../API/getAllProducts";
-import Context from "../../Context/context";
 import Footer from "../../layout/Footer";
 import getSubCategories from "../../API/getSubCategories";
-import isEmpty from "lodash/isEmpty";
 import qs from "query-string";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 let pageProduct = 1;
 const All_products = (props) => {
   const [products, setProducts] = useState([]);
-  // const [nextProduct, setNextProduct] = useState(true);
   const [countProduct, setCountProduct] = useState(8);
   const [isLoading, setIsLoading] = useState(true);
   const [subCategories, setSubCategories] = useState([]);
@@ -40,8 +37,6 @@ const All_products = (props) => {
   ]);
   const [isLoadingMini, setIsLoadingMini] = useState(true);
 
-  const { getProductCategoryAndSubcategory } = useContext(Context);
-
   const history = useHistory();
 
   const queryParam = qs.parse(props.location.search);
@@ -66,8 +61,6 @@ const All_products = (props) => {
       .then((response) => {
         if (response.status === 200) {
           if (response.data.data.length < 8) {
-            // let loader = document.getElementById("loaderId")
-            // loader.classList.add("loaderDisplayNone")
             setIsLoadingMini(false);
             pageProduct=1;
           }
@@ -252,13 +245,6 @@ const All_products = (props) => {
                         <Link to={`/product_details/${row.id}`}>
                           <div
                             className="products_item"
-                            onClick={() =>
-                              getProductCategoryAndSubcategory(
-                                row.categoryId,
-                                row.subCategoryId,
-                                "subCategory"
-                              )
-                            }
                           >
                             <div className="item">
                               <div className="products_item_top">

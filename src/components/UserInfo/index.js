@@ -35,7 +35,6 @@ const UserInfo = () => {
   const [file, setFile] = useState([]);
   const [rendering, setRendering] = useState(false);
   const [user, setUser] = useState({});
-  const { renderingHandle } = useContext(Context);
   const [inputTypePassword, setInputTypePassword] = useState("password");
   const [inputTypeConfirmPassword, setInputTypeConfirmPassword] = useState(
       "password"
@@ -144,7 +143,6 @@ const UserInfo = () => {
         })
         .then(() => {
           setRendering(!rendering);
-          renderingHandle(!rendering);
         });
     },
   });

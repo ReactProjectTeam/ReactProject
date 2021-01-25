@@ -19,6 +19,7 @@
                     margin-bottom: 0px;
                 }
                 select{
+                    cursor: pointer;
                     height: 30px;
                     font-size: 14px;
                     border-radius: 2px;
@@ -53,6 +54,7 @@
                     margin-bottom: 0px;
                 }
                 select{
+                    cursor: pointer;
                     height: 30px;
                     font-size: 14px;
                     border-radius: 2px;
@@ -266,6 +268,8 @@
                                 }
                         }
                         .products_item_name{
+                            height: 45px;
+                            align-items: center;
                             p{
                                 font-size: 16px;
                             }

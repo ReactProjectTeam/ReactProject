@@ -13,9 +13,7 @@ import profileImg from "../../img/add_product/profileImg.png";
 import postAddProduct from "../../API/postAddProduct";
 import InputMask from "react-input-mask";
 import swal from "sweetalert";
-
 import Resizer from "react-image-file-resizer";
-
 import { useHistory } from "react-router-dom";
 import ButtonCustom from "../../utils/Button/Button";
 import BackdropCustom from "../../utils/Backdrop/Backdrop";
